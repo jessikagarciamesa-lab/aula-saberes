@@ -3,22 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Actividades interactivas: emociones, lenguaje, lectura, matemáticas, inglés, secuencias, memoria y más.">
-<title>Aula Arcoíris</title>
+<meta name="description" content="Aula de Saberes Especiales: emociones, calma, lenguaje, lectura, cuentos clásicos, matemáticas, inglés, países, secuencias, memoria, seguridad y más.">
+<title>Aula Saberes Especiales</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap">
 <style>
-/* Diseño: tablero de juego luminoso. Fichas de colores como navegación, Tico (la guía) arriba, tablero grande abajo. Un solo tema claro y deliberado. */
+/* Diseño: tablero de juego luminoso, con el sol y las manos del logo como punto de partida. Fichas de colores para navegar, Tico (la guía) arriba, tablero grande abajo. Un solo tema claro y deliberado. */
 :root{
   color-scheme: light;
   --bg:#EAF5FF; --paper:#FFFFFF; --ink:#1D2547; --soft:#5A6488; --line:#D5E3F5; --mist:#F4F9FF;
   --red:#FF4B5C; --yellow:#FFC233; --green:#22C07A; --blue:#3A7BFF; --purple:#9A5BF0; --orange:#FF8A2B; --pink:#FF5FA8; --teal:#12B5C2;
+  --lime:#7CB518; --navy:#2F3A8F; --brown:#9A5B2E; --sky:#1FA2E0;
   --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
   --body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
   --r:22px; --c:var(--purple); --ct:#fff; --fs:1.6rem;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{background:var(--bg)}
 body{margin:0;color:var(--ink);font-family:var(--body);font-size:18px;
   background-color:var(--bg);
@@ -26,20 +28,14 @@ body{margin:0;color:var(--ink);font-family:var(--body);font-size:18px;
   background-attachment:fixed}
 button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
 button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
-.wrap{max-width:1120px;margin:0 auto;padding-inline:16px;padding-block:14px 48px;display:flex;flex-direction:column;gap:16px}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:16px;padding-block:14px 48px;display:flex;flex-direction:column;gap:16px}
 
 /* Encabezado */
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:10px}
-.brand h1{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,4.5vw,2.5rem);margin:0;line-height:1;letter-spacing:.5px}
-.brand h1 span:nth-child(7n+1){color:var(--red)}
-.brand h1 span:nth-child(7n+2){color:var(--orange)}
-.brand h1 span:nth-child(7n+3){color:#E0A100}
-.brand h1 span:nth-child(7n+4){color:var(--green)}
-.brand h1 span:nth-child(7n+5){color:var(--teal)}
-.brand h1 span:nth-child(7n+6){color:var(--blue)}
-.brand h1 span:nth-child(7n+7){color:var(--purple)}
-.rb{width:52px;height:30px;flex:none}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+.logo{height:clamp(58px,10vw,78px);width:auto;border-radius:14px;box-shadow:0 4px 0 var(--line);background:#BFE3F5;flex:none}
+.brand h1{font-family:var(--display);font-weight:800;font-size:clamp(1.25rem,3.4vw,1.9rem);margin:0;line-height:1.05;text-wrap:balance}
+.brand h1 small{display:block;font-size:.62em;color:var(--orange);letter-spacing:1.5px;text-transform:uppercase}
 .tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .chip{font-family:var(--display);font-weight:800;border:0;border-radius:999px;padding:8px 16px;font-size:1.15rem;background:var(--paper);box-shadow:0 4px 0 var(--line);min-height:50px;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
 .stars{cursor:default;font-variant-numeric:tabular-nums}
@@ -51,11 +47,12 @@ button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* Navegación por secciones */
-.tabs{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px}
-@media (max-width:1000px){.tabs{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.tab{--k:var(--blue);--kt:#fff;border:0;border-radius:var(--r);background:var(--k);color:var(--kt);font-family:var(--display);font-weight:800;font-size:clamp(.95rem,2.4vw,1.15rem);padding:10px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;
-  box-shadow:0 6px 0 color-mix(in srgb,var(--k) 62%,#000);transition:transform .12s,box-shadow .12s;min-height:96px;line-height:1.1}
-.tab .ic{font-size:2.2rem;line-height:1.1}
+.tabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+@media (max-width:900px){.tabs{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:520px){.tabs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tab{--k:var(--blue);--kt:#fff;border:0;border-radius:var(--r);background:var(--k);color:var(--kt);font-family:var(--display);font-weight:800;font-size:clamp(.9rem,2.2vw,1.1rem);padding:8px 4px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;cursor:pointer;
+  box-shadow:0 6px 0 color-mix(in srgb,var(--k) 62%,#000);transition:transform .12s,box-shadow .12s;min-height:86px;line-height:1.1;min-width:0}
+.tab .ic{font-size:2rem;line-height:1.15}
 .tab:hover{transform:translateY(-2px)}
 .tab[aria-selected="true"]{transform:translateY(5px);box-shadow:0 1px 0 color-mix(in srgb,var(--k) 62%,#000),0 0 0 4px var(--paper),0 0 0 7px var(--k)}
 
@@ -70,8 +67,9 @@ button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
 @keyframes hop{30%{transform:translateY(-14px) rotate(-6deg)}60%{transform:translateY(0) rotate(4deg)}}
 .bubble{flex:1;min-width:0;display:flex;align-items:center;gap:10px}
 .bubble .name{font-family:var(--display);font-weight:800;font-size:.85rem;color:var(--c);text-transform:uppercase;letter-spacing:1.5px;display:block}
-.bubble p{margin:0;flex:1;min-width:0;font-family:var(--display);font-weight:700;font-size:clamp(1.25rem,3.2vw,1.75rem);line-height:1.2;text-wrap:balance}
+.bubble p{margin:0;flex:1;min-width:0;font-family:var(--display);font-weight:700;font-size:clamp(1.2rem,3.1vw,1.7rem);line-height:1.2;text-wrap:balance}
 .bubble p.pop{animation:popin .35s}
+.bubble p b.en{color:var(--c);font-size:1.15em}
 @keyframes popin{from{transform:scale(.92);opacity:.3}}
 .round{width:58px;height:58px;border-radius:50%;border:0;background:var(--c);color:var(--ct);font-size:1.6rem;cursor:pointer;flex:none;box-shadow:0 4px 0 color-mix(in srgb,var(--c) 60%,#000)}
 .round:active{transform:translateY(3px);box-shadow:none}
@@ -83,14 +81,16 @@ button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
 .sub .ic{font-size:1.4rem}
 .sub[aria-pressed="true"]{background:var(--c);color:var(--ct)}
 .board{min-height:380px;display:flex;flex-direction:column;align-items:center;gap:20px}
+.lvl{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 
 /* Piezas comunes */
 .prompt{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;text-align:center}
 .huge{font-size:clamp(5rem,18vw,8.5rem);line-height:1.05}
 .opts{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%}
-.opt,.tile{background:var(--paper);border:4px solid var(--line);border-radius:24px;min-width:118px;min-height:100px;padding:10px 18px;font-family:var(--display);font-weight:700;font-size:1.55rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:0 6px 0 var(--line);transition:transform .12s,border-color .12s;line-height:1.15}
+.opt,.tile{background:var(--paper);border:4px solid var(--line);border-radius:24px;min-width:118px;min-height:100px;padding:10px 18px;font-family:var(--display);font-weight:700;font-size:1.5rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:0 6px 0 var(--line);transition:transform .12s,border-color .12s;line-height:1.15;max-width:100%}
 .opt:hover:not(:disabled),.tile:hover{transform:translateY(-3px);border-color:var(--c)}
 .opt .e,.tile .e{font-size:3rem;line-height:1.1}
+.opt .small{font-size:1.15rem}
 .opt.right{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 6px 0 #128a55}
 .opt:disabled{cursor:default}
 .tile{background:color-mix(in srgb,var(--c) 14%,#fff);border-color:color-mix(in srgb,var(--c) 45%,#fff)}
@@ -106,11 +106,19 @@ button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
 .picto span{font-size:clamp(3.2rem,11vw,5rem);background:var(--mist);border-radius:22px;padding:6px 14px;line-height:1.1}
 .letter{font-family:var(--display);font-weight:800;font-size:clamp(6rem,20vw,9rem);line-height:1;color:var(--c)}
 .letter small{font-size:.55em;margin-left:.15em;color:var(--ink)}
-.again{margin-top:4px}
+.q-t{font-family:var(--display);font-weight:800;font-size:clamp(1.4rem,3.6vw,1.9rem);text-align:center;text-wrap:balance}
+.q-num{background:var(--c);color:var(--ct);font-family:var(--display);font-weight:800;border-radius:999px;padding:2px 14px;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.tool{border:3px solid var(--c);background:var(--paper);border-radius:999px;min-height:54px;min-width:54px;padding:4px 16px;font-family:var(--display);font-weight:800;font-size:1.2rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.tool.main{background:var(--c);color:var(--ct)}
+.tool:disabled{opacity:.35;cursor:default}
+.play-btn{border:0;background:var(--c);color:var(--ct);border-radius:999px;font-family:var(--display);font-weight:800;font-size:1.6rem;padding:10px 30px;min-height:68px;cursor:pointer;box-shadow:0 6px 0 color-mix(in srgb,var(--c) 60%,#000);display:inline-flex;align-items:center;gap:10px}
+.play-btn:active{transform:translateY(4px);box-shadow:none}
+.big-play{width:96px;height:96px;border-radius:50%;border:0;background:var(--c);color:var(--ct);font-size:2.6rem;cursor:pointer;box-shadow:0 7px 0 color-mix(in srgb,var(--c) 60%,#000);animation:pulse 1.6s infinite}
+.big-play:active{transform:translateY(4px);box-shadow:none}
 
 /* Semáforo */
 .emo{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;width:100%;align-items:start}
-@media (max-width:720px){.emo{grid-template-columns:minmax(0,1fr) auto;gap:12px}}
+@media (max-width:720px){.emo{gap:12px}}
 .emo-left{display:flex;flex-direction:column;gap:16px;min-width:0}
 .situ{display:flex;gap:10px;align-items:center}
 .situ-card{flex:1;min-width:0;display:flex;align-items:center;gap:14px;background:var(--mist);border:3px solid var(--line);border-radius:20px;padding:10px 16px;cursor:pointer;text-align:left;min-height:84px}
@@ -130,18 +138,33 @@ button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
 .lamp.on.y{background:var(--yellow);box-shadow:0 0 34px 8px rgba(255,194,51,.7)}
 .lamp.on.g{background:var(--green);box-shadow:0 0 34px 8px rgba(34,192,122,.65)}
 .action{grid-column:1/-1;width:100%}
+@media (max-width:560px){
+  .emo{grid-template-columns:minmax(0,1fr)}
+  .semaforo{flex-direction:row;justify-self:center;border-radius:40px;order:-1}
+  .semaforo::after{display:none}
+  .lamp{width:64px;height:64px}
+}
 .act{border-radius:26px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;animation:popin .3s}
 .act.red{background:#FFE6E9}.act.yellow{background:#FFF4D6}.act.green{background:#E2F8EE}
 .act-title{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.15}
-.act-res{font-family:var(--display);font-weight:700;font-size:1.5rem;min-height:1.6em}
-.breath-box{position:relative;width:200px;height:200px;display:grid;place-items:center}
-.breath{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0,#8FC2FF 35%,var(--blue) 100%);transform:scale(.45);transition:transform 4s ease-in-out}
-.breath.in{transform:scale(1)}
-.breath-t{position:relative;font-family:var(--display);font-weight:800;font-size:1.6rem;color:var(--ink);background:rgba(255,255,255,.85);padding:2px 12px;border-radius:999px}
+.act-res{font-family:var(--display);font-weight:700;font-size:1.5rem;min-height:1.6em;display:flex;flex-direction:column;align-items:center;gap:10px}
+.breath-box{position:relative;width:min(240px,70vw);aspect-ratio:1;display:grid;place-items:center;max-width:100%}
+.breath{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0,color-mix(in srgb,var(--bc,#3A7BFF) 45%,#fff) 35%,var(--bc,#3A7BFF) 100%);transform:scale(.45);transition-property:transform;transition-timing-function:ease-in-out;transition-duration:4s}
+.breath-e{position:relative;font-size:3.4rem;line-height:1}
+.breath-t{position:relative;font-family:var(--display);font-weight:800;font-size:1.6rem;color:var(--ink);background:rgba(255,255,255,.88);padding:2px 14px;border-radius:999px;text-align:center}
+.breath-mid{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px}
+.breath-n{font-family:var(--display);font-weight:800;font-size:2.4rem;color:var(--ink);font-variant-numeric:tabular-nums;min-height:2.6rem;line-height:1}
 .dots{display:flex;gap:10px}
-.dots i{width:22px;height:22px;border-radius:50%;border:4px solid var(--red)}
-.dots i.on{background:var(--red)}
+.dots i{width:22px;height:22px;border-radius:50%;border:4px solid var(--c)}
+.dots i.on{background:var(--c)}
+.act .dots i{border-color:var(--red)}.act .dots i.on{background:var(--red)}
 .big-e{font-size:4rem;margin:0;line-height:1.1}
+
+/* Portadas (lectura y cuentos) */
+.covers{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;width:100%}
+.cover{--k:var(--blue);border:0;border-radius:24px;background:color-mix(in srgb,var(--k) 18%,#fff);border-bottom:6px solid var(--k);padding:14px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;font-family:var(--display);font-weight:800;font-size:1.15rem;line-height:1.15;text-align:center;transition:transform .12s;min-width:0}
+.cover .e{font-size:3.2rem;line-height:1.1}
+.cover:hover{transform:translateY(-4px) rotate(-1deg)}
 
 /* Lectura */
 .story{width:100%;max-width:820px;display:flex;flex-direction:column;gap:16px}
@@ -149,16 +172,27 @@ button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
 .story-head .e{font-size:3.4rem;line-height:1}
 .story-head h2{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,4.5vw,2.4rem);margin:0;line-height:1.1;flex:1;min-width:0;text-wrap:balance}
 .story-tools{display:flex;gap:8px;flex-wrap:wrap}
-.tool{border:3px solid var(--c);background:var(--paper);border-radius:999px;min-height:54px;min-width:54px;padding:4px 16px;font-family:var(--display);font-weight:800;font-size:1.2rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
-.tool.main{background:var(--c);color:var(--ct)}
 .story-text{font-size:var(--fs);line-height:1.75;background:var(--mist);border-radius:22px;padding:18px 22px;border:3px solid var(--line)}
 .sent{border-radius:10px;padding:1px 4px;cursor:pointer;transition:background .2s;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .sent:hover{background:color-mix(in srgb,var(--c) 15%,#fff)}
 .sent.now{background:var(--yellow)}
 .qa{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
 .q-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
-.q-num{background:var(--c);color:var(--ct);font-family:var(--display);font-weight:800;border-radius:999px;padding:2px 14px;font-size:1.1rem;font-variant-numeric:tabular-nums}
-.q-t{font-family:var(--display);font-weight:800;font-size:clamp(1.4rem,3.6vw,1.9rem);text-align:center}
+
+/* Cuentos clásicos */
+.book{width:100%;max-width:820px;display:flex;flex-direction:column;gap:14px}
+.page{background:var(--mist);border:3px solid var(--line);border-radius:26px;padding:18px 22px;display:flex;flex-direction:column;align-items:center;gap:10px;min-height:280px;justify-content:center}
+.page-e{font-size:clamp(4rem,14vw,6.5rem);line-height:1.1;text-align:center}
+.page-t{font-size:var(--fs);line-height:1.6;text-align:center;margin:0;text-wrap:pretty}
+.page.now{border-color:var(--c)}
+.book-nav{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pdots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.pdots i{width:14px;height:14px;border-radius:50%;background:var(--line)}
+.pdots i.on{background:var(--c)}
+.clue{font-size:clamp(3.4rem,13vw,5.6rem);letter-spacing:.15em;line-height:1.1;background:var(--mist);border-radius:26px;padding:8px 24px;text-align:center}
+.who{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--mist);border-radius:26px;padding:14px 20px;max-width:640px}
+.who .huge{font-size:clamp(4rem,14vw,6rem)}
+.who p{margin:0;font-family:var(--display);font-weight:700;font-size:clamp(1.3rem,3.6vw,1.8rem);text-align:center;line-height:1.25}
 
 /* Secuencias */
 .seq{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center}
@@ -178,37 +212,16 @@ button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
 .card .bk{background:repeating-linear-gradient(45deg,var(--c) 0 14px,color-mix(in srgb,var(--c) 75%,#fff) 14px 28px);color:#fff;font-family:var(--display);font-weight:800;font-size:2.2rem;box-shadow:0 5px 0 color-mix(in srgb,var(--c) 55%,#000)}
 .card .fc{background:var(--paper);border:4px solid var(--line);transform:rotateY(180deg);font-size:clamp(2rem,9vw,3.6rem)}
 .card.done .fc{border-color:var(--green);background:#E5FAF0}
-.lvl{display:flex;gap:8px}
 .timer{width:min(420px,100%);height:16px;background:var(--line);border-radius:999px;overflow:hidden}
 .timer i{display:block;height:100%;width:100%;background:var(--c);transform-origin:left;transition:transform linear}
 .items{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;width:min(520px,100%)}
 .items span{aspect-ratio:1;display:grid;place-items:center;font-size:clamp(2.6rem,10vw,4rem);background:var(--mist);border:4px solid var(--line);border-radius:22px}
 .items span.hole{border:5px dashed var(--c);font-size:2.4rem;animation:pulse 1.4s infinite}
-.play-btn{border:0;background:var(--c);color:var(--ct);border-radius:999px;font-family:var(--display);font-weight:800;font-size:1.6rem;padding:10px 30px;min-height:68px;cursor:pointer;box-shadow:0 6px 0 color-mix(in srgb,var(--c) 60%,#000);display:inline-flex;align-items:center;gap:10px}
-.play-btn:active{transform:translateY(4px);box-shadow:none}
 .simon{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:min(380px,100%)}
 .pad{aspect-ratio:1;border:0;border-radius:30px;font-size:clamp(3rem,12vw,4.4rem);cursor:pointer;filter:saturate(.55) brightness(.92);transition:filter .12s,transform .12s;box-shadow:0 7px 0 rgba(0,0,0,.18)}
 .pad.lit{filter:saturate(1.2) brightness(1.15);transform:scale(1.06)}
 .level-dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .level-dots i{width:20px;height:20px;border-radius:50%;background:var(--c)}
-
-/* Más juegos */
-.grid-find{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;width:min(420px,100%)}
-.grid-find.g4{grid-template-columns:repeat(4,minmax(0,1fr));width:min(520px,100%)}
-.grid-find button{aspect-ratio:1;border:4px solid var(--line);background:var(--paper);border-radius:22px;font-size:clamp(2.4rem,10vw,3.8rem);cursor:pointer;box-shadow:0 5px 0 var(--line)}
-.grid-find button.right{background:#E5FAF0;border-color:var(--green)}
-.count{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:460px;background:var(--mist);border-radius:24px;padding:16px}
-.count span{font-size:clamp(2.4rem,8vw,3.4rem);line-height:1.1}
-.num{font-size:2.6rem !important;font-variant-numeric:tabular-nums;min-width:110px}
-.sort-item{font-size:clamp(5rem,18vw,7.5rem);line-height:1.05;background:var(--mist);border-radius:30px;padding:10px 30px;animation:popin .3s}
-.baskets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:min(620px,100%)}
-.basket{border:4px solid var(--k);background:color-mix(in srgb,var(--k) 12%,#fff);border-radius:26px;padding:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:170px;font-family:var(--display);font-weight:800;font-size:1.4rem;box-shadow:0 6px 0 color-mix(in srgb,var(--k) 40%,#fff)}
-.basket .e{font-size:3rem;line-height:1.1}
-.basket .got{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;font-size:1.6rem;min-height:2rem}
-.swatches{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
-.sw{width:clamp(100px,26vw,140px);aspect-ratio:1;border-radius:50%;border:6px solid var(--paper);cursor:pointer;box-shadow:0 0 0 4px var(--line),0 7px 0 4px var(--line)}
-.sw.right{box-shadow:0 0 0 6px var(--green),0 7px 0 6px var(--green)}
-
 
 /* Matemáticas */
 .mathq{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
@@ -220,6 +233,9 @@ button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
 .gone::after{content:"✖";position:absolute;inset:0;display:grid;place-items:center;color:var(--red);font-size:.85em;font-weight:800}
 .opt .grp{border:0;background:none;padding:2px;max-width:220px}
 .opt.cmp{min-width:200px;min-height:160px}
+.count{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:460px;background:var(--mist);border-radius:24px;padding:16px}
+.count span{font-size:clamp(2.4rem,8vw,3.4rem);line-height:1.1}
+.num{font-size:2.6rem !important;font-variant-numeric:tabular-nums;min-width:110px}
 
 /* Inglés */
 .en-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;width:100%}
@@ -231,7 +247,64 @@ button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
 .en-card small{color:var(--soft);font-size:1rem;text-align:center}
 .swb{display:inline-block;width:3.2rem;height:3.2rem;border-radius:50%;border:4px solid var(--line);vertical-align:middle}
 .numb{font-family:var(--display);font-weight:800;color:var(--ink)}
-.bubble p b.en{color:var(--c);font-size:1.15em}
+
+/* Países */
+.flag{display:block;width:100%;height:auto;border-radius:8px;box-shadow:0 0 0 2px var(--line)}
+.countries{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;width:100%}
+.ctry{background:var(--paper);border:4px solid var(--line);border-radius:22px;padding:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:var(--display);font-weight:800;font-size:1.15rem;box-shadow:0 5px 0 var(--line);transition:transform .12s;min-width:0;line-height:1.1;text-align:center}
+.ctry:hover{transform:translateY(-3px);border-color:var(--c)}
+.cdet{width:100%;max-width:860px;display:flex;flex-direction:column;gap:16px}
+.chead{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.chead .fl{width:min(220px,46vw);flex:none}
+.chead h2{font-family:var(--display);font-weight:800;font-size:clamp(2rem,6vw,3rem);margin:0;line-height:1}
+.chead .lang{font-family:var(--display);font-weight:700;font-size:1.3rem;color:var(--soft)}
+.box{background:var(--mist);border:3px solid var(--line);border-radius:22px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.box h3{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(1.2rem,3.2vw,1.5rem);line-height:1.2;text-wrap:balance}
+.box .tool{align-self:flex-start}
+.reveal{font-family:var(--display);font-weight:800;font-size:1.7rem;color:var(--c)}
+.foods{display:flex;gap:10px;flex-wrap:wrap}
+.food{background:var(--paper);border:3px solid var(--line);border-radius:18px;padding:8px 14px;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:700;font-size:1.2rem}
+.food .e{font-size:2.2rem}
+.greet{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:600px){.greet{grid-template-columns:1fr}}
+.gbtn{background:var(--paper);border:3px solid var(--c);border-radius:20px;padding:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}
+.gbtn small{font-family:var(--display);font-weight:700;color:var(--soft);font-size:1rem}
+.gbtn b{font-family:var(--display);font-weight:800;font-size:1.6rem;line-height:1.15;text-align:center}
+.gbtn i{font-size:1rem;color:var(--soft)}
+.opt .fl{width:120px}
+
+/* Calma */
+.senses{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.senses span{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:1.8rem;background:var(--mist);border:3px solid var(--line)}
+.senses span.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 22%,#fff)}
+.senses span.done{background:var(--green);border-color:var(--green)}
+.taps{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.tapc{width:76px;height:76px;border-radius:50%;border:5px dashed var(--c);background:var(--paper);font-size:2rem;cursor:pointer;font-family:var(--display);font-weight:800;color:var(--soft)}
+.tapc.on{border-style:solid;background:var(--c);color:var(--ct)}
+.calm-step{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,4vw,2.1rem);text-align:center;line-height:1.2;text-wrap:balance;max-width:700px}
+
+/* Seguridad */
+.rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;width:100%}
+.rule{position:relative;background:var(--paper);border:4px solid var(--line);border-radius:22px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;font-family:var(--display);font-weight:700;font-size:1.15rem;line-height:1.2;box-shadow:0 5px 0 var(--line);min-width:0}
+.rule .e{font-size:2.6rem;flex:none;line-height:1}
+.rule.seen{border-color:var(--green);background:#EFFBF5}
+.rule.seen::after{content:"✔";position:absolute;top:-10px;right:-8px;background:var(--green);color:#fff;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:1rem}
+.thumbs .opt{min-width:150px;min-height:130px}
+.thumbs .opt .e{font-size:4rem}
+
+/* Más juegos */
+.grid-find{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;width:min(420px,100%)}
+.grid-find.g4{grid-template-columns:repeat(4,minmax(0,1fr));width:min(520px,100%)}
+.grid-find button{aspect-ratio:1;border:4px solid var(--line);background:var(--paper);border-radius:22px;font-size:clamp(2.4rem,10vw,3.8rem);cursor:pointer;box-shadow:0 5px 0 var(--line)}
+.grid-find button.right{background:#E5FAF0;border-color:var(--green)}
+.sort-item{font-size:clamp(5rem,18vw,7.5rem);line-height:1.05;background:var(--mist);border-radius:30px;padding:10px 30px;animation:popin .3s}
+.baskets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:min(620px,100%)}
+.basket{border:4px solid var(--k);background:color-mix(in srgb,var(--k) 12%,#fff);border-radius:26px;padding:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:170px;font-family:var(--display);font-weight:800;font-size:1.4rem;box-shadow:0 6px 0 color-mix(in srgb,var(--k) 40%,#fff)}
+.basket .e{font-size:3rem;line-height:1.1}
+.basket .got{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;font-size:1.6rem;min-height:2rem}
+.swatches{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.sw{width:clamp(100px,26vw,140px);aspect-ratio:1;border-radius:50%;border:6px solid var(--paper);cursor:pointer;box-shadow:0 0 0 4px var(--line),0 7px 0 4px var(--line)}
+.sw.right{box-shadow:0 0 0 6px var(--green),0 7px 0 6px var(--green)}
 
 /* Confeti */
 #fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
@@ -246,12 +319,8 @@ button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
 <div class="wrap">
   <header class="top">
     <div class="brand">
-      <svg class="rb" viewBox="0 0 52 30" aria-hidden="true">
-        <path d="M4 28a22 22 0 0 1 44 0" fill="none" stroke="#FF4B5C" stroke-width="5" stroke-linecap="round"/>
-        <path d="M11 28a15 15 0 0 1 30 0" fill="none" stroke="#FFC233" stroke-width="5" stroke-linecap="round"/>
-        <path d="M18 28a8 8 0 0 1 16 0" fill="none" stroke="#22C07A" stroke-width="5" stroke-linecap="round"/>
-      </svg>
-      <h1 aria-label="Aula Arcoíris"><span>A</span><span>u</span><span>l</span><span>a</span><span>&nbsp;</span><span>A</span><span>r</span><span>c</span><span>o</span><span>í</span><span>r</span><span>i</span><span>s</span></h1>
+      <img class="logo" src="data:image/jpeg;base64,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" alt="Corporación Saberes Especiales" width="380" height="205">
+      <h1><small>Aula de</small>Saberes Especiales</h1>
     </div>
     <div class="tools">
       <span class="chip stars" id="stars" aria-live="polite">⭐ <b id="starN">0</b></span>
@@ -311,7 +380,18 @@ const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { c
 const pick = a => a[Math.floor(Math.random() * a.length)];
 const sample = (a, n, ex = []) => shuffle(a.filter(x => !ex.includes(x))).slice(0, n);
 const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
-function pickNew(arr, last) { if (arr.length < 2) return arr[0]; let x; do { x = pick(arr); } while (x === last); return x; }
+/* Bolsa: reparte todos los elementos en orden aleatorio antes de repetir, y nunca repite el último al volver a empezar */
+function bag(arr) {
+  let deck = [], last;
+  return () => {
+    if (!deck.length) {
+      deck = shuffle(arr);
+      if (deck.length > 1 && deck[deck.length - 1] === last) { const i = Math.floor(Math.random() * (deck.length - 1)); [deck[i], deck[deck.length - 1]] = [deck[deck.length - 1], deck[i]]; }
+    }
+    last = deck.pop();
+    return last;
+  };
+}
 
 /* ---------- Temporizadores ---------- */
 let timers = [];
@@ -319,56 +399,59 @@ const later = (f, ms) => { const id = setTimeout(f, ms); timers.push(id); return
 const clearTimers = () => { timers.forEach(id => clearTimeout(id)); timers = []; };
 
 /* ---------- Voz ---------- */
-let soundOn = true, voice = null, voiceEn = null, interacted = false, readGen = 0;
+let soundOn = true, voice = null, voices = [], interacted = false, readGen = 0;
 const synth = ("speechSynthesis" in window) ? window.speechSynthesis : null;
 const owl = $("#owl");
-function pickVoice() {
+const norm = l => String(l || "").replace("_", "-").toLowerCase();
+function loadVoices() {
   if (!synth) return;
-  let vs = [];
-  try { vs = synth.getVoices().filter(v => /^es/i.test(v.lang)); } catch (e) {}
-  const norm = l => l.replace("_", "-").toLowerCase();
+  try { voices = synth.getVoices() || []; } catch (e) { voices = []; }
+  const es = voices.filter(v => /^es/i.test(v.lang));
   const pref = ["es-mx", "es-us", "es-419", "es-co", "es-ar", "es-cl", "es-pe"];
   voice = null;
-  for (const p of pref) { const v = vs.find(v => norm(v.lang) === p); if (v) { voice = v; break; } }
-  if (!voice) voice = vs.find(v => norm(v.lang) !== "es-es") || vs[0] || null;
-  let en = [];
-  try { en = synth.getVoices().filter(v => /^en/i.test(v.lang)); } catch (e) {}
-  voiceEn = en.find(v => norm(v.lang) === "en-us") || en.find(v => norm(v.lang) === "en-gb") || en[0] || null;
+  for (const p of pref) { const v = es.find(v => norm(v.lang) === p); if (v) { voice = v; break; } }
+  if (!voice) voice = es.find(v => norm(v.lang) !== "es-es") || es[0] || null;
 }
-if (synth) { pickVoice(); try { synth.addEventListener("voiceschanged", pickVoice); } catch (e) {} }
-const clean = t => String(t).replace(/<[^>]+>/g, " ").replace(/\p{Extended_Pictographic}|️|‍/gu, "").replace(/\s+/g, " ").trim();
+function voiceFor(lang) {
+  if (!lang || lang === "es") return voice;
+  const l = norm(lang), base = l.split("-")[0];
+  return voices.find(v => norm(v.lang) === l) || voices.find(v => norm(v.lang).startsWith(base)) || null;
+}
+if (synth) { loadVoices(); try { synth.addEventListener("voiceschanged", loadVoices); } catch (e) {} }
+const clean = t => String(t).replace(/<[^>]+>/g, " ").replace(/\p{Extended_Pictographic}|️|‍/gu, "").replace(/[«»]/g, "").replace(/\s+/g, " ").trim();
 function stopSpeech() { readGen++; owl.classList.remove("talking"); if (synth) try { synth.cancel(); } catch (e) {} }
-function speak(text, { queue = false, onend, lang = "es" } = {}) {
-  const t = clean(text);
+function speak(text, { queue = false, onend, lang = "es", fallback } = {}) {
   if (!queue) stopSpeech();
+  let v = voiceFor(lang);
+  if (lang !== "es" && !v && fallback) { text = fallback; lang = "es"; v = voice; }
+  const t = clean(text);
   if (!synth || !soundOn || !interacted || !t) { if (onend) later(onend, Math.max(1400, t.length * 75)); return; }
   try {
     const u = new SpeechSynthesisUtterance(t);
-    const v = lang === "en" ? voiceEn : voice;
-    u.lang = v ? v.lang : (lang === "en" ? "en-US" : "es-MX");
+    u.lang = v ? v.lang : (lang === "es" ? "es-MX" : lang);
     if (v) u.voice = v;
-    u.rate = lang === "en" ? 0.8 : 0.88; u.pitch = 1.15;
+    u.rate = lang === "es" ? 0.88 : 0.8; u.pitch = 1.15;
     u.onstart = () => owl.classList.add("talking");
     let fired = false;
     u.onend = u.onerror = () => { owl.classList.remove("talking"); if (!fired) { fired = true; onend && onend(); } };
     synth.speak(u);
   } catch (e) { if (onend) later(onend, 1500); }
 }
-let lastSay = "", lastLang = "es";
+let lastSay = { text: "", lang: "es" };
 const sayEl = $("#say");
 function say(text, opts = {}) {
-  lastSay = opts.speakText || text; lastLang = opts.lang || "es";
+  lastSay = { text: opts.speakText || text, lang: opts.lang || "es", fallback: opts.fallback };
   sayEl.innerHTML = '<span class="name">Tico</span>' + text;
   sayEl.classList.remove("pop"); void sayEl.offsetWidth; sayEl.classList.add("pop");
   if (opts.silent !== true) speak(opts.speakText || text, opts);
 }
-$("#replay").onclick = () => speak(lastSay, { lang: lastLang });
+$("#replay").onclick = () => speak(lastSay.text, { lang: lastSay.lang, fallback: lastSay.fallback });
 document.addEventListener("pointerdown", () => { interacted = true; }, { capture: true });
 document.addEventListener("keydown", () => { interacted = true; }, { capture: true });
 
 /* ---------- Sonidos y premios ---------- */
 let ac = null;
-function tone(freqs, type = "triangle", gap = 0.11, vol = 0.16) {
+function tone(freqs, type = "triangle", gap = 0.11, vol = 0.16, len = 0.3) {
   if (!soundOn) return;
   try {
     ac = ac || new (window.AudioContext || window.webkitAudioContext)();
@@ -376,13 +459,14 @@ function tone(freqs, type = "triangle", gap = 0.11, vol = 0.16) {
       const o = ac.createOscillator(), g = ac.createGain();
       o.type = type; o.frequency.value = f;
       const t = ac.currentTime + i * gap;
-      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(vol, t + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
-      o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t + 0.35);
+      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(vol, t + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + len);
+      o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t + len + 0.05);
     });
   } catch (e) {}
 }
-const PRAISE = ["¡Muy bien!", "¡Excelente!", "¡Lo lograste!", "¡Súper!", "¡Bravo!", "¡Qué bien lo haces!", "¡Genial!"];
+const PRAISE = ["¡Muy bien!", "¡Excelente!", "¡Lo lograste!", "¡Súper!", "¡Bravo!", "¡Qué bien lo haces!", "¡Genial!", "¡Fantástico!"];
 const RETRY = ["¡Casi! Intenta otra vez.", "Mira otra vez. ¡Tú puedes!", "Vamos de nuevo.", "Inténtalo otra vez."];
+const praise = bag(PRAISE), retry = bag(RETRY);
 let stars = 0;
 const starN = $("#starN"), starsEl = $("#stars");
 function updStars() { starN.textContent = stars; starsEl.classList.remove("bump"); void starsEl.offsetWidth; starsEl.classList.add("bump"); }
@@ -402,16 +486,16 @@ function confetti() {
 function win(msg, opts = {}) {
   stars++; updStars(); tone([660, 880, 1320]); confetti();
   owl.classList.remove("happy"); void owl.getBoundingClientRect(); owl.classList.add("happy");
-  say(msg || pick(PRAISE), opts);
+  say(msg || praise(), opts);
 }
-function miss(b) {
+function miss(b, msg) {
   if (b) { b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); }
   tone([330, 262], "sine", 0.12, 0.09);
-  say(pick(RETRY));
+  say(msg || retry());
 }
 
 /* ---------- Componentes ---------- */
-function choice(board, { top, ask, opts, ok, next, rowClass = "opts", btnClass = "opt" }) {
+function choice(board, { top, ask, askOpts = {}, opts, ok, next, rowClass = "opts", btnClass = "opt", okMsg, delay = 1900 }) {
   board.innerHTML = "";
   if (top) board.append(el("div", { class: "prompt", html: top }));
   const row = el("div", { class: rowClass });
@@ -419,18 +503,19 @@ function choice(board, { top, ask, opts, ok, next, rowClass = "opts", btnClass =
     const b = el("button", { class: btnClass, html: o.html });
     if (o.label) b.setAttribute("aria-label", o.label);
     b.onclick = () => {
-      if (o.say) speak(o.say, { lang: o.lang || "es" });
+      if (o.say) speak(o.say, { lang: o.lang || "es", fallback: o.fallback });
       if (o.v === ok) {
         b.classList.add("right");
         row.querySelectorAll("button").forEach(x => x.disabled = true);
-        win(null, { queue: !!o.say });
-        later(next, 1900);
-      } else miss(b);
+        win(okMsg, { queue: !!o.say });
+        later(next, delay);
+      } else miss(b, o.missMsg);
     };
     row.append(b);
   });
   board.append(row);
-  if (ask) say(ask);
+  if (ask) say(ask, askOpts);
+  return row;
 }
 
 function buildOrder(board, { top, ask, pieces, numbered = false, done }) {
@@ -461,7 +546,7 @@ function buildOrder(board, { top, ask, pieces, numbered = false, done }) {
 }
 
 /* =========================================================
-   1. SEMÁFORO DE LAS EMOCIONES
+   EMOCIONES
    ========================================================= */
 const EMOS = [
   { n: "Enojo", f: "😠", k: "#FF4B5C", l: "r" },
@@ -483,10 +568,15 @@ const SITU = [
   { e: "🎂", t: "Hoy es mi cumpleaños." },
   { e: "🌳📖", t: "Estoy leyendo un cuento debajo de un árbol." },
   { e: "🏃‍♂️💨", t: "Alguien me empujó en la fila." },
-  { e: "👵👋", t: "Mi abuela se fue de viaje por mucho tiempo." }
+  { e: "👵👋", t: "Mi abuela se fue de viaje por mucho tiempo." },
+  { e: "🐶🎾", t: "Estoy jugando con mi mascota." },
+  { e: "🌑", t: "Se fue la luz y todo está oscuro." },
+  { e: "✏️💥", t: "Un compañero rayó mi dibujo." },
+  { e: "🏆", t: "Gané una medalla en el juego." }
 ];
 function initEmociones(board) {
-  let si = -1;
+  const nextS = bag(SITU);
+  let cur;
   board.innerHTML = `
     <div class="emo">
       <div class="emo-left">
@@ -505,23 +595,19 @@ function initEmociones(board) {
   const lamps = { r: board.querySelector(".lamp.r"), y: board.querySelector(".lamp.y"), g: board.querySelector(".lamp.g") };
   const setLight = l => {
     Object.entries(lamps).forEach(([k, x]) => { x.classList.toggle("on", k === l); x.textContent = ""; });
-    if (l) lamps[l].textContent = { r: "✋", y: "🤔", g: "👍" }[l];
-    tone(l === "r" ? [392] : l === "y" ? [523] : l === "g" ? [659] : [], "sine", .1, .1);
+    if (l) { lamps[l].textContent = { r: "✋", y: "🤔", g: "👍" }[l]; tone([{ r: 392, y: 523, g: 659 }[l]], "sine", .1, .1); }
   };
-  const situCard = board.querySelector(".situ-card");
   function nextSitu(talk) {
     clearTimers();
-    si = (si + 1 + Math.floor(Math.random() * (SITU.length - 1))) % SITU.length;
-    const s = SITU[si];
-    board.querySelector(".situ-e").textContent = s.e;
-    board.querySelector(".situ-t").textContent = s.t;
+    cur = nextS();
+    board.querySelector(".situ-e").textContent = cur.e;
+    board.querySelector(".situ-t").textContent = cur.t;
     grid.querySelectorAll(".emo-btn").forEach(b => b.classList.remove("sel"));
     setLight(null); action.innerHTML = "";
-    if (talk) say(s.t + " ¿Cómo te sentirías?");
+    if (talk) say(cur.t + " ¿Cómo te sentirías?");
   }
-  situCard.onclick = () => say(SITU[si].t + " ¿Cómo te sentirías?");
+  board.querySelector(".situ-card").onclick = () => say(cur.t + " ¿Cómo te sentirías?");
   board.querySelector(".nx").onclick = () => nextSitu(true);
-
   EMOS.forEach(em => {
     const b = el("button", { class: "emo-btn" + (em.dark ? " light-text" : ""), html: `<span class="face">${em.f}</span>${em.n}` });
     b.style.setProperty("--k", em.k);
@@ -533,7 +619,6 @@ function initEmociones(board) {
     };
     grid.append(b);
   });
-
   function showAction(em) {
     const name = em.n.toLowerCase();
     if (em.l === "r") {
@@ -546,18 +631,17 @@ function initEmociones(board) {
       const circ = action.querySelector(".breath"), txt = action.querySelector(".breath-t"), dots = action.querySelectorAll(".dots i"), res = action.querySelector(".act-res");
       let n = 0;
       const cycle = () => {
-        txt.textContent = "Inhalo 🌬️"; circ.classList.add("in"); speak("Inhalo");
+        txt.textContent = "Inhalo 🌬️"; circ.style.transform = "scale(1)"; speak("Inhalo");
         later(() => {
-          txt.textContent = "Exhalo 💨"; circ.classList.remove("in"); speak("Exhalo");
+          txt.textContent = "Exhalo 💨"; circ.style.transform = "scale(.45)"; speak("Exhalo");
           later(() => {
             dots[n].classList.add("on"); n++;
             if (n < 3) cycle();
             else {
               txt.textContent = "😌";
-              res.innerHTML = "";
               const again = el("button", { class: "tool main", html: "🔁 Otra vez" });
               again.onclick = () => showAction(em);
-              res.append(el("div", { html: "¡Ya estoy más tranquilo!" }), again);
+              res.innerHTML = ""; res.append(el("div", { html: "¡Ya estoy más tranquilo!" }), again);
               win("¡Muy bien! Ya estoy más tranquilo.");
             }
           }, 4200);
@@ -586,48 +670,210 @@ function initEmociones(board) {
 }
 
 /* =========================================================
-   2. LENGUAJE
+   CALMA (atención plena)
+   ========================================================= */
+const BREATHS = [
+  { id: "globo", n: "Globo", ic: "🎈", col: "#FF5FA8", ph: [{ t: "Inflo el globo", v: "Inhalo", e: "🎈", s: 4, sc: 1 }, { t: "Desinflo el globo", v: "Exhalo despacio", e: "🎈", s: 5, sc: .45 }] },
+  { id: "flor", n: "Flor y vela", ic: "🌸", col: "#FF8A2B", ph: [{ t: "Huelo la flor", v: "Huelo la flor", e: "🌸", s: 4, sc: 1 }, { t: "Soplo la vela", v: "Soplo la vela", e: "🕯️", s: 5, sc: .45 }] },
+  { id: "cuadrado", n: "Cuadrado", ic: "🟦", col: "#3A7BFF", ph: [{ t: "Inhalo", v: "Inhalo", e: "⬆️", s: 4, sc: 1 }, { t: "Sostengo", v: "Sostengo", e: "⏸️", s: 4, sc: 1 }, { t: "Exhalo", v: "Exhalo", e: "⬇️", s: 4, sc: .45 }, { t: "Sostengo", v: "Sostengo", e: "⏸️", s: 4, sc: .45 }] },
+  { id: "abeja", n: "Abeja", ic: "🐝", col: "#FFC233", ph: [{ t: "Inhalo", v: "Inhalo", e: "🐝", s: 4, sc: 1 }, { t: "Exhalo: mmmm", v: "Exhalo haciendo mmmm, como una abeja", e: "🐝", s: 6, sc: .45 }] },
+  { id: "ola", n: "Ola del mar", ic: "🌊", col: "#12B5C2", ph: [{ t: "La ola sube", v: "La ola sube, inhalo", e: "🌊", s: 4, sc: 1 }, { t: "La ola baja", v: "La ola baja, exhalo", e: "🏖️", s: 5, sc: .45 }] }
+];
+let breathSel = "globo";
+function initRespirar(board) {
+  board.innerHTML = "";
+  const chips = el("div", { class: "lvl" });
+  BREATHS.forEach(b => {
+    const c = el("button", { class: "sub", "aria-pressed": String(b.id === breathSel), html: `<span class="ic">${b.ic}</span>${b.n}` });
+    c.onclick = () => { breathSel = b.id; clearTimers(); stopSpeech(); initRespirar(board); };
+    chips.append(c);
+  });
+  const ex = BREATHS.find(b => b.id === breathSel);
+  const box = el("div", { class: "breath-box", html: `<div class="breath"></div><div class="breath-mid"><span class="breath-e">${ex.ic}</span><span class="breath-t">${ex.n}</span><span class="breath-n"></span></div>` });
+  const circ = box.querySelector(".breath"), eEl = box.querySelector(".breath-e"), tEl = box.querySelector(".breath-t"), nEl = box.querySelector(".breath-n");
+  circ.style.setProperty("--bc", ex.col);
+  const total = 4;
+  const dots = el("div", { class: "dots", html: Array.from({ length: total }, () => "<i></i>").join("") });
+  const ctr = el("div", { class: "lvl" });
+  const play = el("button", { class: "play-btn", html: "▶ Empezar" });
+  const stop = el("button", { class: "tool", html: "⏹", "aria-label": "Detener" });
+  ctr.append(play, stop);
+  board.append(chips, box, dots, ctr);
+  let running = false;
+  const reset = () => { running = false; clearTimers(); circ.style.transitionDuration = "1s"; circ.style.transform = "scale(.45)"; eEl.textContent = ex.ic; tEl.textContent = ex.n; nEl.textContent = ""; play.hidden = false; };
+  stop.onclick = () => { stopSpeech(); reset(); dots.querySelectorAll("i").forEach(i => i.classList.remove("on")); };
+  play.onclick = () => {
+    if (running) return; running = true; play.hidden = true;
+    dots.querySelectorAll("i").forEach(i => i.classList.remove("on"));
+    let cyc = 0;
+    const runPhase = (pi) => {
+      if (pi >= ex.ph.length) {
+        dots.children[cyc].classList.add("on"); cyc++;
+        if (cyc < total) return runPhase(0);
+        running = false; reset(); eEl.textContent = "😌"; tEl.textContent = "Estoy tranquilo";
+        win("¡Muy bien! Mi cuerpo está tranquilo.");
+        return;
+      }
+      const p = ex.ph[pi];
+      eEl.textContent = p.e; tEl.textContent = p.t;
+      circ.style.transitionDuration = p.s + "s"; circ.style.transform = `scale(${p.sc})`;
+      speak(p.v);
+      let n = 1; nEl.textContent = n;
+      const tick = () => { n++; if (n <= p.s) { nEl.textContent = n; later(tick, 1000); } };
+      later(tick, 1000);
+      later(() => runPhase(pi + 1), p.s * 1000 + 250);
+    };
+    say("Me siento cómodo, con la espalda derecha.");
+    later(() => runPhase(0), 2600);
+  };
+  say(`Respiración de ${ex.n.toLowerCase()}.`);
+}
+const SENSES = [
+  { n: 5, e: "👀", t: "cosas que veo" },
+  { n: 4, e: "✋", t: "cosas que puedo tocar" },
+  { n: 3, e: "👂", t: "sonidos que escucho" },
+  { n: 2, e: "👃", t: "olores que siento" },
+  { n: 1, e: "👅", t: "sabor que siento en mi boca" }
+];
+function initSentidos(board) {
+  let si = 0;
+  board.innerHTML = "";
+  const row = el("div", { class: "senses", html: SENSES.map(s => `<span>${s.e}</span>`).join("") });
+  const big = el("div", { class: "huge" });
+  const lab = el("div", { class: "calm-step" });
+  const taps = el("div", { class: "taps" });
+  board.append(row, big, lab, taps);
+  const show = () => {
+    [...row.children].forEach((c, i) => { c.classList.toggle("on", i === si); c.classList.toggle("done", i < si); });
+    if (si >= SENSES.length) {
+      big.textContent = "😌"; lab.textContent = "Estoy aquí, en este momento.";
+      taps.innerHTML = "";
+      const again = el("button", { class: "play-btn", html: "🔁 Otra vez" });
+      again.onclick = () => { si = 0; show(); };
+      taps.append(again);
+      win("¡Muy bien! Estoy aquí, en este momento.");
+      return;
+    }
+    const s = SENSES[si];
+    big.textContent = s.e;
+    lab.textContent = `${s.n} ${s.t}`;
+    taps.innerHTML = "";
+    let got = 0;
+    for (let i = 0; i < s.n; i++) {
+      const c = el("button", { class: "tapc", html: String(i + 1), "aria-label": "Listo " + (i + 1) });
+      c.onclick = () => {
+        if (c.classList.contains("on")) return;
+        c.classList.add("on"); c.textContent = "✔"; got++; tone([523 + got * 60], "sine", .1, .1);
+        if (got === s.n) { later(() => { si++; show(); }, 900); }
+      };
+      taps.append(c);
+    }
+    say(`Nombra ${NUMW[s.n]} ${s.t}.`);
+  };
+  show();
+}
+const BODY = [
+  { e: "🍋✊", a: "Aprieto las manos como si exprimiera un limón", b: "Suelto las manos. Se sienten blanditas" },
+  { e: "🐢", a: "Subo los hombros hasta las orejas, como una tortuga", b: "Bajo los hombros despacio" },
+  { e: "😝", a: "Arrugo la cara como si comiera algo muy ácido", b: "Suelto la cara. Sonrío suavecito" },
+  { e: "🐱", a: "Estiro los brazos hacia el cielo, como un gato", b: "Bajo los brazos despacio" },
+  { e: "🦶", a: "Aprieto los pies contra el piso, como si pisara barro", b: "Suelto los pies" },
+  { e: "😴", a: "Cierro los ojos y escucho mi respiración", b: "Abro los ojos. Mi cuerpo está tranquilo" }
+];
+function initCuerpo(board) {
+  board.innerHTML = "";
+  const big = el("div", { class: "huge", html: "🧘" });
+  const lab = el("div", { class: "calm-step", html: "Cuerpo tranquilo" });
+  const dots = el("div", { class: "dots", html: BODY.map(() => "<i></i>").join("") });
+  const play = el("button", { class: "play-btn", html: "▶ Empezar" });
+  board.append(big, lab, dots, play);
+  play.onclick = () => {
+    play.hidden = true;
+    dots.querySelectorAll("i").forEach(i => i.classList.remove("on"));
+    const step = i => {
+      if (i >= BODY.length) {
+        big.textContent = "😌"; lab.textContent = "¡Mi cuerpo está tranquilo!"; play.hidden = false; play.innerHTML = "🔁 Otra vez";
+        win("¡Muy bien! Mi cuerpo está tranquilo.");
+        return;
+      }
+      const s = BODY[i];
+      big.textContent = s.e; lab.textContent = s.a + "… 💪";
+      speak(s.a);
+      later(() => { lab.textContent = s.b + " 😌"; speak(s.b); }, 6000);
+      later(() => { dots.children[i].classList.add("on"); step(i + 1); }, 12000);
+    };
+    step(0);
+  };
+  say("Vamos a apretar y soltar el cuerpo.");
+}
+function initEscucho(board) {
+  const nb = bag([1, 2, 3, 4, 5]);
+  const round = () => {
+    board.innerHTML = "";
+    const big = el("div", { class: "huge", html: "👂" });
+    const play = el("button", { class: "big-play", html: "▶", "aria-label": "Escuchar" });
+    board.append(big, play);
+    say("Cierro los ojos y escucho. ¿Cuántos sonidos hay?");
+    play.onclick = () => {
+      play.hidden = true; stopSpeech(); big.textContent = "🤫";
+      const n = nb(); let t = 1200;
+      for (let i = 0; i < n; i++) { later(() => tone([pick([523, 587, 659, 784, 880])], "sine", .1, .2, 1.1), t); t += rnd(1300, 2300); }
+      later(() => {
+        big.textContent = "👂";
+        const opts = shuffle([n, ...sample([1, 2, 3, 4, 5, 6], 2, [n])]);
+        const row = choice(board, {
+          top: `<div class="huge">👂</div>`, ask: "¿Cuántos sonidos escuchaste?",
+          opts: opts.map(o => ({ v: o, html: `<span class="num">${o}</span>`, say: NUMW[o] })), ok: n, next: round
+        });
+      }, t + 400);
+    };
+  };
+  round();
+}
+
+/* =========================================================
+   LENGUAJE
    ========================================================= */
 const WORDS = [
   { e: "🍎", w: "manzana" }, { e: "🐶", w: "perro" }, { e: "🏠", w: "casa" }, { e: "⚽", w: "pelota" },
   { e: "🚗", w: "carro" }, { e: "☀️", w: "sol" }, { e: "🐱", w: "gato" }, { e: "🥛", w: "leche" },
   { e: "👟", w: "zapato" }, { e: "🌳", w: "árbol" }, { e: "🍌", w: "banano" }, { e: "📚", w: "libro" },
   { e: "🐟", w: "pez" }, { e: "🌸", w: "flor" }, { e: "✏️", w: "lápiz" }, { e: "🛏️", w: "cama" },
-  { e: "🚌", w: "bus" }, { e: "🐮", w: "vaca" }, { e: "🍞", w: "pan" }, { e: "🌙", w: "luna" }
+  { e: "🚌", w: "bus" }, { e: "🐮", w: "vaca" }, { e: "🍞", w: "pan" }, { e: "🌙", w: "luna" },
+  { e: "🪑", w: "silla" }, { e: "🔑", w: "llave" }, { e: "☂️", w: "paraguas" }, { e: "🎈", w: "globo" },
+  { e: "🐸", w: "rana" }, { e: "🍉", w: "sandía" }, { e: "🧦", w: "medias" }, { e: "🚲", w: "bicicleta" }
 ];
 function initQueEs(board) {
-  let last;
+  const next = bag(WORDS);
   const round = () => {
-    const it = pickNew(WORDS, last); last = it;
-    const opts = shuffle([it, ...sample(WORDS, 2, [it])]);
+    const it = next();
     choice(board, {
-      top: `<div class="huge" aria-hidden="true">${it.e}</div>`,
-      ask: "¿Qué es esto?",
-      opts: opts.map(o => ({ v: o.w, html: `<span>${o.w}</span>`, say: o.w })),
+      top: `<div class="huge" aria-hidden="true">${it.e}</div>`, ask: "¿Qué es esto?",
+      opts: shuffle([it, ...sample(WORDS, 2, [it])]).map(o => ({ v: o.w, html: `<span>${o.w}</span>`, say: o.w })),
       ok: it.w, next: round
     });
   };
   round();
 }
 const LET = {
-  M: { n: "eme", w: [["🐒", "mono"], ["🍯", "miel"], ["🖐️", "mano"]] },
-  P: { n: "pe", w: [["🐧", "pingüino"], ["🍕", "pizza"], ["🦆", "pato"]] },
-  S: { n: "ese", w: [["☀️", "sol"], ["🍉", "sandía"], ["🐍", "serpiente"]] },
-  L: { n: "ele", w: [["🦁", "león"], ["🌙", "luna"], ["🍋", "limón"]] },
-  T: { n: "te", w: [["🍅", "tomate"], ["🐢", "tortuga"], ["🚂", "tren"]] },
-  B: { n: "be", w: [["🐳", "ballena"], ["⛵", "barco"], ["🍌", "banano"]] }
+  M: { n: "eme", w: [["🐒", "mono"], ["🍯", "miel"], ["🖐️", "mano"], ["🍈", "melón"]] },
+  P: { n: "pe", w: [["🐧", "pingüino"], ["🍕", "pizza"], ["🦆", "pato"], ["🍐", "pera"]] },
+  S: { n: "ese", w: [["☀️", "sol"], ["🍉", "sandía"], ["🐍", "serpiente"], ["🪑", "silla"]] },
+  L: { n: "ele", w: [["🦁", "león"], ["🌙", "luna"], ["🍋", "limón"], ["📖", "libro"]] },
+  T: { n: "te", w: [["🍅", "tomate"], ["🐢", "tortuga"], ["🚂", "tren"], ["☕", "taza"]] },
+  B: { n: "be", w: [["🐳", "ballena"], ["⛵", "barco"], ["🍌", "banano"], ["🚌", "bus"]] },
+  F: { n: "efe", w: [["🍓", "fresa"], ["🌸", "flor"], ["🔥", "fuego"], ["⚽", "fútbol"]] },
+  R: { n: "erre", w: [["🐸", "rana"], ["🐭", "ratón"], ["🌹", "rosa"], ["⏰", "reloj"]] }
 };
 function initSonido(board) {
-  let last;
+  const next = bag(Object.keys(LET));
   const round = () => {
-    const L = pickNew(Object.keys(LET), last); last = L;
-    const right = pick(LET[L].w);
+    const L = next(), right = pick(LET[L].w);
     const others = sample(Object.keys(LET), 2, [L]).map(k => pick(LET[k].w));
-    const opts = shuffle([right, ...others]);
     choice(board, {
       top: `<div class="letter">${L}<small>${L.toLowerCase()}</small></div>`,
       ask: `¿Cuál empieza con la ${LET[L].n}?`,
-      opts: opts.map(o => ({ v: o[1], html: `<span class="e">${o[0]}</span><span>${o[1]}</span>`, say: o[1] })),
+      opts: shuffle([right, ...others]).map(o => ({ v: o[1], html: `<span class="e">${o[0]}</span><span>${o[1]}</span>`, say: o[1] })),
       ok: right[1], next: round
     });
   };
@@ -636,18 +882,17 @@ function initSonido(board) {
 const SIL = [
   ["🐱", ["ga", "to"]], ["🏠", ["ca", "sa"]], ["🌙", ["lu", "na"]], ["🐒", ["mo", "no"]], ["☁️", ["nu", "be"]],
   ["🦆", ["pa", "to"]], ["🐸", ["ra", "na"]], ["🐄", ["va", "ca"]], ["🌹", ["ro", "sa"]], ["🍋", ["li", "món"]],
-  ["🐢", ["tor", "tu", "ga"]], ["👟", ["za", "pa", "to"]], ["🍅", ["to", "ma", "te"]], ["🍉", ["san", "dí", "a"]], ["🦋", ["ma", "ri", "po", "sa"]]
-];
+  ["🐢", ["tor", "tu", "ga"]], ["👟", ["za", "pa", "to"]], ["🍅", ["to", "ma", "te"]], ["🍉", ["san", "dí", "a"]], ["🦋", ["ma", "ri", "po", "sa"]],
+  ["🪑", ["si", "lla"]], ["🎈", ["glo", "bo"]], ["🍐", ["pe", "ra"]], ["🐭", ["ra", "tón"]], ["🚂", ["tren"]]
+].filter(x => x[1].length > 1);
 function initSilabas(board) {
-  let last;
+  const next = bag(SIL);
   const round = () => {
-    const it = pickNew(SIL, last); last = it;
-    const word = it[1].join("");
+    const it = next(), word = it[1].join("");
     buildOrder(board, {
-      top: `<div class="huge" aria-hidden="true">${it[0]}</div>`,
-      ask: "¿Cómo se dice? Arma la palabra.",
+      top: `<div class="huge" aria-hidden="true">${it[0]}</div>`, ask: "¿Cómo se dice? Arma la palabra.",
       pieces: it[1].map(t => ({ t })),
-      done: () => { win(`¡${word}! ${pick(PRAISE)}`); later(round, 2300); }
+      done: () => { win(`¡${word}! ${praise()}`); later(round, 2300); }
     });
   };
   round();
@@ -660,95 +905,123 @@ const FRA = [
   [["👩", "Mamá"], ["🍳", "cocina"], ["🍚", "arroz"]],
   [["👴", "El abuelo"], ["📖", "lee"], ["📰", "el periódico"]],
   [["🐦", "El pájaro"], ["🎶", "canta"], ["🌳", "en el árbol"]],
-  [["🧒", "Nosotros"], ["🎨", "pintamos"], ["🌈", "un arcoíris"]]
-];
+  [["🧒", "Nosotros"], ["🎨", "pintamos"], ["🌈", "un arcoíris"]],
+  [["🐱", "El gato"], ["🥛", "toma"], ["leche", "leche"]],
+  [["👨", "Papá"], ["🚗", "maneja"], ["el carro", "el carro"]]
+].map(f => f.map(p => p[0] === p[1] ? ["", p[1]] : p));
 function initFrases(board) {
-  let last;
+  const next = bag(FRA);
   const round = () => {
-    const f = pickNew(FRA, last); last = f;
-    const text = f.map(p => p[1]).join(" ");
+    const f = next(), text = f.map(p => p[1]).join(" ");
     buildOrder(board, {
-      top: `<div class="picto">${f.map(p => `<span aria-hidden="true">${p[0]}</span>`).join("")}</div>`,
+      top: `<div class="picto">${f.filter(p => p[0]).map(p => `<span aria-hidden="true">${p[0]}</span>`).join("")}</div>`,
       ask: "Arma la frase.",
-      pieces: f.map(p => ({ t: p[1], html: `<span class="e">${p[0]}</span><span>${p[1]}</span>` })),
-      done: () => { win(`${text}. ${pick(PRAISE)}`); later(round, 2800); }
+      pieces: f.map(p => ({ t: p[1], html: `${p[0] ? `<span class="e">${p[0]}</span>` : ""}<span>${p[1]}</span>` })),
+      done: () => { win(`${text}. ${praise()}`); later(round, 2800); }
     });
   };
   round();
 }
 
 /* =========================================================
-   3. LECTURA
+   LECTURA (con largo ajustable)
    ========================================================= */
+const S = (...lines) => lines.map(x => { const i = x.indexOf("|"); return [+x.slice(0, i), x.slice(i + 1)]; });
 const STORIES = [
   { id: "rufo", e: "🐶", t: "Tomás y su perro",
-    s: ["Tomás tiene un perro 🐶.", "El perro se llama Rufo.", "Rufo es de color café.", "Tomás y Rufo juegan con una pelota ⚽ en el parque 🌳.", "Después, Rufo tiene sed y bebe agua 💧."],
-    q: [
-      { t: "¿Cómo se llama el perro?", o: [["🐶", "Rufo"], ["👦", "Tomás"], ["🐱", "Pelusa"]] },
-      { t: "¿De qué color es Rufo?", o: [["🟤", "Café"], ["⚪", "Blanco"], ["🔵", "Azul"]] },
-      { t: "¿Con qué juegan?", o: [["⚽", "Pelota"], ["🪆", "Muñeca"], ["🚗", "Carro"]] },
-      { t: "¿Qué bebe Rufo?", o: [["💧", "Agua"], ["🥛", "Leche"], ["🧃", "Jugo"]] }
-    ] },
+    s: S("1|Tomás tiene un perro 🐶.", "1|El perro se llama Rufo.", "1|Rufo es de color café.", "2|Rufo tiene orejas largas y una cola que se mueve mucho.", "2|Cuando Tomás llega del colegio, Rufo salta de alegría 😄.", "1|Tomás y Rufo juegan con una pelota ⚽ en el parque 🌳.", "3|De pronto, la pelota cae en un charco 💦.", "3|Rufo corre, saca la pelota con la boca y se moja todo.", "3|Tomás se ríe y seca a Rufo con una toalla.", "1|Después, Rufo tiene sed y bebe agua 💧."),
+    q: [[1, "¿Cómo se llama el perro?", [["🐶", "Rufo"], ["👦", "Tomás"], ["🐱", "Pelusa"]]], [1, "¿De qué color es Rufo?", [["🟤", "Café"], ["⚪", "Blanco"], ["🔵", "Azul"]]], [1, "¿Con qué juegan?", [["⚽", "Con una pelota"], ["🧸", "Con un peluche"], ["🚗", "Con un carro"]]], [1, "¿Qué bebe Rufo?", [["💧", "Agua"], ["🥛", "Leche"], ["🧃", "Jugo"]]], [2, "¿Qué hace Rufo cuando Tomás llega del colegio?", [["😄", "Salta de alegría"], ["😴", "Se duerme"], ["😢", "Llora"]]], [3, "¿Dónde cae la pelota?", [["💦", "En un charco"], ["🌳", "En un árbol"], ["🏠", "En el techo"]]]] },
   { id: "ana", e: "🎂", t: "La fiesta de Ana",
-    s: ["Hoy es el cumpleaños de Ana 🎂.", "Ana cumple ocho años.", "Su mamá hace un pastel de fresa 🍓.", "Llegan sus amigos con regalos 🎁.", "Todos cantan y Ana sopla las velas 🕯️."],
-    q: [
-      { t: "¿Qué celebra Ana?", o: [["🎂", "Su cumpleaños"], ["🎄", "La Navidad"], ["🏫", "Un día de clase"]] },
-      { t: "¿De qué es el pastel?", o: [["🍓", "De fresa"], ["🍫", "De chocolate"], ["🍋", "De limón"]] },
-      { t: "¿Qué traen los amigos?", o: [["🎁", "Regalos"], ["📚", "Libros"], ["🌸", "Flores"]] },
-      { t: "¿Qué sopla Ana?", o: [["🕯️", "Las velas"], ["🎈", "Los globos"], ["🍃", "Las hojas"]] }
-    ] },
+    s: S("1|Hoy es el cumpleaños de Ana 🎂.", "1|Ana cumple ocho años.", "2|Ana se pone un vestido azul 👗 y unos zapatos nuevos.", "1|Su mamá hace un pastel de fresa 🍓.", "2|Su papá infla muchos globos de colores 🎈.", "1|Llegan sus amigos con regalos 🎁.", "3|Juegan a las sillas musicales 🎶 y Ana gana.", "3|Luego rompen una piñata llena de dulces 🍬.", "1|Todos cantan y Ana sopla las velas 🕯️."),
+    q: [[1, "¿Qué celebra Ana?", [["🎂", "Su cumpleaños"], ["🎄", "La Navidad"], ["🏫", "Un día de clase"]]], [1, "¿De qué es el pastel?", [["🍓", "De fresa"], ["🍫", "De chocolate"], ["🍋", "De limón"]]], [1, "¿Qué traen los amigos?", [["🎁", "Regalos"], ["📚", "Libros"], ["🌸", "Flores"]]], [1, "¿Qué sopla Ana?", [["🕯️", "Las velas"], ["🎈", "Los globos"], ["🍃", "Las hojas"]]], [2, "¿Qué infla el papá?", [["🎈", "Globos"], ["⚽", "Balones"], ["🛟", "Flotadores"]]], [3, "¿Qué rompen al final?", [["🍬", "Una piñata"], ["🍽️", "Un plato"], ["🪟", "Una ventana"]]]] },
   { id: "lluvia", e: "☂️", t: "Un día de lluvia",
-    s: ["Está lloviendo mucho 🌧️.", "Sofía saca su paraguas rojo ☂️.", "Se pone las botas 🥾.", "En el camino ve un charco grande y salta.", "¡Splash! Sofía se ríe 😄."],
-    q: [
-      { t: "¿Cómo está el día?", o: [["🌧️", "Lluvioso"], ["☀️", "Soleado"], ["❄️", "Con nieve"]] },
-      { t: "¿De qué color es el paraguas?", o: [["🔴", "Rojo"], ["🟢", "Verde"], ["🟡", "Amarillo"]] },
-      { t: "¿Qué se pone Sofía en los pies?", o: [["🥾", "Botas"], ["🩴", "Chanclas"], ["🧦", "Medias"]] },
-      { t: "¿Cómo se siente Sofía al final?", o: [["😄", "Feliz"], ["😢", "Triste"], ["😠", "Enojada"]] }
-    ] },
+    s: S("1|Está lloviendo mucho 🌧️.", "1|Sofía saca su paraguas rojo ☂️.", "1|Se pone las botas 🥾.", "2|Su hermano Leo sale con ella y lleva una chaqueta amarilla 🧥.", "1|En el camino ve un charco grande y salta.", "1|¡Splash! Sofía se ríe 😄.", "2|El agua salpica a Leo y lo moja.", "3|Leo no se enoja: él también salta en el charco.", "3|Al llegar a casa, la abuela les prepara chocolate caliente ☕."),
+    q: [[1, "¿Cómo está el día?", [["🌧️", "Lluvioso"], ["☀️", "Soleado"], ["❄️", "Con nieve"]]], [1, "¿De qué color es el paraguas?", [["🔴", "Rojo"], ["🟢", "Verde"], ["🟡", "Amarillo"]]], [1, "¿Qué se pone Sofía en los pies?", [["🥾", "Botas"], ["👡", "Sandalias"], ["🧦", "Medias"]]], [1, "¿Cómo se siente Sofía?", [["😄", "Feliz"], ["😢", "Triste"], ["😠", "Enojada"]]], [2, "¿De qué color es la chaqueta de Leo?", [["🟡", "Amarilla"], ["🔴", "Roja"], ["🟢", "Verde"]]], [3, "¿Qué prepara la abuela?", [["☕", "Chocolate caliente"], ["🍦", "Helado"], ["🍕", "Pizza"]]]] },
   { id: "huerta", e: "🥕", t: "La huerta de Pedro",
-    s: ["Pedro tiene una huerta 🌱 en su casa.", "Cada mañana riega las plantas con agua 💧.", "Un día ve una zanahoria grande 🥕.", "Pedro la saca de la tierra.", "En la noche, la familia come sopa de zanahoria 🍲."],
-    q: [
-      { t: "¿Qué tiene Pedro en su casa?", o: [["🌱", "Una huerta"], ["🏊", "Una piscina"], ["🐴", "Un caballo"]] },
-      { t: "¿Cuándo riega las plantas?", o: [["🌅", "En la mañana"], ["🌙", "En la noche"], ["🌧️", "Cuando llueve"]] },
-      { t: "¿Qué encuentra Pedro?", o: [["🥕", "Una zanahoria"], ["🍎", "Una manzana"], ["🥔", "Una papa"]] },
-      { t: "¿Qué come la familia?", o: [["🍲", "Sopa"], ["🍕", "Pizza"], ["🍦", "Helado"]] }
-    ] }
+    s: S("1|Pedro tiene una huerta 🌱 en su casa.", "2|En la huerta hay tomates 🍅, lechugas 🥬 y zanahorias.", "1|Cada mañana riega las plantas con agua 💧.", "3|Un día ve un conejo 🐰 comiendo una lechuga.", "3|Pedro no lo asusta; le deja una hoja para que coma tranquilo.", "1|Una mañana encuentra una zanahoria muy grande 🥕.", "1|Pedro la saca de la tierra.", "2|Su hermana le ayuda a lavarla.", "1|En la noche, la familia come sopa de zanahoria 🍲."),
+    q: [[1, "¿Qué tiene Pedro en su casa?", [["🌱", "Una huerta"], ["🏊", "Una piscina"], ["🐴", "Un caballo"]]], [1, "¿Cuándo riega las plantas?", [["🌅", "En la mañana"], ["🌙", "En la noche"], ["🌧️", "Cuando llueve"]]], [1, "¿Qué encuentra Pedro?", [["🥕", "Una zanahoria"], ["🍎", "Una manzana"], ["🥔", "Una papa"]]], [1, "¿Qué come la familia?", [["🍲", "Sopa"], ["🍕", "Pizza"], ["🍦", "Helado"]]], [2, "¿Quién le ayuda a lavar la zanahoria?", [["👧", "Su hermana"], ["👴", "Su abuelo"], ["🐶", "Su perro"]]], [3, "¿Qué animal visita la huerta?", [["🐰", "Un conejo"], ["🐮", "Una vaca"], ["🐔", "Una gallina"]]]] },
+  { id: "michi", e: "🐱", t: "El gato Michi y la luna",
+    s: S("1|Michi es un gato blanco 🐱.", "1|Cada noche, Michi mira la luna 🌙 desde la ventana.", "2|La luna parece una galleta grande y brillante 🍪.", "1|Una noche, Michi sube al techo para verla mejor.", "3|En el techo encuentra a un búho 🦉 que también mira la luna.", "3|El búho le cuenta que la luna no se puede comer, pero sí se puede admirar.", "1|Michi se acuesta y se queda dormido 😴.", "2|Su dueña, Lucía, lo baja con cuidado y lo pone en su cama."),
+    q: [[1, "¿De qué color es Michi?", [["⚪", "Blanco"], ["⚫", "Negro"], ["🟠", "Naranja"]]], [1, "¿Qué mira Michi?", [["🌙", "La luna"], ["☀️", "El sol"], ["🌈", "El arcoíris"]]], [1, "¿A dónde sube Michi?", [["🏠", "Al techo"], ["🌳", "A un árbol"], ["🚗", "A un carro"]]], [1, "¿Qué hace al final?", [["😴", "Se duerme"], ["🍽️", "Come"], ["🏃", "Corre"]]], [2, "¿A qué se parece la luna?", [["🍪", "A una galleta"], ["⚽", "A una pelota"], ["🍳", "A un huevo"]]], [3, "¿Qué animal encuentra en el techo?", [["🦉", "Un búho"], ["🐦", "Un pájaro"], ["🐭", "Un ratón"]]]] },
+  { id: "zoo", e: "🦁", t: "Paseo al zoológico",
+    s: S("1|El grupo de Saberes Especiales va de paseo al zoológico en bus 🚌.", "1|Primero ven a los leones 🦁.", "2|El león ruge muy fuerte y todos se tapan los oídos.", "1|Después ven a las jirafas 🦒, que tienen el cuello muy largo.", "3|Una jirafa se acerca y come hojas de la mano del cuidador.", "1|Los monos 🐒 saltan de rama en rama.", "2|Un mono pequeño hace caras chistosas y todos se ríen 😂.", "3|A mediodía, el grupo almuerza sándwiches 🥪 y jugo 🧃 debajo de un árbol.", "1|Al final, regresan muy contentos."),
+    q: [[1, "¿A dónde van de paseo?", [["🦁", "Al zoológico"], ["🏖️", "A la playa"], ["🏥", "Al hospital"]]], [1, "¿En qué van?", [["🚌", "En bus"], ["✈️", "En avión"], ["🚲", "En bicicleta"]]], [1, "¿Qué animal tiene el cuello largo?", [["🦒", "La jirafa"], ["🐒", "El mono"], ["🦁", "El león"]]], [1, "¿Qué hacen los monos?", [["🌳", "Saltan de rama en rama"], ["😴", "Duermen"], ["🏊", "Nadan"]]], [2, "¿Qué hace el león?", [["📢", "Ruge fuerte"], ["🎶", "Canta"], ["😴", "Duerme"]]], [3, "¿Qué almuerza el grupo?", [["🥪", "Sándwiches"], ["🍕", "Pizza"], ["🍲", "Sopa"]]]] },
+  { id: "mercado", e: "🛒", t: "Martina va al mercado",
+    s: S("1|Martina va al mercado con su mamá 🛒.", "1|Necesitan frutas para el desayuno.", "1|Compran bananos 🍌, mangos 🥭 y una piña 🍍.", "2|El vendedor, don José, les regala una mandarina 🍊.", "2|Martina le dice: «¡Muchas gracias!».", "3|Luego pasan por la panadería y huelen el pan recién hecho 🥖.", "3|Mamá compra pan y Martina lleva la bolsa.", "1|En casa, preparan un jugo delicioso 🥤."),
+    q: [[1, "¿Con quién va Martina?", [["👩", "Con su mamá"], ["👴", "Con su abuelo"], ["👧", "Con su amiga"]]], [1, "¿A dónde van?", [["🛒", "Al mercado"], ["🏫", "Al colegio"], ["🏞️", "Al parque"]]], [1, "¿Qué fruta compran?", [["🍍", "Piña"], ["🍉", "Sandía"], ["🍇", "Uvas"]]], [1, "¿Qué preparan en casa?", [["🥤", "Jugo"], ["🍰", "Pastel"], ["🍲", "Sopa"]]], [2, "¿Qué les regala don José?", [["🍊", "Una mandarina"], ["🍎", "Una manzana"], ["🍬", "Un dulce"]]], [3, "¿Qué compran en la panadería?", [["🥖", "Pan"], ["🧀", "Queso"], ["🥛", "Leche"]]]] },
+  { id: "burbuja", e: "🐟", t: "El pez Burbuja",
+    s: S("1|Burbuja es un pez naranja 🐟.", "1|Vive en una pecera en el salón de clase.", "2|Su pecera tiene piedras de colores y una planta verde 🌿.", "1|Todos los días, un estudiante le da comida.", "3|Los lunes le toca a Camilo, y los martes le toca a Valentina.", "2|Burbuja nada rápido cuando ve la comida.", "3|Un día, la profesora cambia el agua y Burbuja hace muchas burbujas.", "1|A todos les gusta mirar a Burbuja nadar."),
+    q: [[1, "¿Qué animal es Burbuja?", [["🐟", "Un pez"], ["🐢", "Una tortuga"], ["🐸", "Una rana"]]], [1, "¿De qué color es Burbuja?", [["🟠", "Naranja"], ["🔵", "Azul"], ["🟢", "Verde"]]], [1, "¿Dónde vive Burbuja?", [["🏫", "En una pecera del salón"], ["🌊", "En el mar"], ["🏞️", "En un río"]]], [1, "¿Quién le da comida?", [["🧒", "Un estudiante"], ["🐱", "Un gato"], ["👮", "Un policía"]]], [2, "¿Qué hace cuando ve la comida?", [["🏊", "Nada rápido"], ["😴", "Duerme"], ["🙈", "Se esconde"]]], [3, "¿A quién le toca los lunes?", [["👦", "A Camilo"], ["👧", "A Valentina"], ["👩‍🏫", "A la profesora"]]]] },
+  { id: "bici", e: "🚲", t: "La bicicleta de Juan",
+    s: S("1|Juan tiene una bicicleta nueva 🚲.", "1|Es de color verde.", "2|Tiene una campana que suena: ¡rin, rin! 🔔", "1|Juan se pone el casco ⛑️ antes de montar.", "2|Su papá lo acompaña al parque.", "1|Al principio Juan se cae, pero se levanta y lo intenta otra vez.", "3|Practica mucho y aprende a mantener el equilibrio.", "3|Al final de la tarde, da una vuelta completa al parque sin caerse.", "1|¡Juan está muy orgulloso! 🏆"),
+    q: [[1, "¿Qué tiene Juan?", [["🚲", "Una bicicleta"], ["🛴", "Una patineta"], ["🚗", "Un carro"]]], [1, "¿De qué color es?", [["🟢", "Verde"], ["🔴", "Roja"], ["🔵", "Azul"]]], [1, "¿Qué se pone antes de montar?", [["⛑️", "El casco"], ["🧢", "Una gorra"], ["🕶️", "Gafas"]]], [1, "¿Qué hace cuando se cae?", [["💪", "Lo intenta otra vez"], ["🏠", "Se va a casa"], ["😠", "Se enoja"]]], [2, "¿Cómo suena la campana?", [["🔔", "Rin, rin"], ["🐶", "Guau, guau"], ["🐄", "Muu"]]], [3, "¿Qué logra al final de la tarde?", [["🏆", "Dar una vuelta sin caerse"], ["🏊", "Nadar"], ["✈️", "Volar"]]]] },
+  { id: "camila", e: "🎤", t: "Camila canta",
+    s: S("1|Hoy Camila va a cantar frente a su grupo 🎤.", "1|Siente mariposas en la barriga y le tiemblan las manos.", "2|Su profesora le dice: «Respira despacio, como si olieras una flor 🌸».", "2|Camila respira profundo una, dos y tres veces.", "1|Empieza a cantar con voz suave.", "3|Sus compañeros aplauden siguiendo el ritmo 👏.", "3|Camila se siente más segura y canta más fuerte.", "1|Al final, todos la abrazan. ¡Lo logró! 🤗"),
+    q: [[1, "¿Qué va a hacer Camila?", [["🎤", "Cantar"], ["🏃", "Correr"], ["🎨", "Pintar"]]], [1, "¿Cómo se siente al principio?", [["😟", "Nerviosa"], ["😴", "Con sueño"], ["😠", "Enojada"]]], [1, "¿Cómo empieza a cantar?", [["🤫", "Con voz suave"], ["📢", "Gritando"], ["🙊", "No canta"]]], [1, "¿Qué pasa al final?", [["🤗", "Todos la abrazan"], ["😢", "Llora"], ["🏃", "Se va"]]], [2, "¿Qué le dice la profesora?", [["🌸", "Que respire despacio"], ["🏃", "Que corra"], ["🤐", "Que se calle"]]], [3, "¿Qué hacen los compañeros?", [["👏", "Aplauden"], ["😂", "Se burlan"], ["😴", "Duermen"]]]] }
 ];
-function initStory(board, story) {
-  board.innerHTML = `
-    <article class="story">
-      <div class="story-head"><span class="e" aria-hidden="true">${story.e}</span><h2>${story.t}</h2></div>
-      <div class="story-tools">
-        <button class="tool main" data-a="read">🔊 Escuchar</button>
-        <button class="tool" data-a="stop" aria-label="Detener">⏹</button>
-        <button class="tool" data-a="minus" aria-label="Letra más pequeña">A−</button>
-        <button class="tool" data-a="plus" aria-label="Letra más grande">A+</button>
-      </div>
-      <div class="story-text">${story.s.map((s, i) => `<span class="sent" data-i="${i}">${s}</span>`).join(" ")}</div>
-      <div class="qa"><button class="play-btn" data-a="q">❓ Preguntas</button></div>
-    </article>`;
-  const sents = [...board.querySelectorAll(".sent")];
-  const qa = board.querySelector(".qa");
+const LEVELS = [[1, "🌱", "Corto"], [2, "🌿", "Medio"], [3, "🌳", "Largo"]];
+let readLevel = 1, fontSize = 1.6;
+const PAL = ["#3A7BFF", "#FF5FA8", "#22C07A", "#FF8A2B", "#9A5BF0", "#12B5C2", "#FF4B5C", "#7CB518", "#1FA2E0", "#FFC233"];
+function levelChips(onChange) {
+  const box = el("div", { class: "lvl" });
+  LEVELS.forEach(([n, ic, name]) => {
+    const b = el("button", { class: "sub", "aria-pressed": String(n === readLevel), html: `<span class="ic">${ic}</span>${name}` });
+    b.onclick = () => { readLevel = n; onChange(); };
+    box.append(b);
+  });
+  return box;
+}
+function fontTools(box) {
+  const fsSet = d => { fontSize = Math.min(2.6, Math.max(1.1, +(fontSize + d).toFixed(2))); document.documentElement.style.setProperty("--fs", fontSize + "rem"); };
+  const m = el("button", { class: "tool", html: "A−", "aria-label": "Letra más pequeña" }); m.onclick = () => fsSet(-0.2);
+  const p = el("button", { class: "tool", html: "A+", "aria-label": "Letra más grande" }); p.onclick = () => fsSet(0.2);
+  box.append(m, p);
+}
+function initLectura(board) {
+  clearTimers(); stopSpeech();
+  board.innerHTML = "";
+  const covers = el("div", { class: "covers" });
+  STORIES.forEach((st, i) => {
+    const b = el("button", { class: "cover", html: `<span class="e">${st.e}</span>${st.t}` });
+    b.style.setProperty("--k", PAL[i % PAL.length]);
+    b.onclick = () => openStory(board, st);
+    covers.append(b);
+  });
+  board.append(levelChips(() => initLectura(board)), covers);
+  say("¿Qué cuento quieres leer?");
+}
+function openStory(board, story) {
+  clearTimers(); stopSpeech();
+  const lines = story.s.filter(x => x[0] <= readLevel).map(x => x[1]);
+  const qs = story.q.filter(x => x[0] <= readLevel);
+  board.innerHTML = "";
+  const art = el("article", { class: "story" });
+  const head = el("div", { class: "story-head", html: `<span class="e" aria-hidden="true">${story.e}</span><h2>${story.t}</h2>` });
+  const back = el("button", { class: "tool", html: "⬅", "aria-label": "Volver a los cuentos" });
+  back.onclick = () => initLectura(board);
+  head.prepend(back);
+  const tools = el("div", { class: "story-tools" });
+  const read = el("button", { class: "tool main", html: "🔊 Escuchar" });
+  const stop = el("button", { class: "tool", html: "⏹", "aria-label": "Detener" });
+  tools.append(read, stop); fontTools(tools);
+  const text = el("div", { class: "story-text", html: lines.map((s, i) => `<span class="sent" data-i="${i}">${s}</span>`).join(" ") });
+  const qa = el("div", { class: "qa" });
+  const qbtn = el("button", { class: "play-btn", html: "❓ Preguntas" });
+  qa.append(qbtn);
+  art.append(head, levelChips(() => openStory(board, story)), tools, text, qa);
+  board.append(art);
+  const sents = [...text.querySelectorAll(".sent")];
   const hl = i => sents.forEach((s, j) => s.classList.toggle("now", j === i));
-  sents.forEach((s, i) => s.onclick = () => { hl(i); speak(story.s[i], { onend: () => hl(-1) }); });
-  board.querySelector('[data-a="read"]').onclick = () => {
+  sents.forEach((s, i) => s.onclick = () => { hl(i); speak(lines[i], { onend: () => hl(-1) }); });
+  read.onclick = () => {
     stopSpeech(); const my = readGen;
-    const step = i => {
-      if (my !== readGen) return;
-      if (i >= story.s.length) { hl(-1); return; }
-      hl(i);
-      speak(story.s[i], { queue: true, onend: () => step(i + 1) });
-    };
+    const step = i => { if (my !== readGen) return; if (i >= lines.length) { hl(-1); return; } hl(i); speak(lines[i], { queue: true, onend: () => step(i + 1) }); };
     say(story.t, { silent: true });
     speak(story.t, { queue: true, onend: () => step(0) });
   };
-  board.querySelector('[data-a="stop"]').onclick = () => { stopSpeech(); clearTimers(); hl(-1); };
-  const fsSet = d => { fontSize = Math.min(2.6, Math.max(1.1, +(fontSize + d).toFixed(2))); document.documentElement.style.setProperty("--fs", fontSize + "rem"); };
-  board.querySelector('[data-a="minus"]').onclick = () => fsSet(-0.2);
-  board.querySelector('[data-a="plus"]').onclick = () => fsSet(0.2);
-
+  stop.onclick = () => { stopSpeech(); clearTimers(); hl(-1); };
   function ask(qi) {
-    if (qi >= story.q.length) {
+    if (qi >= qs.length) {
       qa.innerHTML = `<div class="huge">🏆</div>`;
       const again = el("button", { class: "tool main", html: "🔁 Otra vez" });
       again.onclick = () => ask(0);
@@ -756,11 +1029,11 @@ function initStory(board, story) {
       win("¡Terminaste el cuento! ¡Lo hiciste muy bien!");
       return;
     }
-    const q = story.q[qi], ok = q.o[0][1];
-    qa.innerHTML = `<div class="q-head"><span class="q-num">${qi + 1} / ${story.q.length}</span><span class="q-t">${q.t}</span></div>`;
+    const q = qs[qi], ok = q[2][0][1];
+    qa.innerHTML = `<div class="q-head"><span class="q-num">${qi + 1} / ${qs.length}</span><span class="q-t">${q[1]}</span></div>`;
     const row = el("div", { class: "opts" });
-    shuffle(q.o).forEach(o => {
-      const b = el("button", { class: "opt", html: `<span class="e">${o[0]}</span><span>${o[1]}</span>` });
+    shuffle(q[2]).forEach(o => {
+      const b = el("button", { class: "opt", html: `<span class="e">${o[0]}</span><span class="small">${o[1]}</span>` });
       b.onclick = () => {
         speak(o[1]);
         if (o[1] === ok) { b.classList.add("right"); row.querySelectorAll("button").forEach(x => x.disabled = true); win(null, { queue: true }); later(() => ask(qi + 1), 2000); }
@@ -769,32 +1042,513 @@ function initStory(board, story) {
       row.append(b);
     });
     qa.append(row);
-    say(q.t);
+    say(q[1]);
   }
-  board.querySelector('[data-a="q"]').onclick = () => { stopSpeech(); hl(-1); ask(0); };
+  qbtn.onclick = () => { stopSpeech(); hl(-1); ask(0); };
   say(`Vamos a leer: ${story.t}.`);
 }
 
 /* =========================================================
-   4. SECUENCIAS
+   CUENTOS CLÁSICOS
    ========================================================= */
-const PSETS = [["🔴", "🔵", "🟡", "🟢"], ["🍎", "🍌", "🍇", "🍓"], ["🐶", "🐱", "🐰", "🐸"], ["⭐", "🌙", "☀️", "☁️"], ["🟥", "🟦", "🟩", "🟨"], ["🚗", "🚲", "✈️", "🚂"]];
-const PTYPES = ["AB", "AB", "AAB", "ABB", "ABC"];
-function initPatrones(board) {
+const CLASSICS = [
+  { id: "cenicienta", t: "La Cenicienta", e: "👠", k: "👠🎃🕛", p: [
+    ["👧🧹", "Había una vez una joven buena llamada Cenicienta. Vivía con su madrastra y sus dos hermanastras, que la ponían a limpiar todo el día."],
+    ["🏰💌", "Un día llegó una invitación: el príncipe haría un gran baile en el palacio. Pero a Cenicienta no la dejaron ir."],
+    ["🧚✨", "Cenicienta lloraba cuando apareció su hada madrina. Con su varita convirtió una calabaza en carroza y le regaló un vestido hermoso."],
+    ["🕛⚠️", "«Debes volver antes de las doce de la noche, porque la magia se acabará», le dijo el hada."],
+    ["💃🤴", "En el baile, el príncipe bailó toda la noche con Cenicienta."],
+    ["🕛👠", "Cuando sonaron las doce, Cenicienta salió corriendo y perdió un zapato de cristal en la escalera."],
+    ["🤴👠", "El príncipe buscó por todo el reino a la dueña del zapato. Se lo probó a muchas jóvenes, pero a ninguna le quedaba."],
+    ["💍😊", "Por fin llegó a la casa de Cenicienta. ¡El zapato le quedó perfecto! Se casaron y vivieron felices."]] },
+  { id: "peterpan", t: "Peter Pan", e: "🧒", k: "🧚🏴‍☠️🐊", p: [
+    ["👧👦👦", "Wendy, Juan y Miguel eran tres hermanos que vivían en Londres."],
+    ["🌙🪟", "Una noche entró por la ventana Peter Pan, un niño que vuela y que nunca quiere crecer. Lo acompañaba Campanita, un hada pequeñita."],
+    ["✨🕊️", "Campanita les echó polvo mágico, ellos pensaron en cosas felices… ¡y empezaron a volar!"],
+    ["⭐🏝️", "Volaron hasta la segunda estrella a la derecha y llegaron al País de Nunca Jamás."],
+    ["🧒🧒", "Allí conocieron a los niños perdidos, que vivían con Peter en una casa bajo la tierra."],
+    ["🏴‍☠️🐊", "En esa isla vivía el Capitán Garfio, un pirata con un garfio en lugar de mano. Le tenía mucho miedo a un cocodrilo que hacía tic tac."],
+    ["⚔️🧒", "Garfio atrapó a los niños, pero Peter Pan llegó a rescatarlos y venció al pirata."],
+    ["🏠💤", "Wendy y sus hermanos extrañaban a su mamá y volvieron a casa. Peter prometió visitarlos siempre."]] },
+  { id: "durmiente", t: "La Bella Durmiente", e: "😴", k: "🧵😴🏰", p: [
+    ["👑👶", "Un rey y una reina tuvieron una hija. Hicieron una gran fiesta e invitaron a las hadas del reino."],
+    ["🧚🎁", "Cada hada le regaló un don a la princesa: bondad, alegría y una voz muy dulce."],
+    ["🧙‍♀️😠", "Pero llegó un hada que no había sido invitada y dijo: «Cuando cumpla quince años, se pinchará el dedo con una aguja y caerá dormida»."],
+    ["🧚💤", "Un hada buena cambió un poco el hechizo: «No será para siempre. Dormirá hasta que alguien la despierte»."],
+    ["🧵😴", "Al cumplir quince años, la princesa encontró una rueca para hilar, se pinchó el dedo y se quedó profundamente dormida."],
+    ["🏰🌹", "Todo el castillo se durmió con ella, y alrededor creció un bosque de rosas con espinas."],
+    ["🤴🌹", "Cien años después, un príncipe atravesó el bosque y encontró a la princesa dormida."],
+    ["😊🎉", "La princesa despertó, y con ella todo el castillo. Hubo una gran fiesta y vivieron felices."]] },
+  { id: "bestia", t: "La Bella y la Bestia", e: "🌹", k: "🌹🏰📚", p: [
+    ["👨👧📚", "Un comerciante tenía una hija llamada Bella, a quien le encantaba leer."],
+    ["🌲🏰", "Un día, el papá se perdió en el bosque y encontró un castillo encantado."],
+    ["🌹🦁", "Arrancó una rosa del jardín para Bella, y apareció una Bestia muy enojada."],
+    ["👧🏰", "Para salvar a su papá, Bella se fue a vivir al castillo de la Bestia."],
+    ["🍽️📚", "Al principio Bella tenía miedo, pero la Bestia era amable: cenaban juntos y le regaló una gran biblioteca."],
+    ["🔮😢", "En un espejo mágico, Bella vio que su papá estaba enfermo y fue a cuidarlo. La Bestia se puso muy triste sin ella."],
+    ["🏃‍♀️💗", "Bella regresó corriendo, encontró a la Bestia muy débil y le dijo que la quería."],
+    ["✨🤴", "¡El hechizo se rompió! La Bestia se convirtió en príncipe. Bella aprendió que lo importante está en el corazón."]] },
+  { id: "caperucita", t: "Caperucita Roja", e: "🧺", k: "🧺🐺👵", p: [
+    ["👧🔴", "Había una niña que siempre llevaba una capa roja. Por eso la llamaban Caperucita Roja."],
+    ["👩🧺", "Su mamá le pidió: «Lleva esta canasta con comida a tu abuelita, y no hables con desconocidos»."],
+    ["🌲🐺", "En el bosque apareció un lobo que le preguntó a dónde iba. Caperucita le contó todo."],
+    ["🐺🏃", "El lobo corrió por el camino más corto hasta la casa de la abuelita."],
+    ["🐺👵", "El lobo escondió a la abuelita en el armario y se puso su ropa y su gorro."],
+    ["👀👂", "Caperucita dijo: «Abuelita, ¡qué orejas tan grandes tienes!». «¡Son para oírte mejor!», respondió el lobo."],
+    ["🪓👨", "Un leñador escuchó los gritos, entró a la casa y espantó al lobo."],
+    ["👵🤗", "La abuelita salió sana y salva. Caperucita aprendió a no hablar con desconocidos."]] },
+  { id: "cerditos", t: "Los tres cerditos", e: "🐷", k: "🐷🧱🐺", p: [
+    ["🐷🐷🐷", "Tres cerditos hermanos decidieron construir cada uno su casa."],
+    ["🌾🏠", "El primero hizo una casa de paja muy rápido, para irse a jugar."],
+    ["🌲🏠", "El segundo hizo una casa de palos de madera, también muy rápido."],
+    ["🧱🏠", "El tercero trabajó mucho e hizo una casa fuerte de ladrillos."],
+    ["🐺💨", "Llegó el lobo, sopló y sopló… ¡y derribó la casa de paja! El cerdito corrió a la casa de madera."],
+    ["🐺💨", "El lobo sopló y sopló… ¡y también derribó la casa de madera! Los dos corrieron a la casa de ladrillos."],
+    ["🧱💪", "El lobo sopló con todas sus fuerzas, pero la casa de ladrillos no se cayó."],
+    ["🔥🐺", "El lobo intentó entrar por la chimenea, se quemó la cola y huyó. Los cerditos aprendieron que el trabajo bien hecho vale la pena."]] },
+  { id: "blancanieves", t: "Blancanieves", e: "🍎", k: "🍎👸⛏️", p: [
+    ["👸❄️", "Blancanieves era una princesa de piel blanca como la nieve y cabello negro."],
+    ["👑🔮", "Su madrastra, la reina, tenía un espejo mágico. Cada día le preguntaba: «Espejito, ¿quién es la más bella?»."],
+    ["🔮👸", "Un día el espejo respondió: «Blancanieves». La reina se puso furiosa."],
+    ["🌲🏃‍♀️", "Blancanieves huyó al bosque y encontró una casita pequeña."],
+    ["⛏️👴", "En la casita vivían siete enanitos que trabajaban en una mina. La cuidaron con cariño."],
+    ["🧙‍♀️🍎", "La reina se disfrazó de anciana y le dio una manzana envenenada. Blancanieves la mordió y se quedó dormida."],
+    ["🤴🐴", "Un príncipe pasó por allí. Al mover a Blancanieves, el pedazo de manzana salió y ella despertó."],
+    ["💍😊", "Blancanieves y el príncipe se casaron, y los enanitos celebraron con ellos."]] },
+  { id: "pinocho", t: "Pinocho", e: "🤥", k: "🤥🐋🦗", p: [
+    ["👴🔨", "Geppetto era un carpintero que vivía solo. Un día talló un muñeco de madera y lo llamó Pinocho."],
+    ["🧚✨", "Esa noche, un hada azul le dio vida a Pinocho. ¡Podía hablar y caminar!"],
+    ["🦗💬", "Un grillo sabio le aconsejaba portarse bien y decir siempre la verdad."],
+    ["🎒🎭", "Geppetto mandó a Pinocho al colegio, pero él se fue a ver un espectáculo de títeres."],
+    ["🤥👃", "Cada vez que Pinocho decía una mentira, ¡su nariz crecía y crecía!"],
+    ["🐋🌊", "Geppetto salió a buscarlo al mar y una ballena enorme se lo tragó. Pinocho fue a rescatarlo."],
+    ["🔥🐋", "Dentro de la ballena hicieron una fogata. La ballena estornudó y los dos salieron nadando."],
+    ["👦❤️", "Por ser valiente y bueno, el hada convirtió a Pinocho en un niño de verdad."]] },
+  { id: "patito", t: "El patito feo", e: "🦢", k: "🥚🦆🦢", p: [
+    ["🦆🥚", "Una mamá pata cuidaba sus huevos. Uno era más grande que los demás."],
+    ["🐣🐥", "De los huevos salieron patitos amarillos y pequeños, pero del huevo grande salió un patito gris y grande."],
+    ["😢", "Los demás animales se burlaban de él y le decían «patito feo»."],
+    ["🚶❄️", "Triste, el patito se fue lejos y pasó un invierno largo y frío."],
+    ["🌸☀️", "Cuando llegó la primavera, vio unas aves blancas y hermosas nadando en el lago."],
+    ["💧🦢", "Al mirarse en el agua, vio que ya no era un patito gris: ¡era un cisne!"],
+    ["🦢🦢", "Los cisnes lo invitaron a nadar con ellos."],
+    ["😊💗", "El cisne fue muy feliz y aprendió que todos somos especiales a nuestra manera."]] },
+  { id: "ricitos", t: "Ricitos de Oro", e: "🐻", k: "🐻🥣🛏️", p: [
+    ["👧💛", "Ricitos de Oro era una niña de cabello dorado y rizado."],
+    ["🌲🏠", "Paseando por el bosque encontró una casita. La puerta estaba abierta y entró sin permiso."],
+    ["🥣🥣🥣", "En la mesa había tres platos de sopa: uno muy caliente, otro muy frío y el último ¡perfecto! Se lo comió todo."],
+    ["🪑💥", "Luego probó tres sillas. La pequeñita era cómoda… ¡pero se rompió!"],
+    ["🛏️😴", "Subió y probó tres camas. En la más pequeña se quedó dormida."],
+    ["🐻🐻🐻", "Llegaron los dueños: papá oso, mamá osa y el osito. «¡Alguien se comió mi sopa!», lloró el osito."],
+    ["😲🛏️", "Encontraron a Ricitos dormida en la cama del osito. Ella despertó asustada."],
+    ["🏃‍♀️🙏", "Ricitos salió corriendo y aprendió que no se entra a una casa ajena sin permiso."]] },
+  { id: "jack", t: "Jack y los frijoles mágicos", e: "🌱", k: "🌱🐄☁️", p: [
+    ["👦🐄", "Jack vivía con su mamá, que era muy pobre. Un día lo mandó a vender su vaca."],
+    ["🫘✨", "En el camino, un anciano le cambió la vaca por unos frijoles mágicos."],
+    ["👩😠", "La mamá se enojó y tiró los frijoles por la ventana."],
+    ["🌱☁️", "En la noche, los frijoles crecieron y crecieron hasta llegar a las nubes."],
+    ["🧗🏰", "Jack subió por la planta y encontró un castillo donde vivía un gigante."],
+    ["🐔🥚", "El gigante tenía una gallina que ponía huevos de oro. Jack la tomó y bajó corriendo."],
+    ["🪓🌱", "El gigante lo persiguió, pero Jack cortó la planta y el gigante no pudo bajar."],
+    ["🏠😊", "Desde ese día, Jack y su mamá vivieron tranquilos y felices."]] },
+  { id: "hansel", t: "Hansel y Gretel", e: "🍬", k: "🍬🏠🌲", p: [
+    ["👦👧", "Hansel y Gretel eran dos hermanos que vivían cerca de un bosque."],
+    ["🌲🍞", "Un día se perdieron en el bosque. Hansel había dejado migas de pan para volver, pero los pájaros se las comieron."],
+    ["🏠🍬", "Caminando encontraron una casita hecha de dulces, galletas y chocolate."],
+    ["😋🍭", "Tenían tanta hambre que empezaron a comerse la casa."],
+    ["🧙‍♀️🏠", "En la casita vivía una bruja que los encerró."],
+    ["🧠💡", "Gretel fue muy astuta: engañó a la bruja y liberó a su hermano."],
+    ["💎🎒", "Antes de irse, encontraron un cofre con joyas."],
+    ["🏡🤗", "Por fin encontraron el camino a casa, donde su papá los esperaba con un abrazo."]] }
+];
+CLASSICS.forEach(c => c.p.forEach(pg => { pg[0] = pg[0].replace("🫘", "🟤"); }));
+const CHARS = [
+  ["👸", "Cenicienta", "Perdí un zapato de cristal cuando sonaron las doce."],
+  ["🧚", "El hada madrina", "Con mi varita convertí una calabaza en carroza."],
+  ["🧒", "Peter Pan", "Sé volar y nunca quiero crecer."],
+  ["✨", "Campanita", "Soy un hada pequeñita y tengo polvo mágico para volar."],
+  ["🏴‍☠️", "El Capitán Garfio", "Soy un pirata y tengo un garfio en lugar de mano."],
+  ["😴", "La Bella Durmiente", "Me pinché el dedo con una aguja y dormí cien años."],
+  ["📚", "Bella", "Me encanta leer y viví en el castillo de la Bestia."],
+  ["🦁", "La Bestia", "Parezco un monstruo, pero tengo buen corazón. Cuido una rosa mágica."],
+  ["🧺", "Caperucita Roja", "Llevo una capa roja y una canasta para mi abuelita."],
+  ["🐺", "El lobo", "Soplé y soplé, y también me disfracé de abuelita."],
+  ["🐷", "El cerdito trabajador", "Construí una casa de ladrillos muy fuerte."],
+  ["🍎", "Blancanieves", "Viví con siete enanitos y mordí una manzana envenenada."],
+  ["🤥", "Pinocho", "Soy de madera y me crece la nariz cuando digo mentiras."],
+  ["👴", "Geppetto", "Soy carpintero y fabriqué un muñeco de madera."],
+  ["🦢", "El patito feo", "Todos se burlaban de mí, pero al crecer me convertí en un cisne."],
+  ["👧", "Ricitos de Oro", "Entré a la casa de los tres osos y me comí la sopa del osito."],
+  ["🌱", "Jack", "Cambié una vaca por frijoles mágicos y subí hasta las nubes."],
+  ["🍬", "Gretel", "Encontré una casita de dulces en el bosque y salvé a mi hermano."]
+];
+let classicOpen = null, classicPage = 0;
+function initClasicos(board) {
+  clearTimers(); stopSpeech();
+  board.innerHTML = "";
+  const covers = el("div", { class: "covers" });
+  CLASSICS.forEach((c, i) => {
+    const b = el("button", { class: "cover", html: `<span class="e">${c.e}</span>${c.t}` });
+    b.style.setProperty("--k", PAL[(i + 3) % PAL.length]);
+    b.onclick = () => { classicPage = 0; openClassic(board, c); };
+    covers.append(b);
+  });
+  board.append(covers);
+  say("¿Qué cuento quieres escuchar?");
+}
+function openClassic(board, c) {
+  clearTimers(); stopSpeech();
+  board.innerHTML = "";
+  const book = el("div", { class: "book" });
+  const head = el("div", { class: "story-head", html: `<span class="e" aria-hidden="true">${c.e}</span><h2>${c.t}</h2>` });
+  const back = el("button", { class: "tool", html: "⬅", "aria-label": "Volver a los cuentos" });
+  back.onclick = () => initClasicos(board);
+  head.prepend(back);
+  const tools = el("div", { class: "story-tools" });
+  const readP = el("button", { class: "tool main", html: "🔊 Esta página" });
+  const readAll = el("button", { class: "tool", html: "▶ Todo el cuento" });
+  const stop = el("button", { class: "tool", html: "⏹", "aria-label": "Detener" });
+  tools.append(readP, readAll, stop); fontTools(tools);
+  const page = el("div", { class: "page" });
+  const nav = el("div", { class: "book-nav" });
+  const prev = el("button", { class: "round", html: "◀", "aria-label": "Página anterior" });
+  const next = el("button", { class: "round", html: "▶", "aria-label": "Página siguiente" });
+  const dots = el("div", { class: "pdots", html: c.p.map(() => "<i></i>").join("") });
+  nav.append(prev, dots, next);
+  book.append(head, tools, page, nav);
+  board.append(book);
+  const render = () => {
+    const [e, t] = c.p[classicPage];
+    page.innerHTML = `<div class="page-e" aria-hidden="true">${e}</div><p class="page-t">${t}</p>`;
+    [...dots.children].forEach((d, i) => d.classList.toggle("on", i <= classPageSafe()));
+    prev.disabled = classicPage === 0; prev.style.opacity = classicPage === 0 ? .35 : 1;
+    if (classicPage === c.p.length - 1) { next.innerHTML = "🏁"; next.setAttribute("aria-label", "Fin"); } else { next.innerHTML = "▶"; next.setAttribute("aria-label", "Página siguiente"); }
+  };
+  const classPageSafe = () => classicPage;
+  prev.onclick = () => { if (classicPage > 0) { stopSpeech(); classicPage--; render(); } };
+  next.onclick = () => {
+    stopSpeech();
+    if (classicPage < c.p.length - 1) { classicPage++; render(); }
+    else win(`¡Fin! Así termina ${c.t}.`);
+  };
+  readP.onclick = () => { page.classList.add("now"); speak(c.p[classicPage][1], { onend: () => page.classList.remove("now") }); };
+  readAll.onclick = () => {
+    stopSpeech(); const my = readGen;
+    const step = () => {
+      if (my !== readGen) return;
+      render(); page.classList.add("now");
+      speak(c.p[classicPage][1], { queue: true, onend: () => {
+        if (my !== readGen) return;
+        page.classList.remove("now");
+        if (classicPage < c.p.length - 1) { classicPage++; later(step, 600); } else win(`¡Fin! Así termina ${c.t}.`);
+      } });
+    };
+    step();
+  };
+  stop.onclick = () => { stopSpeech(); clearTimers(); page.classList.remove("now"); };
+  render();
+  say(`Había una vez… ${c.t}.`);
+}
+function initQuienSoy(board) {
+  const next = bag(CHARS);
   const round = () => {
-    const set = pick(PSETS), t = pick(PTYPES);
+    const ch = next();
+    const opts = shuffle([ch, ...sample(CHARS, 2, [ch])]);
+    choice(board, {
+      top: `<div class="who"><div class="huge">🎭</div><p>«${ch[2]}»</p></div>`,
+      ask: `${ch[2]} ¿Quién soy?`,
+      opts: opts.map(o => ({ v: o[1], html: `<span class="e">${o[0]}</span><span class="small">${o[1]}</span>`, say: o[1] })),
+      ok: ch[1], next: round, okMsg: `¡Sí! Soy ${ch[1]}.`
+    });
+  };
+  round();
+}
+function initQueCuento(board) {
+  const next = bag(CLASSICS);
+  const round = () => {
+    const c = next();
+    const opts = shuffle([c, ...sample(CLASSICS, 2, [c])]);
+    choice(board, {
+      top: `<div class="clue" aria-hidden="true">${c.k}</div>`,
+      ask: "¿De qué cuento son estas cosas?",
+      opts: opts.map(o => ({ v: o.id, html: `<span class="e">${o.e}</span><span class="small">${o.t}</span>`, say: o.t })),
+      ok: c.id, next: round, okMsg: `¡Sí! Es ${c.t}.`
+    });
+  };
+  round();
+}
+
+/* =========================================================
+   MATEMÁTICAS
+   ========================================================= */
+const NUMW = ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez"];
+const MATHE = ["🍎", "⭐", "🐤", "🎈", "🐟", "🌸", "🍪", "⚽", "🐞", "🍓", "🚗", "🧁"];
+const repE = (e, n) => Array.from({ length: n }, () => `<span>${e}</span>`).join("");
+const mathOpts = (ans, max) => shuffle([ans, ...sample([ans - 2, ans - 1, ans + 1, ans + 2].filter(x => x >= 0 && x <= max), 2)]);
+function initContar(board) {
+  const nn = bag([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), ne = bag(MATHE);
+  const round = () => {
+    const n = nn(), e = ne();
+    choice(board, {
+      top: `<div class="count">${repE(e, n)}</div>`, ask: "¿Cuántos hay?",
+      opts: mathOpts(n, 10).filter(x => x >= 1).length === 3 ? mathOpts(n, 10).map(o => ({ v: o, html: `<span class="num">${o}</span>`, say: NUMW[o] })) :
+        shuffle([n, ...sample([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2, [n])]).map(o => ({ v: o, html: `<span class="num">${o}</span>`, say: NUMW[o] })),
+      ok: n, next: round
+    });
+  };
+  round();
+}
+function initSumas(board) {
+  const pairs = []; for (let a = 1; a <= 5; a++) for (let b = 1; b <= 5; b++) pairs.push([a, b]);
+  const np = bag(pairs), ne = bag(MATHE);
+  const round = () => {
+    const [a, b] = np(), e = ne(), ans = a + b;
+    choice(board, {
+      top: `<div class="mathq"><div class="grp">${repE(e, a)}</div><span class="op">+</span><div class="grp">${repE(e, b)}</div><span class="op">=</span><div class="seq"><div class="q">❓</div></div></div><div class="eq">${a} + ${b} = ?</div>`,
+      ask: `¿Cuánto es ${NUMW[a]} más ${NUMW[b]}?`,
+      opts: mathOpts(ans, 10).map(o => ({ v: o, html: `<span class="num">${o}</span>`, say: NUMW[o] })),
+      ok: ans, next: round
+    });
+  };
+  round();
+}
+function initRestas(board) {
+  const pairs = []; for (let a = 2; a <= 9; a++) for (let b = 1; b < a; b++) pairs.push([a, b]);
+  const np = bag(pairs), ne = bag(MATHE);
+  const round = () => {
+    const [a, b] = np(), e = ne(), ans = a - b;
+    const items = Array.from({ length: a }, (_, i) => i >= a - b ? `<span class="gone"><span>${e}</span></span>` : `<span>${e}</span>`).join("");
+    choice(board, {
+      top: `<div class="mathq"><div class="grp" style="max-width:300px">${items}</div></div><div class="eq">${a} − ${b} = ?</div>`,
+      ask: `Tengo ${NUMW[a]}, quito ${NUMW[b]}. ¿Cuántos quedan?`,
+      opts: mathOpts(ans, 9).map(o => ({ v: o, html: `<span class="num">${o}</span>`, say: NUMW[o] })),
+      ok: ans, next: round
+    });
+  };
+  round();
+}
+function initComparar(board) {
+  const ne = bag(MATHE);
+  const round = () => {
+    let a, b; do { a = rnd(1, 9); b = rnd(1, 9); } while (a === b);
+    const e = ne(), more = Math.random() < 0.55;
+    const ok = more ? (a > b ? "a" : "b") : (a < b ? "a" : "b");
+    choice(board, {
+      top: `<div class="huge" aria-hidden="true">${more ? "⬆️" : "⬇️"}</div>`,
+      ask: more ? "¿Dónde hay más?" : "¿Dónde hay menos?", btnClass: "opt cmp",
+      opts: [{ v: "a", html: `<div class="grp">${repE(e, a)}</div>`, say: NUMW[a] }, { v: "b", html: `<div class="grp">${repE(e, b)}</div>`, say: NUMW[b] }],
+      ok, next: round
+    });
+  };
+  round();
+}
+
+/* =========================================================
+   INGLÉS
+   ========================================================= */
+const EN = [
+  { id: "saludos", n: "Saludos", ic: "👋", w: [["👋", "Hello", "Hola"], ["🌅", "Good morning", "Buenos días"], ["🌇", "Good afternoon", "Buenas tardes"], ["🌙", "Good night", "Buenas noches"], ["🚪", "Goodbye", "Adiós"], ["🙏", "Thank you", "Gracias"], ["🤲", "Please", "Por favor"], ["🙂", "How are you?", "¿Cómo estás?"], ["😃", "I am fine", "Estoy bien"], ["🤝", "Nice to meet you", "Mucho gusto"]] },
+  { id: "cuerpo", n: "Cuerpo", ic: "🧍", w: [["🙂", "Face", "Cara"], ["🧑", "Head", "Cabeza"], ["💇", "Hair", "Cabello"], ["👁️", "Eye", "Ojo"], ["👂", "Ear", "Oreja"], ["👃", "Nose", "Nariz"], ["👄", "Mouth", "Boca"], ["🦷", "Teeth", "Dientes"], ["👅", "Tongue", "Lengua"], ["💪", "Arm", "Brazo"], ["✋", "Hand", "Mano"], ["☝️", "Finger", "Dedo"], ["👍", "Thumb", "Pulgar"], ["💅", "Nails", "Uñas"], ["🦵", "Leg", "Pierna"], ["🦶", "Foot", "Pie"], ["🧠", "Brain", "Cerebro"], ["❤️", "Heart", "Corazón"], ["🦴", "Bone", "Hueso"]] },
+  { id: "colores", n: "Colores", ic: "🎨", w: [["#FF3B4E", "Red", "Rojo"], ["#2F6BFF", "Blue", "Azul"], ["#FFD02E", "Yellow", "Amarillo"], ["#1FB86E", "Green", "Verde"], ["#FF8A1F", "Orange", "Naranja"], ["#8E4CE6", "Purple", "Morado"], ["#FF6FB5", "Pink", "Rosado"], ["#8B5A2B", "Brown", "Café"], ["#1D2030", "Black", "Negro"], ["#FFFFFF", "White", "Blanco"], ["#9AA3B5", "Gray", "Gris"]] },
+  { id: "frutas", n: "Frutas", ic: "🍓", w: [["🍎", "Apple", "Manzana"], ["🍌", "Banana", "Banano"], ["🍇", "Grapes", "Uvas"], ["🍓", "Strawberry", "Fresa"], ["🍉", "Watermelon", "Sandía"], ["🍊", "Orange", "Naranja"], ["🍍", "Pineapple", "Piña"], ["🍐", "Pear", "Pera"], ["🍋", "Lemon", "Limón"], ["🍒", "Cherries", "Cerezas"], ["🥭", "Mango", "Mango"], ["🥥", "Coconut", "Coco"], ["🍑", "Peach", "Durazno"], ["🥝", "Kiwi", "Kiwi"]] },
+  { id: "comida", n: "Comida", ic: "🍽️", w: [["🍞", "Bread", "Pan"], ["🥛", "Milk", "Leche"], ["🍚", "Rice", "Arroz"], ["🥚", "Egg", "Huevo"], ["🧀", "Cheese", "Queso"], ["🍗", "Chicken", "Pollo"], ["🍲", "Soup", "Sopa"], ["🍕", "Pizza", "Pizza"], ["💧", "Water", "Agua"], ["🧃", "Juice", "Jugo"], ["🍰", "Cake", "Pastel"], ["🍦", "Ice cream", "Helado"], ["🥗", "Salad", "Ensalada"], ["🍔", "Hamburger", "Hamburguesa"], ["🥕", "Carrot", "Zanahoria"]] },
+  { id: "ciudad", n: "Ciudad", ic: "🏙️", w: [["🏠", "House", "Casa"], ["🏫", "School", "Colegio"], ["🏥", "Hospital", "Hospital"], ["🏞️", "Park", "Parque"], ["🏪", "Store", "Tienda"], ["🏦", "Bank", "Banco"], ["🛣️", "Street", "Calle"], ["🚦", "Traffic light", "Semáforo"], ["🚗", "Car", "Carro"], ["🚌", "Bus", "Bus"], ["🚲", "Bike", "Bicicleta"], ["👮", "Police officer", "Policía"], ["🚒", "Fire truck", "Camión de bomberos"], ["🚑", "Ambulance", "Ambulancia"], ["⛪", "Church", "Iglesia"]] },
+  { id: "animales", n: "Animales", ic: "🐶", w: [["🐶", "Dog", "Perro"], ["🐱", "Cat", "Gato"], ["🐦", "Bird", "Pájaro"], ["🐟", "Fish", "Pez"], ["🐮", "Cow", "Vaca"], ["🐴", "Horse", "Caballo"], ["🐷", "Pig", "Cerdo"], ["🦆", "Duck", "Pato"], ["🐰", "Rabbit", "Conejo"], ["🦁", "Lion", "León"], ["🐘", "Elephant", "Elefante"], ["🐵", "Monkey", "Mono"]] },
+  { id: "numeros", n: "Números", ic: "🔢", w: [["1", "One", "Uno"], ["2", "Two", "Dos"], ["3", "Three", "Tres"], ["4", "Four", "Cuatro"], ["5", "Five", "Cinco"], ["6", "Six", "Seis"], ["7", "Seven", "Siete"], ["8", "Eight", "Ocho"], ["9", "Nine", "Nueve"], ["10", "Ten", "Diez"]] },
+  { id: "familia", n: "Familia", ic: "👪", w: [["👩", "Mom", "Mamá"], ["👨", "Dad", "Papá"], ["👶", "Baby", "Bebé"], ["👵", "Grandma", "Abuela"], ["👴", "Grandpa", "Abuelo"], ["👦", "Brother", "Hermano"], ["👧", "Sister", "Hermana"], ["👪", "Family", "Familia"]] },
+  { id: "ropa", n: "Ropa", ic: "👕", w: [["👕", "Shirt", "Camisa"], ["👖", "Pants", "Pantalón"], ["👟", "Shoes", "Zapatos"], ["🧦", "Socks", "Medias"], ["🧢", "Cap", "Gorra"], ["👗", "Dress", "Vestido"], ["🧥", "Jacket", "Chaqueta"], ["🧤", "Gloves", "Guantes"], ["🧣", "Scarf", "Bufanda"], ["🩳", "Shorts", "Pantaloneta"]] }
+];
+const enPic = p => p.startsWith("#") ? `<span class="swb" style="background:${p}"></span>` : /^\d+$/.test(p) ? `<span class="e numb">${p}</span>` : `<span class="e">${p}</span>`;
+let enMode = "learn";
+function initEnglish(board, cat) {
+  board.innerHTML = "";
+  const tog = el("div", { class: "lvl" });
+  [["learn", "📚", "Aprender"], ["play", "🎯", "Jugar"]].forEach(([m, ic, n]) => {
+    const b = el("button", { class: "sub", "aria-pressed": String(enMode === m), html: `<span class="ic">${ic}</span>${n}` });
+    b.onclick = () => { enMode = m; clearTimers(); stopSpeech(); initEnglish(board, cat); };
+    tog.append(b);
+  });
+  const area = el("div", { class: "board", style: "min-height:0;width:100%" });
+  board.append(tog, area);
+  if (enMode === "learn") {
+    const g = el("div", { class: "en-grid" });
+    cat.w.forEach(w => {
+      const c = el("button", { class: "en-card", html: `${enPic(w[0])}<b>${w[1]}</b><small>${w[2]}</small>` });
+      c.onclick = () => {
+        g.querySelectorAll(".en-card").forEach(x => x.classList.toggle("now", x === c));
+        say(`<b class="en">${w[1]}</b> · ${w[2]}`, { speakText: w[1], lang: "en-US" });
+      };
+      g.append(c);
+    });
+    area.append(g);
+    say(`${cat.n} en inglés. ¡Toca y escucha!`);
+  } else {
+    const next = bag(cat.w);
+    const round = () => {
+      const t = next();
+      const opts = shuffle([t, ...sample(cat.w, 3, [t])]);
+      choice(area, {
+        top: `<button class="big-play" aria-label="Escuchar la palabra">🔊</button>`,
+        opts: opts.map(o => ({ v: o[1], html: enPic(o[0]), label: o[2], say: o[1], lang: "en-US" })),
+        ok: t[1], next: round
+      });
+      const hear = () => say(`🔎 <b class="en">${t[1]}</b>`, { speakText: t[1], lang: "en-US" });
+      area.querySelector(".big-play").onclick = hear;
+      hear();
+    };
+    round();
+  }
+}
+
+/* =========================================================
+   PAÍSES
+   ========================================================= */
+function star(cx, cy, r, rot = -90) {
+  let p = [];
+  for (let i = 0; i < 10; i++) { const a = (rot + i * 36) * Math.PI / 180, rr = i % 2 ? r * 0.4 : r; p.push((cx + rr * Math.cos(a)).toFixed(2) + "," + (cy + rr * Math.sin(a)).toFixed(2)); }
+  return `<polygon points="${p.join(" ")}"/>`;
+}
+const H3 = (a, b, c) => `<rect width="30" height="20" fill="${a}"/><rect y="6.67" width="30" height="6.67" fill="${b}"/><rect y="13.33" width="30" height="6.67" fill="${c}"/>`;
+const V3 = (a, b, c) => `<rect width="10" height="20" fill="${a}"/><rect x="10" width="10" height="20" fill="${b}"/><rect x="20" width="10" height="20" fill="${c}"/>`;
+const FLAGS = {
+  co: `<rect width="30" height="10" fill="#FCD116"/><rect y="10" width="30" height="5" fill="#003893"/><rect y="15" width="30" height="5" fill="#CE1126"/>`,
+  mx: V3("#006847", "#FFFFFF", "#CE1126") + `<circle cx="15" cy="10" r="2.6" fill="#8C6239"/><path d="M12.6 11.2q2.4 2.2 4.8 0" stroke="#3a7d22" stroke-width=".7" fill="none"/>`,
+  ar: H3("#74ACDF", "#FFFFFF", "#74ACDF") + `<circle cx="15" cy="10" r="2.3" fill="#F6B40E"/>`,
+  pe: V3("#D91023", "#FFFFFF", "#D91023"),
+  br: `<rect width="30" height="20" fill="#009C3B"/><polygon points="15,2 28,10 15,18 2,10" fill="#FFDF00"/><circle cx="15" cy="10" r="4.6" fill="#002776"/><path d="M10.6 9.2q4.6-1.6 8.8 1.6" stroke="#fff" stroke-width=".8" fill="none"/>`,
+  us: Array.from({ length: 13 }, (_, i) => `<rect y="${(i * 20 / 13).toFixed(3)}" width="30" height="${(20 / 13 + .02).toFixed(3)}" fill="${i % 2 ? "#FFFFFF" : "#B22234"}"/>`).join("") + `<rect width="12" height="10.77" fill="#3C3B6E"/>` + Array.from({ length: 12 }, (_, i) => `<circle cx="${1.6 + (i % 4) * 2.9}" cy="${1.8 + Math.floor(i / 4) * 3.4}" r=".6" fill="#fff"/>`).join(""),
+  fr: V3("#0055A4", "#FFFFFF", "#EF4135"),
+  it: V3("#009246", "#FFFFFF", "#CE2B37"),
+  de: H3("#000000", "#DD0000", "#FFCE00"),
+  es: `<rect width="30" height="20" fill="#AA151B"/><rect y="5" width="30" height="10" fill="#F1BF00"/>`,
+  jp: `<rect width="30" height="20" fill="#FFFFFF"/><circle cx="15" cy="10" r="6" fill="#BC002D"/>`,
+  cn: `<rect width="30" height="20" fill="#DE2910"/><g fill="#FFDE00">${star(5, 5, 3)}${star(10, 2, 1)}${star(12, 4, 1)}${star(12, 7, 1)}${star(10, 9, 1)}</g>`,
+  gb: `<rect width="30" height="20" fill="#012169"/><path d="M0 0L30 20M30 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0L30 20M30 0L0 20" stroke="#C8102E" stroke-width="1.4"/><rect x="12" width="6" height="20" fill="#fff"/><rect y="7" width="30" height="6" fill="#fff"/><rect x="13.2" width="3.6" height="20" fill="#C8102E"/><rect y="8.2" width="30" height="3.6" fill="#C8102E"/>`,
+  in: H3("#FF9933", "#FFFFFF", "#138808") + `<circle cx="15" cy="10" r="2.3" fill="none" stroke="#000080" stroke-width=".6"/><circle cx="15" cy="10" r=".5" fill="#000080"/>`,
+  kr: `<rect width="30" height="20" fill="#FFFFFF"/><circle cx="15" cy="10" r="5" fill="#CD2E3A"/><path d="M10 10a5 5 0 0 0 10 0a2.5 2.5 0 0 0-5 0a2.5 2.5 0 0 1-5 0" fill="#0047A0"/><g stroke="#000" stroke-width="1"><path d="M4 3.5l3 2M3.5 4.3l3 2M3 5.1l3 2M23 13.5l3 2M22.5 14.3l3 2M22 15.1l3 2M23 6.5l3-2M22.5 5.7l3-2M22 4.9l3-2M4 16.5l3-2M3.5 15.7l3-2M3 14.9l3-2"/></g>`
+};
+const flagSVG = (code, cls = "flag") => `<svg class="${cls}" viewBox="0 0 30 20" role="img" aria-hidden="true">${FLAGS[code]}</svg>`;
+const COUNTRIES = [
+  { c: "co", n: "Colombia", l: "Español", d: "colombiano o colombiana", f: [["🌽", "Arepa"], ["🍲", "Ajiaco"], ["🍛", "Bandeja paisa"]], g: { lang: "es-CO", h: ["Hola", "Hola"], a: ["Adiós", "Adiós"], t: ["Gracias", "Gracias"] } },
+  { c: "mx", n: "México", l: "Español", d: "mexicano o mexicana", f: [["🌮", "Tacos"], ["🌽", "Tamales"], ["🥑", "Guacamole"]], g: { lang: "es-MX", h: ["Hola", "Hola"], a: ["Adiós", "Adiós"], t: ["Gracias", "Gracias"] } },
+  { c: "ar", n: "Argentina", l: "Español", d: "argentino o argentina", f: [["🥩", "Asado"], ["🥟", "Empanadas"], ["🍮", "Dulce de leche"]], g: { lang: "es-AR", h: ["Hola", "Hola"], a: ["Chau", "Chau"], t: ["Gracias", "Gracias"] } },
+  { c: "pe", n: "Perú", l: "Español y quechua", d: "peruano o peruana", f: [["🐟", "Ceviche"], ["🥔", "Papa a la huancaína"], ["🍗", "Pollo a la brasa"]], g: { lang: "es-PE", h: ["Hola", "Hola"], a: ["Adiós", "Adiós"], t: ["Gracias", "Gracias"] } },
+  { c: "es", n: "España", l: "Español", d: "español o española", f: [["🥘", "Paella"], ["🍳", "Tortilla de papa"], ["🍩", "Churros"]], g: { lang: "es-ES", h: ["Hola", "Hola"], a: ["Adiós", "Adiós"], t: ["Gracias", "Gracias"] } },
+  { c: "br", n: "Brasil", l: "Portugués", d: "brasileño o brasileña", f: [["🍲", "Feijoada"], ["🧀", "Pan de queso"], ["🍇", "Açaí"]], g: { lang: "pt-BR", h: ["Olá", "o-LÁ"], a: ["Tchau", "CHAU"], t: ["Obrigado", "o-bri-GA-do"] } },
+  { c: "us", n: "Estados Unidos", l: "Inglés", d: "estadounidense", f: [["🍔", "Hamburguesa"], ["🌭", "Perro caliente"], ["🥧", "Pie de manzana"]], g: { lang: "en-US", h: ["Hello", "JE-lou"], a: ["Goodbye", "gud-BAI"], t: ["Thank you", "ZENK-iu"] } },
+  { c: "gb", n: "Reino Unido", l: "Inglés", d: "británico o británica", f: [["🐟", "Pescado con papas"], ["☕", "Té con galletas"], ["🥧", "Pastel de carne"]], g: { lang: "en-GB", h: ["Hello", "JE-lou"], a: ["Goodbye", "gud-BAI"], t: ["Thank you", "ZENK-iu"] } },
+  { c: "fr", n: "Francia", l: "Francés", d: "francés o francesa", f: [["🥐", "Croissant"], ["🥖", "Baguette"], ["🧀", "Quesos"]], g: { lang: "fr-FR", h: ["Bonjour", "bon-YUR"], a: ["Au revoir", "o-re-VUAR"], t: ["Merci", "mer-SÍ"] } },
+  { c: "it", n: "Italia", l: "Italiano", d: "italiano o italiana", f: [["🍕", "Pizza"], ["🍝", "Pasta"], ["🍨", "Gelato"]], g: { lang: "it-IT", h: ["Ciao", "CHAO"], a: ["Arrivederci", "a-ri-ve-DER-chi"], t: ["Grazie", "GRA-tsie"] } },
+  { c: "de", n: "Alemania", l: "Alemán", d: "alemán o alemana", f: [["🥨", "Pretzel"], ["🌭", "Salchichas"], ["🍰", "Pastel Selva Negra"]], g: { lang: "de-DE", h: ["Hallo", "JA-lo"], a: ["Tschüss", "CHÜS"], t: ["Danke", "DAN-ke"] } },
+  { c: "jp", n: "Japón", l: "Japonés", d: "japonés o japonesa", f: [["🍣", "Sushi"], ["🍜", "Ramen"], ["🍙", "Onigiri"]], g: { lang: "ja-JP", h: ["こんにちは", "kon-ni-chi-UA"], a: ["さようなら", "sa-io-NA-ra"], t: ["ありがとう", "a-ri-GA-to"] } },
+  { c: "cn", n: "China", l: "Chino mandarín", d: "chino o china", f: [["🥟", "Dumplings"], ["🍚", "Arroz frito"], ["🥢", "Fideos"]], g: { lang: "zh-CN", h: ["你好", "ni JAO"], a: ["再见", "tsai-YIEN"], t: ["谢谢", "SIE-sie"] } },
+  { c: "kr", n: "Corea del Sur", l: "Coreano", d: "coreano o coreana", f: [["🥬", "Kimchi"], ["🍚", "Bibimbap"], ["🍢", "Tteokbokki"]], g: { lang: "ko-KR", h: ["안녕하세요", "an-nion-ja-se-IO"], a: ["안녕히 가세요", "an-nion-ji ga-se-IO"], t: ["감사합니다", "gam-sa-jam-NI-da"] } },
+  { c: "in", n: "India", l: "Hindi (y muchos más)", d: "indio o india", f: [["🍛", "Curry"], ["🍞", "Pan naan"], ["🍚", "Biryani"]], g: { lang: "hi-IN", h: ["नमस्ते", "na-mas-TÉ"], a: ["फिर मिलेंगे", "fir mi-LEN-gue"], t: ["धन्यवाद", "dan-ia-VAD"] } }
+];
+function initConocer(board) {
+  clearTimers(); stopSpeech();
+  board.innerHTML = "";
+  const grid = el("div", { class: "countries" });
+  COUNTRIES.forEach(ct => {
+    const b = el("button", { class: "ctry", html: `${flagSVG(ct.c)}<span>${ct.n}</span>` });
+    b.onclick = () => openCountry(board, ct);
+    grid.append(b);
+  });
+  board.append(grid);
+  say("¿Qué país quieres conocer?");
+}
+function openCountry(board, ct) {
+  clearTimers(); stopSpeech();
+  board.innerHTML = "";
+  const det = el("div", { class: "cdet" });
+  const head = el("div", { class: "chead", html: `<div class="fl">${flagSVG(ct.c)}</div><div><h2>${ct.n}</h2><div class="lang">🗣️ ${ct.l}</div></div>` });
+  const back = el("button", { class: "tool", html: "⬅", "aria-label": "Volver a los países" });
+  back.onclick = () => initConocer(board);
+  head.prepend(back);
+  const who = el("div", { class: "box" });
+  const q = `¿Cómo se llama la persona que nació en ${ct.n}?`;
+  who.append(el("h3", { html: "🧑 " + q }));
+  const rev = el("button", { class: "tool main", html: "👀 Ver" });
+  const ans = el("div", { class: "reveal" });
+  rev.onclick = () => { rev.hidden = true; ans.textContent = ct.d.charAt(0).toUpperCase() + ct.d.slice(1); say(`Se llama ${ct.d}.`); tone([659, 880]); };
+  who.append(rev, ans);
+  const foods = el("div", { class: "box", html: "<h3>🍽️ Comidas</h3>" });
+  const fr = el("div", { class: "foods" });
+  ct.f.forEach(f => { const b = el("button", { class: "food", html: `<span class="e">${f[0]}</span>${f[1]}` }); b.onclick = () => say(f[1]); fr.append(b); });
+  foods.append(fr);
+  const gr = el("div", { class: "box", html: `<h3>💬 Así se dice en ${ct.l.split(" ")[0].toLowerCase()}</h3>` });
+  const gg = el("div", { class: "greet" });
+  [["h", "Hola", "👋"], ["a", "Adiós", "🚪"], ["t", "Gracias", "🙏"]].forEach(([k, es, ic]) => {
+    const [word, pron] = ct.g[k];
+    const isEs = ct.g.lang.startsWith("es");
+    const b = el("button", { class: "gbtn", html: `<small>${ic} ${es}</small><b>${word}</b>${isEs ? "" : `<i>${pron}</i>`}` });
+    b.onclick = () => {
+      const fb = pron.replace(/-/g, "").toLowerCase();
+      say(`${es}: <b class="en">${word}</b>`, { speakText: word, lang: ct.g.lang, fallback: fb });
+    };
+    gg.append(b);
+  });
+  gr.append(gg);
+  det.append(head, who, foods, gr);
+  board.append(det);
+  say(`${ct.n}. Aquí se habla ${ct.l.toLowerCase()}.`);
+}
+function initPaisesJuego(board) {
+  const Q = [];
+  COUNTRIES.forEach(ct => {
+    Q.push({ type: "flag", ct }); Q.push({ type: "food", ct }); Q.push({ type: "dem", ct });
+    if (!ct.g.lang.startsWith("es")) { Q.push({ type: "lang", ct }); Q.push({ type: "hello", ct }); }
+  });
+  const next = bag(Q);
+  const round = () => {
+    const { type, ct } = next();
+    const others = sample(COUNTRIES, 2, [ct]);
+    const all = shuffle([ct, ...others]);
+    if (type === "flag") {
+      choice(board, { top: `<div style="width:min(300px,80vw)">${flagSVG(ct.c)}</div>`, ask: "¿De qué país es esta bandera?",
+        opts: all.map(o => ({ v: o.c, html: `<span class="small">${o.n}</span>`, say: o.n })), ok: ct.c, next: round, okMsg: `¡Sí! Es la bandera de ${ct.n}.` });
+    } else if (type === "food") {
+      const f = pick(ct.f);
+      choice(board, { top: `<div class="who"><div class="huge">${f[0]}</div><p>${f[1]}</p></div>`, ask: `¿De qué país es ${f[1].toLowerCase()}?`,
+        opts: all.map(o => ({ v: o.c, html: `${flagSVG(o.c, "flag fl")}<span class="small">${o.n}</span>`, say: o.n })), ok: ct.c, next: round, okMsg: `¡Sí! ${f[1]} es de ${ct.n}.` });
+    } else if (type === "dem") {
+      const opts = shuffle([ct, ...sample(COUNTRIES.filter(x => x.d !== ct.d), 2, [ct])]);
+      choice(board, { top: `<div style="width:min(220px,60vw)">${flagSVG(ct.c)}</div>`, ask: `¿Cómo se llama la persona que nació en ${ct.n}?`,
+        opts: opts.map(o => ({ v: o.d, html: `<span class="small">${o.d}</span>`, say: o.d })), ok: ct.d, next: round });
+    } else if (type === "lang") {
+      const langs = [...new Set(COUNTRIES.map(x => x.l))];
+      const opts = shuffle([ct.l, ...sample(langs, 2, [ct.l])]);
+      choice(board, { top: `<div style="width:min(220px,60vw)">${flagSVG(ct.c)}</div>`, ask: `¿Qué idioma se habla en ${ct.n}?`,
+        opts: opts.map(o => ({ v: o, html: `<span class="small">🗣️ ${o}</span>`, say: o })), ok: ct.l, next: round });
+    } else {
+      const pool = COUNTRIES.filter(x => !x.g.lang.startsWith("es") && x.g.h[0] !== ct.g.h[0]);
+      const opts = shuffle([ct, ...sample(pool, 2)]);
+      choice(board, { top: `<div style="width:min(220px,60vw)">${flagSVG(ct.c)}</div>`, ask: `¿Cómo se dice hola en ${ct.n}?`,
+        opts: opts.map(o => ({ v: o.c, html: `<span class="small" style="font-size:1.4rem">${o.g.h[0]}</span><span style="font-size:1rem;color:var(--soft)">${o.g.h[1]}</span>`, say: o.g.h[0], lang: o.g.lang, fallback: o.g.h[1].replace(/-/g, "").toLowerCase() })),
+        ok: ct.c, next: round });
+    }
+  };
+  round();
+}
+
+/* =========================================================
+   SECUENCIAS
+   ========================================================= */
+const PSETS = [["🔴", "🔵", "🟡", "🟢"], ["🍎", "🍌", "🍇", "🍓"], ["🐶", "🐱", "🐰", "🐸"], ["⭐", "🌙", "☀️", "☁️"], ["🟥", "🟦", "🟩", "🟨"], ["🚗", "🚲", "✈️", "🚂"], ["❤️", "💙", "💚", "💛"], ["🌸", "🍀", "🌻", "🍁"]];
+const PTYPES = ["AB", "AAB", "ABB", "ABC", "AABB"];
+function initPatrones(board) {
+  const ns = bag(PSETS), nt = bag(PTYPES);
+  const round = () => {
+    const set = ns(), t = nt();
     const letters = [...new Set(t.split(""))];
     const map = {}; shuffle(set).slice(0, letters.length).forEach((x, i) => map[letters[i]] = x);
     const unit = t.split("").map(c => map[c]);
     const shown = unit.length * 2 + rnd(0, unit.length - 1);
     const seq = Array.from({ length: shown }, (_, i) => unit[i % unit.length]);
     const ans = unit[shown % unit.length];
-    const opts = shuffle([ans, ...sample(set, 2, [ans])]);
     choice(board, {
-      top: `<div class="seq">${seq.map(x => `<span>${x}</span>`).join("")}<div class="q">❓</div></div>`,
-      ask: "¿Qué sigue?",
-      opts: opts.map(o => ({ v: o, html: `<span class="e">${o}</span>` })),
-      ok: ans, next: round
+      top: `<div class="seq">${seq.map(x => `<span>${x}</span>`).join("")}<div class="q">❓</div></div>`, ask: "¿Qué sigue?",
+      opts: shuffle([ans, ...sample(set, 2, [ans])]).map(o => ({ v: o, html: `<span class="e">${o}</span>` })), ok: ans, next: round
     });
   };
   round();
@@ -805,16 +1559,17 @@ const STEPS = [
   ["Mi mañana", [["⏰", "Me despierto"], ["🦷", "Me cepillo"], ["👕", "Me visto"], ["🎒", "Voy al colegio"]]],
   ["Hacer un pastel", [["🥣", "Mezclo"], ["🔥", "Horneo"], ["🎂", "Decoro"], ["😋", "¡A comer!"]]],
   ["Así crecemos", [["👶", "Bebé"], ["🧒", "Niño"], ["🧑", "Joven"], ["👴", "Abuelo"]]],
-  ["Un día", [["🌅", "Mañana"], ["☀️", "Mediodía"], ["🌇", "Tarde"], ["🌙", "Noche"]]]
+  ["Un día", [["🌅", "Mañana"], ["☀️", "Mediodía"], ["🌇", "Tarde"], ["🌙", "Noche"]]],
+  ["La mariposa", [["🥚", "Huevo"], ["🐛", "Oruga"], ["🛌", "Capullo"], ["🦋", "Mariposa"]]],
+  ["Hacer un jugo", [["🍊", "Lavo la fruta"], ["🔪", "Corto la fruta"], ["🥤", "Licúo"], ["😋", "Me lo tomo"]]],
+  ["Ir a dormir", [["🛁", "Me baño"], ["👕", "Me pongo la pijama"], ["📖", "Leo un cuento"], ["😴", "Duermo"]]]
 ];
 function initPasos(board) {
-  let last;
+  const next = bag(STEPS);
   const round = () => {
-    const st = pickNew(STEPS, last); last = st;
+    const st = next();
     buildOrder(board, {
-      top: `<div class="q-t">${st[0]}</div>`,
-      ask: `${st[0]}. ¿Qué va primero?`,
-      numbered: true,
+      top: `<div class="q-t">${st[0]}</div>`, ask: `${st[0]}. ¿Qué va primero?`, numbered: true,
       pieces: st[1].map(p => ({ t: p[1], html: `<span class="e">${p[0]}</span><span style="font-size:1.1rem">${p[1]}</span>` })),
       done: () => { win(); later(round, 2400); }
     });
@@ -830,33 +1585,33 @@ const CAUSE = [
   { a: "🥱🌙", ask: "Tengo sueño y es de noche… ¿qué hago?", ok: "🛏️", o: ["🛏️", "⚽", "🏊"] },
   { a: "🤤🍽️", ask: "Tengo mucha hambre… ¿qué hago?", ok: "🍎", o: ["🍎", "🛁", "🎨"] },
   { a: "🥶❄️", ask: "Hace mucho frío… ¿qué me pongo?", ok: "🧥", o: ["🧥", "🩳", "🕶️"] },
-  { a: "🤧", ask: "Voy a estornudar… ¿qué uso?", ok: "🧻", o: ["🧻", "🍌", "🔨"] }
+  { a: "🤧", ask: "Voy a estornudar… ¿qué uso?", ok: "🧻", o: ["🧻", "🍌", "🔨"] },
+  { a: "🔥🍳", ask: "Pongo el huevo en la sartén caliente… ¿qué pasa?", ok: "🍳", o: ["🍳", "🐣", "🧊"] },
+  { a: "🌧️", ask: "Está lloviendo… ¿qué llevo?", ok: "☂️", o: ["☂️", "🕶️", "🏖️"] },
+  { a: "🦷🍬", ask: "Comí dulces… ¿qué hago después?", ok: "🦷", o: ["🦷", "🍭", "😴"] }
 ];
 function initDespues(board) {
-  let last;
+  const next = bag(CAUSE);
   const round = () => {
-    const c = pickNew(CAUSE, last); last = c;
+    const c = next();
     choice(board, {
       top: `<div class="cause"><span class="e">${c.a}</span><span class="arr">➜</span><div class="seq"><div class="q">❓</div></div></div>`,
-      ask: c.ask,
-      opts: shuffle(c.o).map(o => ({ v: o, html: `<span class="e">${o}</span>` })),
-      ok: c.ok, next: round
+      ask: c.ask, opts: shuffle(c.o).map(o => ({ v: o, html: `<span class="e">${o}</span>` })), ok: c.ok, next: round
     });
   };
   round();
 }
 
 /* =========================================================
-   5. MEMORIA
+   MEMORIA
    ========================================================= */
-const MEMP = ["🐶", "🐱", "🐸", "🐵", "🦁", "🐷", "🐰", "🐻", "🐔", "🐢", "🦋", "🐟"];
+const MEMP = ["🐶", "🐱", "🐸", "🐵", "🦁", "🐷", "🐰", "🐻", "🐔", "🐢", "🦋", "🐟", "🐘", "🦒", "🐧", "🦉"];
 let memPairs = 4;
 function initParejas(board) {
   board.innerHTML = "";
   const lvl = el("div", { class: "lvl" });
   [[3, "🐣"], [4, "🐥"], [6, "🦉"]].forEach(([n, ic]) => {
-    const b = el("button", { class: "sub", "aria-pressed": String(n === memPairs), html: `<span class="ic">${ic}</span>${n * 2}` });
-    b.setAttribute("aria-label", `${n * 2} cartas`);
+    const b = el("button", { class: "sub", "aria-pressed": String(n === memPairs), html: `<span class="ic">${ic}</span>${n * 2}`, "aria-label": `${n * 2} cartas` });
     b.onclick = () => { memPairs = n; initParejas(board); };
     lvl.append(b);
   });
@@ -878,14 +1633,12 @@ function initParejas(board) {
             tone([784, 988]);
             if (found === memPairs) {
               win("¡Encontraste todas las parejas!");
-              const again = el("button", { class: "play-btn again", html: "🔁 Otra vez" });
+              const again = el("button", { class: "play-btn", html: "🔁 Otra vez" });
               again.onclick = () => initParejas(board);
               board.append(again);
             } else say(pick(["¡Pareja!", "¡Son iguales!", "¡Muy bien!"]));
           }, 450);
-        } else {
-          later(() => { a.classList.remove("open"); b.classList.remove("open"); open = []; lock = false; }, 1100);
-        }
+        } else later(() => { a.classList.remove("open"); b.classList.remove("open"); open = []; lock = false; }, 1100);
       }
     };
     grid.append(c);
@@ -893,7 +1646,7 @@ function initParejas(board) {
   board.append(lvl, grid);
   say("Busca las parejas iguales.");
 }
-const POOL = ["🍎", "🚗", "🐶", "⚽", "☀️", "🎈", "🐟", "🍌", "🧸", "🌺", "🚲", "🎩", "🍦", "🐢", "📚", "🔔", "🥕", "🎸", "🐞", "🧁"];
+const POOL = ["🍎", "🚗", "🐶", "⚽", "☀️", "🎈", "🐟", "🍌", "🧸", "🌺", "🚲", "🎩", "🍦", "🐢", "📚", "🔔", "🥕", "🎸", "🐞", "🧁", "🌂", "🔑", "🎁", "🦆"];
 function initFalta(board) {
   const start = () => {
     clearTimers();
@@ -906,13 +1659,11 @@ function initFalta(board) {
     const fill = bar.firstChild;
     requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.transitionDuration = "6s"; fill.style.transform = "scaleX(0)"; }));
     later(() => {
-      const shownTop = items.map((x, i) => i === idx ? `<span class="hole">❓</span>` : `<span>${x}</span>`).join("");
       const ans = items[idx];
       choice(board, {
-        top: `<div class="items">${shownTop}</div>`,
+        top: `<div class="items">${items.map((x, i) => i === idx ? `<span class="hole">❓</span>` : `<span>${x}</span>`).join("")}</div>`,
         ask: "¿Qué falta?",
-        opts: shuffle([ans, ...sample(POOL, 2, items)]).map(o => ({ v: o, html: `<span class="e">${o}</span>` })),
-        ok: ans, next: showStart
+        opts: shuffle([ans, ...sample(POOL, 2, items)]).map(o => ({ v: o, html: `<span class="e">${o}</span>` })), ok: ans, next: showStart
       });
     }, 6200);
   };
@@ -925,7 +1676,7 @@ function initFalta(board) {
   };
   showStart();
 }
-const PADS = [{ c: "#FF4B5C", e: "🍓", f: 330 }, { c: "#FFC233", e: "🍋", f: 392 }, { c: "#22C07A", e: "🍏", f: 494 }, { c: "#3A7BFF", e: "🫐", f: 587 }];
+const PADS = [{ c: "#FF4B5C", e: "🍓", f: 330 }, { c: "#FFC233", e: "🍋", f: 392 }, { c: "#22C07A", e: "🍏", f: 494 }, { c: "#3A7BFF", e: "🍇", f: 587 }];
 function initRepite(board) {
   let len = 2, seq = [], pos = 0, busy = true;
   board.innerHTML = "";
@@ -934,8 +1685,7 @@ function initRepite(board) {
   const play = el("button", { class: "play-btn", html: "▶ Jugar" });
   const pads = PADS.map((p, i) => {
     const b = el("button", { class: "pad", html: p.e, "aria-label": "Botón " + (i + 1) });
-    b.style.background = p.c;
-    b.onclick = () => press(i);
+    b.style.background = p.c; b.onclick = () => press(i);
     grid.append(b); return b;
   });
   board.append(dots, grid, play);
@@ -948,7 +1698,7 @@ function initRepite(board) {
     const step = () => { if (i < seq.length) { flash(seq[i++]); later(step, 850); } else { busy = false; say("¡Ahora tú!"); } };
     later(step, 1300);
   };
-  const fresh = () => { seq = Array.from({ length: len }, () => rnd(0, 3)); show(); };
+  const fresh = () => { seq = []; for (let i = 0; i < len; i++) { let x; do { x = rnd(0, 3); } while (i > 1 && x === seq[i - 1] && x === seq[i - 2]); seq.push(x); } show(); };
   play.onclick = () => { play.hidden = true; fresh(); };
   function press(i) {
     if (busy) return;
@@ -961,122 +1711,80 @@ function initRepite(board) {
   say("¡Mira y repite!");
 }
 
-
 /* =========================================================
-   MATEMÁTICAS
+   SEGURIDAD
    ========================================================= */
-const MATHE = ["🍎", "⭐", "🐤", "🎈", "🐟", "🌸", "🍪", "⚽", "🐞", "🍓"];
-const repE = (e, n) => Array.from({ length: n }, () => `<span>${e}</span>`).join("");
-const mathOpts = (ans, max) => shuffle([ans, ...sample([ans - 2, ans - 1, ans + 1, ans + 2].filter(x => x >= 0 && x <= max), 2)]);
-function initSumas(board) {
-  let last;
-  const round = () => {
-    let a, b; do { a = rnd(1, 5); b = rnd(1, 5); } while (a + b > 10 || `${a}+${b}` === last);
-    last = `${a}+${b}`;
-    const e = pick(MATHE), ans = a + b;
-    choice(board, {
-      top: `<div class="mathq"><div class="grp">${repE(e, a)}</div><span class="op">+</span><div class="grp">${repE(e, b)}</div><span class="op">=</span><div class="seq"><div class="q">❓</div></div></div><div class="eq">${a} + ${b} = ?</div>`,
-      ask: `¿Cuánto es ${NUMW[a]} más ${NUMW[b]}?`,
-      opts: mathOpts(ans, 10).map(o => ({ v: o, html: `<span class="num">${o}</span>`, say: NUMW[o] })),
-      ok: ans, next: round
-    });
-  };
-  round();
-}
-function initRestas(board) {
-  let last;
-  const round = () => {
-    let a, b; do { a = rnd(2, 8); b = rnd(1, a - 1); } while (`${a}-${b}` === last);
-    last = `${a}-${b}`;
-    const e = pick(MATHE), ans = a - b;
-    const items = Array.from({ length: a }, (_, i) => i >= a - b ? `<span class="gone"><span>${e}</span></span>` : `<span>${e}</span>`).join("");
-    choice(board, {
-      top: `<div class="mathq"><div class="grp" style="max-width:300px">${items}</div></div><div class="eq">${a} − ${b} = ?</div>`,
-      ask: `Tengo ${NUMW[a]}, quito ${NUMW[b]}. ¿Cuántos quedan?`,
-      opts: mathOpts(ans, 9).map(o => ({ v: o, html: `<span class="num">${o}</span>`, say: NUMW[o] })),
-      ok: ans, next: round
-    });
-  };
-  round();
-}
-function initComparar(board) {
-  const round = () => {
-    let a, b; do { a = rnd(1, 8); b = rnd(1, 8); } while (Math.abs(a - b) < 1);
-    const e = pick(MATHE), more = Math.random() < 0.6;
-    const ok = more ? (a > b ? "a" : "b") : (a < b ? "a" : "b");
-    choice(board, {
-      top: `<div class="huge" aria-hidden="true">${more ? "⬆️" : "⬇️"}</div>`,
-      ask: more ? "¿Dónde hay más?" : "¿Dónde hay menos?",
-      btnClass: "opt cmp",
-      opts: [{ v: "a", html: `<div class="grp">${repE(e, a)}</div>`, say: NUMW[a] }, { v: "b", html: `<div class="grp">${repE(e, b)}</div>`, say: NUMW[b] }],
-      ok, next: round
-    });
-  };
-  round();
-}
-
-/* =========================================================
-   INGLÉS
-   ========================================================= */
-const EN = [
-  { id: "saludos", n: "Saludos", ic: "👋", w: [["👋", "Hello", "Hola"], ["🌅", "Good morning", "Buenos días"], ["🌇", "Good afternoon", "Buenas tardes"], ["🌙", "Good night", "Buenas noches"], ["🚪", "Goodbye", "Adiós"], ["🙏", "Thank you", "Gracias"], ["🤲", "Please", "Por favor"], ["🙂", "How are you?", "¿Cómo estás?"]] },
-  { id: "cuerpo", n: "Cuerpo", ic: "🧍", w: [["👁️", "Eye", "Ojo"], ["👂", "Ear", "Oreja"], ["👃", "Nose", "Nariz"], ["👄", "Mouth", "Boca"], ["🦷", "Teeth", "Dientes"], ["✋", "Hand", "Mano"], ["💪", "Arm", "Brazo"], ["🦵", "Leg", "Pierna"], ["🦶", "Foot", "Pie"], ["💇", "Hair", "Cabello"]] },
-  { id: "colores", n: "Colores", ic: "🎨", w: [["#FF3B4E", "Red", "Rojo"], ["#2F6BFF", "Blue", "Azul"], ["#FFD02E", "Yellow", "Amarillo"], ["#1FB86E", "Green", "Verde"], ["#FF8A1F", "Orange", "Naranja"], ["#8E4CE6", "Purple", "Morado"], ["#FF6FB5", "Pink", "Rosado"], ["#8B5A2B", "Brown", "Café"], ["#1D2030", "Black", "Negro"], ["#FFFFFF", "White", "Blanco"]] },
-  { id: "frutas", n: "Frutas", ic: "🍓", w: [["🍎", "Apple", "Manzana"], ["🍌", "Banana", "Banano"], ["🍇", "Grapes", "Uvas"], ["🍓", "Strawberry", "Fresa"], ["🍉", "Watermelon", "Sandía"], ["🍊", "Orange", "Naranja"], ["🍍", "Pineapple", "Piña"], ["🍐", "Pear", "Pera"], ["🍋", "Lemon", "Limón"], ["🍒", "Cherries", "Cerezas"]] },
-  { id: "comida", n: "Comida", ic: "🍽️", w: [["🍞", "Bread", "Pan"], ["🥛", "Milk", "Leche"], ["🍚", "Rice", "Arroz"], ["🥚", "Egg", "Huevo"], ["🧀", "Cheese", "Queso"], ["🍗", "Chicken", "Pollo"], ["🍲", "Soup", "Sopa"], ["🍕", "Pizza", "Pizza"], ["💧", "Water", "Agua"], ["🧃", "Juice", "Jugo"], ["🍰", "Cake", "Pastel"], ["🍦", "Ice cream", "Helado"]] },
-  { id: "ciudad", n: "Ciudad", ic: "🏙️", w: [["🏠", "House", "Casa"], ["🏫", "School", "Colegio"], ["🏥", "Hospital", "Hospital"], ["🏞️", "Park", "Parque"], ["🏪", "Store", "Tienda"], ["🏦", "Bank", "Banco"], ["🛣️", "Street", "Calle"], ["🚦", "Traffic light", "Semáforo"], ["🚗", "Car", "Carro"], ["🚌", "Bus", "Bus"], ["🚲", "Bike", "Bicicleta"], ["👮", "Police officer", "Policía"]] },
-  { id: "animales", n: "Animales", ic: "🐶", w: [["🐶", "Dog", "Perro"], ["🐱", "Cat", "Gato"], ["🐦", "Bird", "Pájaro"], ["🐟", "Fish", "Pez"], ["🐮", "Cow", "Vaca"], ["🐴", "Horse", "Caballo"], ["🐷", "Pig", "Cerdo"], ["🦆", "Duck", "Pato"], ["🐰", "Rabbit", "Conejo"], ["🦁", "Lion", "León"]] },
-  { id: "numeros", n: "Números", ic: "🔢", w: [["1", "One", "Uno"], ["2", "Two", "Dos"], ["3", "Three", "Tres"], ["4", "Four", "Cuatro"], ["5", "Five", "Cinco"], ["6", "Six", "Seis"], ["7", "Seven", "Siete"], ["8", "Eight", "Ocho"], ["9", "Nine", "Nueve"], ["10", "Ten", "Diez"]] },
-  { id: "familia", n: "Familia", ic: "👨‍👩‍👧", w: [["👩", "Mom", "Mamá"], ["👨", "Dad", "Papá"], ["👶", "Baby", "Bebé"], ["👵", "Grandma", "Abuela"], ["👴", "Grandpa", "Abuelo"], ["👦", "Brother", "Hermano"], ["👧", "Sister", "Hermana"], ["👨‍👩‍👧", "Family", "Familia"]] },
-  { id: "ropa", n: "Ropa", ic: "👕", w: [["👕", "Shirt", "Camisa"], ["👖", "Pants", "Pantalón"], ["👟", "Shoes", "Zapatos"], ["🧦", "Socks", "Medias"], ["🧢", "Cap", "Gorra"], ["👗", "Dress", "Vestido"], ["🧥", "Jacket", "Chaqueta"], ["🧤", "Gloves", "Guantes"]] }
+const RULES = [
+  ["🚶", "Camino despacio dentro de la sede. No corro por los pasillos."],
+  ["🧼", "Me lavo las manos antes de comer y después de ir al baño."],
+  ["👂", "Escucho y sigo las indicaciones de mis profesoras."],
+  ["🙋", "Pido permiso antes de salir del salón."],
+  ["👨‍👩‍👧", "Solo me voy con mi familia o con mi acudiente. Nunca con desconocidos."],
+  ["🤕", "Si me siento mal o me lastimo, le aviso a un adulto."],
+  ["✋", "Mi cuerpo es mío. Si algo me incomoda, le cuento a un adulto de confianza."],
+  ["✂️", "Uso las tijeras y los materiales con cuidado, sentado en mi puesto."],
+  ["🔌", "No toco los enchufes ni los cables."],
+  ["🚨", "Si suena la alarma, sigo a mi profesora a la zona segura, sin correr."],
+  ["🤝", "Trato a mis compañeros con respeto: sin golpes ni empujones."],
+  ["🧹", "Recojo y guardo los materiales para que nadie se caiga."],
+  ["🍽️", "Como sentado y no comparto la comida de mi plato con la boca."],
+  ["💊", "Solo tomo medicinas que me da un adulto responsable."]
 ];
-const enPic = p => p.startsWith("#") ? `<span class="swb" style="background:${p}"></span>` : /^\d+$/.test(p) ? `<span class="e numb">${p}</span>` : `<span class="e">${p}</span>`;
-let enMode = "learn";
-function initEnglish(board, cat) {
+function initNormas(board) {
   board.innerHTML = "";
-  const tog = el("div", { class: "lvl" });
-  [["learn", "📚", "Aprender"], ["play", "🎯", "Jugar"]].forEach(([m, ic, n]) => {
-    const b = el("button", { class: "sub", "aria-pressed": String(enMode === m), html: `<span class="ic">${ic}</span>${n}` });
-    b.onclick = () => { enMode = m; clearTimers(); stopSpeech(); initEnglish(board, cat); };
-    tog.append(b);
-  });
-  const area = el("div", { class: "board", style: "min-height:0;width:100%" });
-  board.append(tog, area);
-  if (enMode === "learn") {
-    const g = el("div", { class: "en-grid" });
-    cat.w.forEach(w => {
-      const c = el("button", { class: "en-card", html: `${enPic(w[0])}<b>${w[1]}</b><small>${w[2]}</small>` });
-      c.onclick = () => {
-        g.querySelectorAll(".en-card").forEach(x => x.classList.toggle("now", x === c));
-        say(`<b class="en">${w[1]}</b> · ${w[2]}`, { speakText: w[1], lang: "en" });
-      };
-      g.append(c);
-    });
-    area.append(g);
-    say(`${cat.n} en inglés. ¡Toca y escucha!`);
-  } else {
-    let last;
-    const round = () => {
-      const t = pickNew(cat.w, last); last = t;
-      const opts = shuffle([t, ...sample(cat.w, 3, [t])]);
-      choice(area, {
-        opts: opts.map(o => ({ v: o[1], html: enPic(o[0]), label: o[2], say: o[1], lang: "en" })),
-        ok: t[1], next: round
-      });
-      say(`🔎 <b class="en">${t[1]}</b>`, { speakText: t[1], lang: "en" });
+  const g = el("div", { class: "rules" });
+  let seen = 0;
+  RULES.forEach(r => {
+    const b = el("button", { class: "rule", html: `<span class="e">${r[0]}</span><span>${r[1]}</span>` });
+    b.onclick = () => {
+      if (!b.classList.contains("seen")) { b.classList.add("seen"); seen++; if (seen === RULES.length) { win("¡Repasaste todas las normas! Me cuido y cuido a los demás."); return; } }
+      say(r[1]);
     };
-    round();
-  }
+    g.append(b);
+  });
+  board.append(g);
+  say("Normas para cuidarnos en Saberes Especiales.");
+}
+const SAFE = [
+  ["🏃", "Corro por los pasillos.", false, "Mejor camino despacio."],
+  ["🧼", "Me lavo las manos antes de comer.", true],
+  ["🔌", "Meto los dedos en el enchufe.", false, "Los enchufes no se tocan."],
+  ["🙋", "Pido permiso para ir al baño.", true],
+  ["🍭👤", "Me voy con un desconocido que me ofrece dulces.", false, "Solo me voy con mi familia o acudiente."],
+  ["🤕", "Le aviso a la profesora si me lastimo.", true],
+  ["✂️🏃", "Corro con las tijeras en la mano.", false, "Las tijeras se usan sentado y con cuidado."],
+  ["🤝", "Ayudo a un compañero que se cayó.", true],
+  ["👊", "Empujo a un compañero en la fila.", false, "Trato a todos con respeto."],
+  ["🚨", "Sigo a mi profesora cuando suena la alarma.", true],
+  ["🧃", "Recojo el jugo que se regó en el piso o aviso a un adulto.", true],
+  ["🚪", "Salgo solo a la calle sin avisar.", false, "Siempre aviso y voy con un adulto."],
+  ["💊", "Me tomo una medicina que encontré en el piso.", false, "Solo tomo medicinas que me da un adulto responsable."],
+  ["😟🗣️", "Le cuento a un adulto de confianza si algo me hace sentir mal.", true],
+  ["🧗", "Me subo a las mesas para alcanzar algo.", false, "Le pido ayuda a un adulto."],
+  ["🗑️", "Boto la basura en la caneca.", true]
+];
+function initBienMal(board) {
+  const next = bag(SAFE);
+  const round = () => {
+    const s = next();
+    choice(board, {
+      top: `<div class="who"><div class="huge">${s[0]}</div><p>${s[1]}</p></div>`,
+      ask: `${s[1]} ¿Está bien o no está bien?`, rowClass: "opts thumbs",
+      opts: [{ v: true, html: `<span class="e">👍</span><span class="small">Está bien</span>`, missMsg: "Mmm, piénsalo otra vez." }, { v: false, html: `<span class="e">👎</span><span class="small">No está bien</span>`, missMsg: "Mmm, piénsalo otra vez." }],
+      ok: s[2], next: round, okMsg: s[2] ? "¡Sí! Eso está muy bien." : `¡Correcto! No es seguro. ${s[3]}`, delay: 2600
+    });
+  };
+  round();
 }
 
 /* =========================================================
-   6. MÁS JUEGOS
+   MÁS JUEGOS
    ========================================================= */
-const DIFF = [["🍎", "🍅"], ["😀", "😃"], ["🐶", "🐱"], ["⭐", "🌟"], ["🌕", "🌝"], ["🚗", "🚙"], ["🐟", "🐠"], ["🍪", "🍩"], ["🌷", "🌹"], ["🐻", "🐼"], ["🔵", "🟣"], ["🎈", "🎀"]];
+const DIFF = [["🍎", "🍅"], ["😀", "😃"], ["🐶", "🐱"], ["⭐", "🌟"], ["🌕", "🌝"], ["🚗", "🚙"], ["🐟", "🐠"], ["🍪", "🍩"], ["🌷", "🌹"], ["🐻", "🐼"], ["🔵", "🟣"], ["🎈", "🎀"], ["🍋", "🍊"], ["🐭", "🐹"], ["☁️", "⛅"], ["🦆", "🐤"]];
 function initDiferente(board) {
-  let r = 0;
+  let r = 0; const next = bag(DIFF);
   const round = () => {
-    const [a, b] = shuffle(pick(DIFF));
+    const [a, b] = shuffle(next());
     const n = r < 3 ? 9 : 12, k = rnd(0, n - 1);
     board.innerHTML = "";
     const g = el("div", { class: "grid-find" + (n === 12 ? " g4" : "") });
@@ -1093,38 +1801,22 @@ function initDiferente(board) {
   };
   round();
 }
-const NUMW = ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez"];
-const COUNTE = ["🍎", "⭐", "🐤", "🎈", "🐟", "🌸", "🍪", "⚽", "🐞", "🚗"];
-function initContar(board) {
-  let last;
-  const round = () => {
-    let n; do { n = rnd(1, 10); } while (n === last); last = n;
-    const e = pick(COUNTE);
-    const pool = [n - 2, n - 1, n + 1, n + 2].filter(x => x >= 1 && x <= 10);
-    const opts = shuffle([n, ...sample(pool, 2)]);
-    choice(board, {
-      top: `<div class="count">${Array.from({ length: n }, () => `<span>${e}</span>`).join("")}</div>`,
-      ask: "¿Cuántos hay?",
-      opts: opts.map(o => ({ v: o, html: `<span class="num">${o}</span>`, say: NUMW[o] })),
-      ok: n, next: round
-    });
-  };
-  round();
-}
 const CLS = [
   { a: { n: "Frutas", ic: "🧺", k: "#FF8A2B", it: ["🍎", "🍌", "🍇", "🍓", "🍉", "🍐", "🍍"] }, b: { n: "Animales", ic: "🐾", k: "#22C07A", it: ["🐶", "🐱", "🐮", "🐷", "🐔", "🐴", "🐑"] } },
   { a: { n: "Ropa", ic: "👚", k: "#FF5FA8", it: ["👕", "👖", "🧦", "🧢", "👗", "🧥", "🧤"] }, b: { n: "Juguetes", ic: "🎁", k: "#3A7BFF", it: ["⚽", "🪀", "🪁", "🎲", "🧩", "🧸", "🛴"] } },
-  { a: { n: "Se come", ic: "🍽️", k: "#FFC233", it: ["🍞", "🧀", "🥕", "🍕", "🍚", "🥚", "🍌"] }, b: { n: "No se come", ic: "🚫", k: "#9A5BF0", it: ["🪑", "✏️", "👟", "🔑", "📱", "🧱", "🪥"] } }
+  { a: { n: "Se come", ic: "🍽️", k: "#FFC233", it: ["🍞", "🧀", "🥕", "🍕", "🍚", "🥚", "🍌"] }, b: { n: "No se come", ic: "🚫", k: "#9A5BF0", it: ["🪑", "✏️", "👟", "🔑", "📱", "🧱", "🔦"] } },
+  { a: { n: "Del cielo", ic: "☁️", k: "#1FA2E0", it: ["✈️", "🐦", "🌙", "⭐", "☀️", "🎈", "🚁"] }, b: { n: "Del agua", ic: "🌊", k: "#12B5C2", it: ["🐟", "🐳", "⛵", "🐙", "🦀", "🐬", "🚤"] } }
 ];
 function initClasificar(board) {
-  let si = rnd(0, CLS.length - 1);
+  const nextSet = bag(CLS);
   const round = () => {
-    const set = CLS[si % CLS.length]; si++;
+    const set = nextSet();
     const queue = shuffle([...sample(set.a.it, 3).map(x => [x, "a"]), ...sample(set.b.it, 3).map(x => [x, "b"])]);
     board.innerHTML = "";
     const item = el("div", { class: "sort-item" });
     const bk = el("div", { class: "baskets" });
     const got = {};
+    const showItem = () => { item.textContent = queue[0][0]; item.style.animation = "none"; void item.offsetWidth; item.style.animation = ""; };
     ["a", "b"].forEach(key => {
       const c = set[key];
       const b = el("button", { class: "basket", html: `<span class="e">${c.ic}</span>${c.n}<span class="got"></span>` });
@@ -1141,25 +1833,20 @@ function initClasificar(board) {
       };
       bk.append(b);
     });
-    const showItem = () => { item.textContent = queue[0][0]; item.style.animation = "none"; void item.offsetWidth; item.style.animation = ""; };
     board.append(item, bk);
     showItem();
     say(`${set.a.n} o ${set.b.n.toLowerCase()}. ¿Dónde va?`);
   };
   round();
 }
-const COL = [["rojo", "#FF3B4E"], ["azul", "#2F6BFF"], ["amarillo", "#FFD02E"], ["verde", "#1FB86E"], ["morado", "#8E4CE6"], ["naranja", "#FF8A1F"], ["rosado", "#FF6FB5"], ["café", "#8B5A2B"], ["negro", "#1D2030"], ["blanco", "#FFFFFF"]];
+const COL = [["rojo", "#FF3B4E"], ["azul", "#2F6BFF"], ["amarillo", "#FFD02E"], ["verde", "#1FB86E"], ["morado", "#8E4CE6"], ["naranja", "#FF8A1F"], ["rosado", "#FF6FB5"], ["café", "#8B5A2B"], ["negro", "#1D2030"], ["blanco", "#FFFFFF"], ["gris", "#9AA3B5"]];
 function initColores(board) {
-  let last;
+  const next = bag(COL);
   const round = () => {
-    const four = sample(COL, 4);
-    const t = pickNew(four, last); last = t;
+    const t = next(), four = shuffle([t, ...sample(COL, 3, [t])]);
     choice(board, {
-      top: `<div class="huge" aria-hidden="true">🎨</div>`,
-      ask: `Toca el color ${t[0]}.`,
-      rowClass: "swatches", btnClass: "sw",
-      opts: four.map(c => ({ v: c[0], html: `<span class="sr">${c[0]}</span>`, label: c[0], say: c[0] })),
-      ok: t[0], next: round
+      top: `<div class="huge" aria-hidden="true">🎨</div>`, ask: `Toca el color ${t[0]}.`, rowClass: "swatches", btnClass: "sw",
+      opts: four.map(c => ({ v: c[0], html: `<span class="sr">${c[0]}</span>`, label: c[0], say: c[0] })), ok: t[0], next: round
     });
     board.querySelectorAll(".sw").forEach((b, i) => b.style.background = four[i][1]);
   };
@@ -1171,36 +1858,49 @@ function initColores(board) {
    ========================================================= */
 const SECS = [
   { id: "emociones", n: "Emociones", ic: "🚦", c: "red", subs: [{ id: "semaforo", n: "Semáforo", ic: "🚦", init: initEmociones }] },
+  { id: "calma", n: "Calma", ic: "🧘", c: "teal", subs: [
+    { id: "respirar", n: "Respirar", ic: "🌬️", init: initRespirar },
+    { id: "sentidos", n: "5 sentidos", ic: "🖐️", init: initSentidos },
+    { id: "cuerpo", n: "Cuerpo tranquilo", ic: "🧘", init: initCuerpo },
+    { id: "escucho", n: "Escucho", ic: "👂", init: initEscucho }] },
   { id: "lenguaje", n: "Lenguaje", ic: "🗣️", c: "orange", subs: [
     { id: "que", n: "¿Qué es?", ic: "🔎", init: initQueEs },
     { id: "sonido", n: "Letras", ic: "🔤", init: initSonido },
     { id: "silabas", n: "Sílabas", ic: "🧱", init: initSilabas },
     { id: "frases", n: "Frases", ic: "💬", init: initFrases }] },
-  { id: "lectura", n: "Lectura", ic: "📖", c: "blue", subs: STORIES.map(s => ({ id: s.id, n: s.t, ic: s.e, init: b => initStory(b, s) })) },
-  { id: "matematicas", n: "Matemáticas", ic: "➕", c: "teal", subs: [
+  { id: "lectura", n: "Lectura", ic: "📖", c: "blue", subs: [{ id: "cuentos", n: "Cuentos", ic: "📖", init: initLectura }] },
+  { id: "cuentos", n: "Cuentos clásicos", ic: "🏰", c: "pink", subs: [
+    { id: "leer", n: "Cuentos", ic: "📚", init: initClasicos },
+    { id: "quien", n: "¿Quién soy?", ic: "🎭", init: initQuienSoy },
+    { id: "cual", n: "¿Qué cuento es?", ic: "🔮", init: initQueCuento }] },
+  { id: "matematicas", n: "Matemáticas", ic: "➕", c: "lime", subs: [
+    { id: "contar", n: "Contar", ic: "🔢", init: initContar },
     { id: "sumas", n: "Sumas", ic: "➕", init: initSumas },
     { id: "restas", n: "Restas", ic: "➖", init: initRestas },
     { id: "comparar", n: "Más o menos", ic: "⚖️", init: initComparar }] },
   { id: "ingles", n: "Inglés", ic: "🔤", c: "yellow", subs: EN.map(c => ({ id: c.id, n: c.n, ic: c.ic, init: b => initEnglish(b, c) })) },
+  { id: "paises", n: "Países", ic: "🌎", c: "navy", subs: [
+    { id: "conocer", n: "Conocer", ic: "🌎", init: initConocer },
+    { id: "jugar", n: "Jugar", ic: "🎯", init: initPaisesJuego }] },
   { id: "secuencias", n: "Secuencias", ic: "🧩", c: "green", subs: [
     { id: "patrones", n: "¿Qué sigue?", ic: "🔁", init: initPatrones },
-    { id: "pasos", n: "Paso a paso", ic: "🪜", init: initPasos },
+    { id: "pasos", n: "Paso a paso", ic: "👣", init: initPasos },
     { id: "despues", n: "¿Qué pasa?", ic: "💡", init: initDespues }] },
   { id: "memoria", n: "Memoria", ic: "🧠", c: "purple", subs: [
     { id: "parejas", n: "Parejas", ic: "🃏", init: initParejas },
     { id: "falta", n: "¿Qué falta?", ic: "❓", init: initFalta },
     { id: "repite", n: "Repite", ic: "🎵", init: initRepite }] },
-  { id: "mas", n: "Más juegos", ic: "✨", c: "pink", subs: [
+  { id: "seguridad", n: "Seguridad", ic: "🛡️", c: "brown", subs: [
+    { id: "normas", n: "Normas", ic: "🛡️", init: initNormas },
+    { id: "bienmal", n: "¿Está bien?", ic: "👍", init: initBienMal }] },
+  { id: "mas", n: "Más juegos", ic: "✨", c: "sky", subs: [
     { id: "diferente", n: "Diferente", ic: "🔍", init: initDiferente },
-    { id: "contar", n: "Contar", ic: "🔢", init: initContar },
     { id: "clasificar", n: "Clasificar", ic: "🧺", init: initClasificar },
     { id: "colores", n: "Colores", ic: "🎨", init: initColores }] }
 ];
-const CT = { yellow: "#1D2547" };
-let fontSize = 1.6;
+const CT = { yellow: "#1D2547", lime: "#1D2547" };
 const cur = { sec: "emociones", sub: {} };
 const tabsEl = $("#tabs"), subsEl = $("#subs"), board = $("#board"), panel = $("#panel"), guide = $("#guide");
-
 SECS.forEach(s => {
   const b = el("button", { class: "tab", role: "tab", "aria-selected": "false", "data-id": s.id, html: `<span class="ic" aria-hidden="true">${s.ic}</span>${s.n}` });
   b.style.setProperty("--k", `var(--${s.c})`);
@@ -1208,7 +1908,6 @@ SECS.forEach(s => {
   b.onclick = () => openSec(s.id);
   tabsEl.append(b);
 });
-
 function openSec(id) {
   const s = SECS.find(x => x.id === id) || SECS[0];
   cur.sec = s.id;
@@ -1232,7 +1931,6 @@ function openSub(s, subId) {
   board.innerHTML = "";
   sb.init(board);
 }
-
 $("#soundBtn").onclick = e => {
   soundOn = !soundOn;
   e.currentTarget.textContent = soundOn ? "🔊" : "🔇";
@@ -1244,12 +1942,11 @@ $("#resetBtn").onclick = e => {
   btn.classList.remove("spin"); void btn.offsetWidth; btn.classList.add("spin");
   clearTimers(); stopSpeech();
   stars = 0; starN.textContent = "0";
-  cur.sub = {}; memPairs = 4; enMode = "learn";
+  cur.sub = {}; memPairs = 4; enMode = "learn"; readLevel = 1; breathSel = "globo"; classicPage = 0;
   fontSize = 1.6; document.documentElement.style.setProperty("--fs", "1.6rem");
   openSec(cur.sec);
   say("¡Empezamos de nuevo!");
 };
-
 let start = "emociones";
 try { const h = (location.hash || "").slice(1); if (SECS.some(s => s.id === h)) start = h; } catch (e) {}
 openSec(start);
