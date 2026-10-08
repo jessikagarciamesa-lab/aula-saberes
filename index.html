@@ -1,0 +1,1260 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Actividades interactivas: emociones, lenguaje, lectura, matemáticas, inglés, secuencias, memoria y más.">
+<title>Aula Arcoíris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap">
+<style>
+/* Diseño: tablero de juego luminoso. Fichas de colores como navegación, Tico (la guía) arriba, tablero grande abajo. Un solo tema claro y deliberado. */
+:root{
+  color-scheme: light;
+  --bg:#EAF5FF; --paper:#FFFFFF; --ink:#1D2547; --soft:#5A6488; --line:#D5E3F5; --mist:#F4F9FF;
+  --red:#FF4B5C; --yellow:#FFC233; --green:#22C07A; --blue:#3A7BFF; --purple:#9A5BF0; --orange:#FF8A2B; --pink:#FF5FA8; --teal:#12B5C2;
+  --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
+  --r:22px; --c:var(--purple); --ct:#fff; --fs:1.6rem;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:18px;
+  background-color:var(--bg);
+  background-image:radial-gradient(circle at 8% 12%,#FFE3A6 0 70px,transparent 71px),radial-gradient(circle at 96% 30%,#FFD1E6 0 90px,transparent 91px),radial-gradient(circle at 4% 88%,#CFF5E4 0 80px,transparent 81px);
+  background-attachment:fixed}
+button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:16px;padding-block:14px 48px;display:flex;flex-direction:column;gap:16px}
+
+/* Encabezado */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.brand h1{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,4.5vw,2.5rem);margin:0;line-height:1;letter-spacing:.5px}
+.brand h1 span:nth-child(7n+1){color:var(--red)}
+.brand h1 span:nth-child(7n+2){color:var(--orange)}
+.brand h1 span:nth-child(7n+3){color:#E0A100}
+.brand h1 span:nth-child(7n+4){color:var(--green)}
+.brand h1 span:nth-child(7n+5){color:var(--teal)}
+.brand h1 span:nth-child(7n+6){color:var(--blue)}
+.brand h1 span:nth-child(7n+7){color:var(--purple)}
+.rb{width:52px;height:30px;flex:none}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{font-family:var(--display);font-weight:800;border:0;border-radius:999px;padding:8px 16px;font-size:1.15rem;background:var(--paper);box-shadow:0 4px 0 var(--line);min-height:50px;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.stars{cursor:default;font-variant-numeric:tabular-nums}
+.stars.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.25)}}
+.reset{background:var(--ink);color:#fff;box-shadow:0 4px 0 #0B1130}
+.reset .ic{display:inline-block;font-size:1.4rem;line-height:1}
+.reset.spin .ic{animation:spin .6s}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Navegación por secciones */
+.tabs{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px}
+@media (max-width:1000px){.tabs{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.tab{--k:var(--blue);--kt:#fff;border:0;border-radius:var(--r);background:var(--k);color:var(--kt);font-family:var(--display);font-weight:800;font-size:clamp(.95rem,2.4vw,1.15rem);padding:10px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;
+  box-shadow:0 6px 0 color-mix(in srgb,var(--k) 62%,#000);transition:transform .12s,box-shadow .12s;min-height:96px;line-height:1.1}
+.tab .ic{font-size:2.2rem;line-height:1.1}
+.tab:hover{transform:translateY(-2px)}
+.tab[aria-selected="true"]{transform:translateY(5px);box-shadow:0 1px 0 color-mix(in srgb,var(--k) 62%,#000),0 0 0 4px var(--paper),0 0 0 7px var(--k)}
+
+/* Guía */
+.guide{display:flex;align-items:center;gap:10px;background:var(--paper);border-radius:var(--r);padding:8px 14px 8px 6px;border:4px solid var(--c);box-shadow:0 6px 0 var(--line)}
+.owl{width:clamp(76px,13vw,104px);height:auto;flex:none}
+.owl .lid{transform-origin:center;transform-box:fill-box;animation:blink 5s infinite}
+@keyframes blink{0%,94%,100%{transform:scaleY(0)}96%{transform:scaleY(1)}}
+.owl.talking .beak{animation:talk .28s infinite alternate;transform-origin:center top;transform-box:fill-box}
+@keyframes talk{to{transform:scaleY(.55)}}
+.owl.happy{animation:hop .6s}
+@keyframes hop{30%{transform:translateY(-14px) rotate(-6deg)}60%{transform:translateY(0) rotate(4deg)}}
+.bubble{flex:1;min-width:0;display:flex;align-items:center;gap:10px}
+.bubble .name{font-family:var(--display);font-weight:800;font-size:.85rem;color:var(--c);text-transform:uppercase;letter-spacing:1.5px;display:block}
+.bubble p{margin:0;flex:1;min-width:0;font-family:var(--display);font-weight:700;font-size:clamp(1.25rem,3.2vw,1.75rem);line-height:1.2;text-wrap:balance}
+.bubble p.pop{animation:popin .35s}
+@keyframes popin{from{transform:scale(.92);opacity:.3}}
+.round{width:58px;height:58px;border-radius:50%;border:0;background:var(--c);color:var(--ct);font-size:1.6rem;cursor:pointer;flex:none;box-shadow:0 4px 0 color-mix(in srgb,var(--c) 60%,#000)}
+.round:active{transform:translateY(3px);box-shadow:none}
+
+/* Panel */
+.panel{background:var(--paper);border-radius:28px;padding:18px;box-shadow:0 8px 0 var(--line);border-top:10px solid var(--c)}
+.subs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.sub{border:3px solid var(--c);background:var(--paper);border-radius:999px;padding:6px 16px;font-family:var(--display);font-weight:700;font-size:1.1rem;min-height:52px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.sub .ic{font-size:1.4rem}
+.sub[aria-pressed="true"]{background:var(--c);color:var(--ct)}
+.board{min-height:380px;display:flex;flex-direction:column;align-items:center;gap:20px}
+
+/* Piezas comunes */
+.prompt{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;text-align:center}
+.huge{font-size:clamp(5rem,18vw,8.5rem);line-height:1.05}
+.opts{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%}
+.opt,.tile{background:var(--paper);border:4px solid var(--line);border-radius:24px;min-width:118px;min-height:100px;padding:10px 18px;font-family:var(--display);font-weight:700;font-size:1.55rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:0 6px 0 var(--line);transition:transform .12s,border-color .12s;line-height:1.15}
+.opt:hover:not(:disabled),.tile:hover{transform:translateY(-3px);border-color:var(--c)}
+.opt .e,.tile .e{font-size:3rem;line-height:1.1}
+.opt.right{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 6px 0 #128a55}
+.opt:disabled{cursor:default}
+.tile{background:color-mix(in srgb,var(--c) 14%,#fff);border-color:color-mix(in srgb,var(--c) 45%,#fff)}
+.shake{animation:shake .45s}
+@keyframes shake{20%{transform:translateX(-10px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+.slots{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.slot{min-width:100px;min-height:92px;border:4px dashed var(--line);border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:1.7rem;padding:6px 14px;position:relative;background:var(--mist);line-height:1.1}
+.slot .e{font-size:2.4rem}
+.slot[data-n]::before{content:attr(data-n);position:absolute;top:-14px;left:-12px;background:var(--c);color:var(--ct);width:34px;height:34px;border-radius:50%;font-size:1.1rem;display:grid;place-items:center}
+.slot.filled{border-style:solid;border-color:var(--green);background:#E5FAF0;animation:popin .3s}
+.tray{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.picto{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.picto span{font-size:clamp(3.2rem,11vw,5rem);background:var(--mist);border-radius:22px;padding:6px 14px;line-height:1.1}
+.letter{font-family:var(--display);font-weight:800;font-size:clamp(6rem,20vw,9rem);line-height:1;color:var(--c)}
+.letter small{font-size:.55em;margin-left:.15em;color:var(--ink)}
+.again{margin-top:4px}
+
+/* Semáforo */
+.emo{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;width:100%;align-items:start}
+@media (max-width:720px){.emo{grid-template-columns:minmax(0,1fr) auto;gap:12px}}
+.emo-left{display:flex;flex-direction:column;gap:16px;min-width:0}
+.situ{display:flex;gap:10px;align-items:center}
+.situ-card{flex:1;min-width:0;display:flex;align-items:center;gap:14px;background:var(--mist);border:3px solid var(--line);border-radius:20px;padding:10px 16px;cursor:pointer;text-align:left;min-height:84px}
+.situ-e{font-size:2.8rem;line-height:1;flex:none}
+.situ-t{font-family:var(--display);font-weight:700;font-size:clamp(1.15rem,2.8vw,1.45rem);line-height:1.2}
+.emo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:520px){.emo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.emo-btn{--k:var(--blue);border:4px solid color-mix(in srgb,var(--k) 40%,#fff);background:color-mix(in srgb,var(--k) 16%,#fff);border-radius:24px;padding:10px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--display);font-weight:800;font-size:clamp(.95rem,2.4vw,1.2rem);box-shadow:0 5px 0 color-mix(in srgb,var(--k) 35%,#fff);transition:transform .12s;min-width:0}
+.emo-btn .face{font-size:clamp(2.6rem,8vw,3.6rem);line-height:1.1}
+.emo-btn:hover{transform:translateY(-3px)}
+.emo-btn.sel{background:var(--k);color:#fff;border-color:var(--k);transform:scale(1.04)}
+.emo-btn.sel.light-text{color:var(--ink)}
+.semaforo{background:#262C4A;border-radius:44px;padding:14px;display:flex;flex-direction:column;gap:12px;box-shadow:0 8px 0 #151a33,inset 0 0 0 4px #3a4170;position:relative}
+.semaforo::after{content:"";position:absolute;left:50%;bottom:-40px;width:18px;height:40px;background:#262C4A;transform:translateX(-50%);border-radius:0 0 6px 6px}
+.lamp{width:clamp(62px,13vw,92px);height:clamp(62px,13vw,92px);border-radius:50%;background:#3F4670;transition:background .25s,box-shadow .25s;display:grid;place-items:center;font-size:clamp(1.6rem,4vw,2.4rem)}
+.lamp.on.r{background:var(--red);box-shadow:0 0 34px 8px rgba(255,75,92,.65)}
+.lamp.on.y{background:var(--yellow);box-shadow:0 0 34px 8px rgba(255,194,51,.7)}
+.lamp.on.g{background:var(--green);box-shadow:0 0 34px 8px rgba(34,192,122,.65)}
+.action{grid-column:1/-1;width:100%}
+.act{border-radius:26px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;animation:popin .3s}
+.act.red{background:#FFE6E9}.act.yellow{background:#FFF4D6}.act.green{background:#E2F8EE}
+.act-title{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.15}
+.act-res{font-family:var(--display);font-weight:700;font-size:1.5rem;min-height:1.6em}
+.breath-box{position:relative;width:200px;height:200px;display:grid;place-items:center}
+.breath{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0,#8FC2FF 35%,var(--blue) 100%);transform:scale(.45);transition:transform 4s ease-in-out}
+.breath.in{transform:scale(1)}
+.breath-t{position:relative;font-family:var(--display);font-weight:800;font-size:1.6rem;color:var(--ink);background:rgba(255,255,255,.85);padding:2px 12px;border-radius:999px}
+.dots{display:flex;gap:10px}
+.dots i{width:22px;height:22px;border-radius:50%;border:4px solid var(--red)}
+.dots i.on{background:var(--red)}
+.big-e{font-size:4rem;margin:0;line-height:1.1}
+
+/* Lectura */
+.story{width:100%;max-width:820px;display:flex;flex-direction:column;gap:16px}
+.story-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.story-head .e{font-size:3.4rem;line-height:1}
+.story-head h2{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,4.5vw,2.4rem);margin:0;line-height:1.1;flex:1;min-width:0;text-wrap:balance}
+.story-tools{display:flex;gap:8px;flex-wrap:wrap}
+.tool{border:3px solid var(--c);background:var(--paper);border-radius:999px;min-height:54px;min-width:54px;padding:4px 16px;font-family:var(--display);font-weight:800;font-size:1.2rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.tool.main{background:var(--c);color:var(--ct)}
+.story-text{font-size:var(--fs);line-height:1.75;background:var(--mist);border-radius:22px;padding:18px 22px;border:3px solid var(--line)}
+.sent{border-radius:10px;padding:1px 4px;cursor:pointer;transition:background .2s;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.sent:hover{background:color-mix(in srgb,var(--c) 15%,#fff)}
+.sent.now{background:var(--yellow)}
+.qa{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+.q-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
+.q-num{background:var(--c);color:var(--ct);font-family:var(--display);font-weight:800;border-radius:999px;padding:2px 14px;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.q-t{font-family:var(--display);font-weight:800;font-size:clamp(1.4rem,3.6vw,1.9rem);text-align:center}
+
+/* Secuencias */
+.seq{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center}
+.seq span{font-size:clamp(2.6rem,9vw,4rem);line-height:1.1}
+.seq .q{width:clamp(70px,16vw,96px);height:clamp(70px,16vw,96px);border:5px dashed var(--c);border-radius:22px;display:grid;place-items:center;font-size:2.4rem;animation:pulse 1.4s infinite}
+@keyframes pulse{50%{transform:scale(1.07)}}
+.cause{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
+.cause .e{font-size:clamp(4rem,14vw,6rem);line-height:1}
+.cause .arr{font-size:2.6rem;color:var(--c);font-weight:800}
+
+/* Memoria */
+.mem{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;width:min(580px,100%)}
+.card{aspect-ratio:1;perspective:700px;border:0;background:none;padding:0;cursor:pointer;max-width:100%}
+.card .in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.card.open .in{transform:rotateY(180deg)}
+.card .fc,.card .bk{position:absolute;inset:0;border-radius:20px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:grid;place-items:center}
+.card .bk{background:repeating-linear-gradient(45deg,var(--c) 0 14px,color-mix(in srgb,var(--c) 75%,#fff) 14px 28px);color:#fff;font-family:var(--display);font-weight:800;font-size:2.2rem;box-shadow:0 5px 0 color-mix(in srgb,var(--c) 55%,#000)}
+.card .fc{background:var(--paper);border:4px solid var(--line);transform:rotateY(180deg);font-size:clamp(2rem,9vw,3.6rem)}
+.card.done .fc{border-color:var(--green);background:#E5FAF0}
+.lvl{display:flex;gap:8px}
+.timer{width:min(420px,100%);height:16px;background:var(--line);border-radius:999px;overflow:hidden}
+.timer i{display:block;height:100%;width:100%;background:var(--c);transform-origin:left;transition:transform linear}
+.items{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;width:min(520px,100%)}
+.items span{aspect-ratio:1;display:grid;place-items:center;font-size:clamp(2.6rem,10vw,4rem);background:var(--mist);border:4px solid var(--line);border-radius:22px}
+.items span.hole{border:5px dashed var(--c);font-size:2.4rem;animation:pulse 1.4s infinite}
+.play-btn{border:0;background:var(--c);color:var(--ct);border-radius:999px;font-family:var(--display);font-weight:800;font-size:1.6rem;padding:10px 30px;min-height:68px;cursor:pointer;box-shadow:0 6px 0 color-mix(in srgb,var(--c) 60%,#000);display:inline-flex;align-items:center;gap:10px}
+.play-btn:active{transform:translateY(4px);box-shadow:none}
+.simon{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:min(380px,100%)}
+.pad{aspect-ratio:1;border:0;border-radius:30px;font-size:clamp(3rem,12vw,4.4rem);cursor:pointer;filter:saturate(.55) brightness(.92);transition:filter .12s,transform .12s;box-shadow:0 7px 0 rgba(0,0,0,.18)}
+.pad.lit{filter:saturate(1.2) brightness(1.15);transform:scale(1.06)}
+.level-dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.level-dots i{width:20px;height:20px;border-radius:50%;background:var(--c)}
+
+/* Más juegos */
+.grid-find{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;width:min(420px,100%)}
+.grid-find.g4{grid-template-columns:repeat(4,minmax(0,1fr));width:min(520px,100%)}
+.grid-find button{aspect-ratio:1;border:4px solid var(--line);background:var(--paper);border-radius:22px;font-size:clamp(2.4rem,10vw,3.8rem);cursor:pointer;box-shadow:0 5px 0 var(--line)}
+.grid-find button.right{background:#E5FAF0;border-color:var(--green)}
+.count{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:460px;background:var(--mist);border-radius:24px;padding:16px}
+.count span{font-size:clamp(2.4rem,8vw,3.4rem);line-height:1.1}
+.num{font-size:2.6rem !important;font-variant-numeric:tabular-nums;min-width:110px}
+.sort-item{font-size:clamp(5rem,18vw,7.5rem);line-height:1.05;background:var(--mist);border-radius:30px;padding:10px 30px;animation:popin .3s}
+.baskets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:min(620px,100%)}
+.basket{border:4px solid var(--k);background:color-mix(in srgb,var(--k) 12%,#fff);border-radius:26px;padding:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:170px;font-family:var(--display);font-weight:800;font-size:1.4rem;box-shadow:0 6px 0 color-mix(in srgb,var(--k) 40%,#fff)}
+.basket .e{font-size:3rem;line-height:1.1}
+.basket .got{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;font-size:1.6rem;min-height:2rem}
+.swatches{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.sw{width:clamp(100px,26vw,140px);aspect-ratio:1;border-radius:50%;border:6px solid var(--paper);cursor:pointer;box-shadow:0 0 0 4px var(--line),0 7px 0 4px var(--line)}
+.sw.right{box-shadow:0 0 0 6px var(--green),0 7px 0 6px var(--green)}
+
+
+/* Matemáticas */
+.mathq{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.grp{display:flex;flex-wrap:wrap;gap:4px;max-width:210px;justify-content:center;background:var(--mist);border:3px solid var(--line);border-radius:22px;padding:12px;font-size:clamp(1.9rem,6vw,2.7rem);line-height:1.1}
+.op{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,7vw,3.6rem);color:var(--c);line-height:1}
+.eq{font-family:var(--display);font-weight:800;font-size:clamp(2.2rem,6vw,3rem);font-variant-numeric:tabular-nums;letter-spacing:2px}
+.gone{position:relative;display:inline-block}
+.gone>span{opacity:.3;filter:grayscale(1)}
+.gone::after{content:"✖";position:absolute;inset:0;display:grid;place-items:center;color:var(--red);font-size:.85em;font-weight:800}
+.opt .grp{border:0;background:none;padding:2px;max-width:220px}
+.opt.cmp{min-width:200px;min-height:160px}
+
+/* Inglés */
+.en-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;width:100%}
+.en-card{background:var(--paper);border:4px solid var(--line);border-radius:22px;padding:10px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;box-shadow:0 5px 0 var(--line);transition:transform .12s,border-color .12s;min-width:0}
+.en-card:hover{transform:translateY(-3px);border-color:var(--c)}
+.en-card.now{border-color:var(--c);background:color-mix(in srgb,var(--c) 18%,#fff)}
+.en-card .e{font-size:3rem;line-height:1.15}
+.en-card b{font-family:var(--display);font-weight:800;font-size:1.35rem;line-height:1.15;text-align:center}
+.en-card small{color:var(--soft);font-size:1rem;text-align:center}
+.swb{display:inline-block;width:3.2rem;height:3.2rem;border-radius:50%;border:4px solid var(--line);vertical-align:middle}
+.numb{font-family:var(--display);font-weight:800;color:var(--ink)}
+.bubble p b.en{color:var(--c);font-size:1.15em}
+
+/* Confeti */
+#fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+.bit{position:absolute;top:50%;width:12px;height:18px;border-radius:3px;animation:burst 1.2s cubic-bezier(.15,.7,.3,1) forwards}
+@keyframes burst{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg class="rb" viewBox="0 0 52 30" aria-hidden="true">
+        <path d="M4 28a22 22 0 0 1 44 0" fill="none" stroke="#FF4B5C" stroke-width="5" stroke-linecap="round"/>
+        <path d="M11 28a15 15 0 0 1 30 0" fill="none" stroke="#FFC233" stroke-width="5" stroke-linecap="round"/>
+        <path d="M18 28a8 8 0 0 1 16 0" fill="none" stroke="#22C07A" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <h1 aria-label="Aula Arcoíris"><span>A</span><span>u</span><span>l</span><span>a</span><span>&nbsp;</span><span>A</span><span>r</span><span>c</span><span>o</span><span>í</span><span>r</span><span>i</span><span>s</span></h1>
+    </div>
+    <div class="tools">
+      <span class="chip stars" id="stars" aria-live="polite">⭐ <b id="starN">0</b></span>
+      <button class="chip" id="soundBtn" aria-label="Sonido encendido">🔊</button>
+      <button class="chip reset" id="resetBtn"><span class="ic">⟳</span> Empezar de nuevo</button>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs" role="tablist"></nav>
+
+  <section class="guide" id="guide">
+    <svg class="owl" id="owl" viewBox="0 0 120 120" aria-hidden="true">
+      <path d="M26 44 L30 14 L48 34 Z" fill="#7A55E8"/>
+      <path d="M94 44 L90 14 L72 34 Z" fill="#7A55E8"/>
+      <ellipse cx="60" cy="68" rx="42" ry="44" fill="#8E66F5"/>
+      <ellipse cx="22" cy="78" rx="10" ry="22" fill="#7A55E8" transform="rotate(14 22 78)"/>
+      <ellipse cx="98" cy="78" rx="10" ry="22" fill="#7A55E8" transform="rotate(-14 98 78)"/>
+      <ellipse cx="60" cy="84" rx="26" ry="26" fill="#FFE1B3"/>
+      <path d="M48 80 q4 4 8 0 M64 80 q4 4 8 0 M56 92 q4 4 8 0" stroke="#F2B872" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <circle cx="43" cy="54" r="17" fill="#fff"/><circle cx="77" cy="54" r="17" fill="#fff"/>
+      <circle cx="45" cy="56" r="8" fill="#1D2547"/><circle cx="75" cy="56" r="8" fill="#1D2547"/>
+      <circle cx="48" cy="53" r="3" fill="#fff"/><circle cx="78" cy="53" r="3" fill="#fff"/>
+      <ellipse class="lid" cx="43" cy="54" rx="17.5" ry="17.5" fill="#7A55E8"/>
+      <ellipse class="lid" cx="77" cy="54" rx="17.5" ry="17.5" fill="#7A55E8"/>
+      <path class="beak" d="M53 66 L67 66 L60 78 Z" fill="#FF8A2B"/>
+      <circle cx="30" cy="70" r="5" fill="#FF8FC0" opacity=".7"/><circle cx="90" cy="70" r="5" fill="#FF8FC0" opacity=".7"/>
+      <path d="M48 110 l-4 6 M52 110 v7 M56 110 l4 6 M64 110 l-4 6 M68 110 v7 M72 110 l4 6" stroke="#FF8A2B" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <div class="bubble">
+      <p id="say" aria-live="polite"><span class="name">Tico</span>¡Hola! Soy Tico. ¿Cómo te sientes hoy?</p>
+      <button class="round" id="replay" aria-label="Escuchar otra vez">🔊</button>
+    </div>
+  </section>
+
+  <main class="panel" id="panel">
+    <div class="subs" id="subs" role="group"></div>
+    <div class="board" id="board"></div>
+  </main>
+</div>
+<div id="fx" aria-hidden="true"></div>
+
+<script>
+(() => {
+"use strict";
+const $ = s => document.querySelector(s);
+function el(t, a = {}, kids = []) {
+  const n = document.createElement(t);
+  for (const k in a) {
+    if (k === "html") n.innerHTML = a[k];
+    else if (k.startsWith("on")) n[k] = a[k];
+    else n.setAttribute(k, a[k]);
+  }
+  [].concat(kids).forEach(c => c != null && n.append(c));
+  return n;
+}
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const sample = (a, n, ex = []) => shuffle(a.filter(x => !ex.includes(x))).slice(0, n);
+const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+function pickNew(arr, last) { if (arr.length < 2) return arr[0]; let x; do { x = pick(arr); } while (x === last); return x; }
+
+/* ---------- Temporizadores ---------- */
+let timers = [];
+const later = (f, ms) => { const id = setTimeout(f, ms); timers.push(id); return id; };
+const clearTimers = () => { timers.forEach(id => clearTimeout(id)); timers = []; };
+
+/* ---------- Voz ---------- */
+let soundOn = true, voice = null, voiceEn = null, interacted = false, readGen = 0;
+const synth = ("speechSynthesis" in window) ? window.speechSynthesis : null;
+const owl = $("#owl");
+function pickVoice() {
+  if (!synth) return;
+  let vs = [];
+  try { vs = synth.getVoices().filter(v => /^es/i.test(v.lang)); } catch (e) {}
+  const norm = l => l.replace("_", "-").toLowerCase();
+  const pref = ["es-mx", "es-us", "es-419", "es-co", "es-ar", "es-cl", "es-pe"];
+  voice = null;
+  for (const p of pref) { const v = vs.find(v => norm(v.lang) === p); if (v) { voice = v; break; } }
+  if (!voice) voice = vs.find(v => norm(v.lang) !== "es-es") || vs[0] || null;
+  let en = [];
+  try { en = synth.getVoices().filter(v => /^en/i.test(v.lang)); } catch (e) {}
+  voiceEn = en.find(v => norm(v.lang) === "en-us") || en.find(v => norm(v.lang) === "en-gb") || en[0] || null;
+}
+if (synth) { pickVoice(); try { synth.addEventListener("voiceschanged", pickVoice); } catch (e) {} }
+const clean = t => String(t).replace(/<[^>]+>/g, " ").replace(/\p{Extended_Pictographic}|️|‍/gu, "").replace(/\s+/g, " ").trim();
+function stopSpeech() { readGen++; owl.classList.remove("talking"); if (synth) try { synth.cancel(); } catch (e) {} }
+function speak(text, { queue = false, onend, lang = "es" } = {}) {
+  const t = clean(text);
+  if (!queue) stopSpeech();
+  if (!synth || !soundOn || !interacted || !t) { if (onend) later(onend, Math.max(1400, t.length * 75)); return; }
+  try {
+    const u = new SpeechSynthesisUtterance(t);
+    const v = lang === "en" ? voiceEn : voice;
+    u.lang = v ? v.lang : (lang === "en" ? "en-US" : "es-MX");
+    if (v) u.voice = v;
+    u.rate = lang === "en" ? 0.8 : 0.88; u.pitch = 1.15;
+    u.onstart = () => owl.classList.add("talking");
+    let fired = false;
+    u.onend = u.onerror = () => { owl.classList.remove("talking"); if (!fired) { fired = true; onend && onend(); } };
+    synth.speak(u);
+  } catch (e) { if (onend) later(onend, 1500); }
+}
+let lastSay = "", lastLang = "es";
+const sayEl = $("#say");
+function say(text, opts = {}) {
+  lastSay = opts.speakText || text; lastLang = opts.lang || "es";
+  sayEl.innerHTML = '<span class="name">Tico</span>' + text;
+  sayEl.classList.remove("pop"); void sayEl.offsetWidth; sayEl.classList.add("pop");
+  if (opts.silent !== true) speak(opts.speakText || text, opts);
+}
+$("#replay").onclick = () => speak(lastSay, { lang: lastLang });
+document.addEventListener("pointerdown", () => { interacted = true; }, { capture: true });
+document.addEventListener("keydown", () => { interacted = true; }, { capture: true });
+
+/* ---------- Sonidos y premios ---------- */
+let ac = null;
+function tone(freqs, type = "triangle", gap = 0.11, vol = 0.16) {
+  if (!soundOn) return;
+  try {
+    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+    freqs.forEach((f, i) => {
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = type; o.frequency.value = f;
+      const t = ac.currentTime + i * gap;
+      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(vol, t + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+      o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t + 0.35);
+    });
+  } catch (e) {}
+}
+const PRAISE = ["¡Muy bien!", "¡Excelente!", "¡Lo lograste!", "¡Súper!", "¡Bravo!", "¡Qué bien lo haces!", "¡Genial!"];
+const RETRY = ["¡Casi! Intenta otra vez.", "Mira otra vez. ¡Tú puedes!", "Vamos de nuevo.", "Inténtalo otra vez."];
+let stars = 0;
+const starN = $("#starN"), starsEl = $("#stars");
+function updStars() { starN.textContent = stars; starsEl.classList.remove("bump"); void starsEl.offsetWidth; starsEl.classList.add("bump"); }
+function confetti() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const layer = $("#fx"), cols = ["#FF4B5C", "#FFC233", "#22C07A", "#3A7BFF", "#9A5BF0", "#FF8A2B", "#FF5FA8", "#12B5C2"];
+  for (let i = 0; i < 28; i++) {
+    const s = el("i", { class: "bit" });
+    s.style.left = (42 + Math.random() * 16) + "%";
+    s.style.background = pick(cols);
+    s.style.setProperty("--dx", ((Math.random() * 2 - 1) * 45) + "vw");
+    s.style.setProperty("--dy", ((Math.random() * 2 - 1.2) * 45) + "vh");
+    s.style.setProperty("--r", (Math.random() * 900) + "deg");
+    layer.append(s); setTimeout(() => s.remove(), 1300);
+  }
+}
+function win(msg, opts = {}) {
+  stars++; updStars(); tone([660, 880, 1320]); confetti();
+  owl.classList.remove("happy"); void owl.getBoundingClientRect(); owl.classList.add("happy");
+  say(msg || pick(PRAISE), opts);
+}
+function miss(b) {
+  if (b) { b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); }
+  tone([330, 262], "sine", 0.12, 0.09);
+  say(pick(RETRY));
+}
+
+/* ---------- Componentes ---------- */
+function choice(board, { top, ask, opts, ok, next, rowClass = "opts", btnClass = "opt" }) {
+  board.innerHTML = "";
+  if (top) board.append(el("div", { class: "prompt", html: top }));
+  const row = el("div", { class: rowClass });
+  opts.forEach(o => {
+    const b = el("button", { class: btnClass, html: o.html });
+    if (o.label) b.setAttribute("aria-label", o.label);
+    b.onclick = () => {
+      if (o.say) speak(o.say, { lang: o.lang || "es" });
+      if (o.v === ok) {
+        b.classList.add("right");
+        row.querySelectorAll("button").forEach(x => x.disabled = true);
+        win(null, { queue: !!o.say });
+        later(next, 1900);
+      } else miss(b);
+    };
+    row.append(b);
+  });
+  board.append(row);
+  if (ask) say(ask);
+}
+
+function buildOrder(board, { top, ask, pieces, numbered = false, done }) {
+  board.innerHTML = "";
+  if (top) board.append(el("div", { class: "prompt", html: top }));
+  const slots = el("div", { class: "slots" });
+  pieces.forEach((p, i) => slots.append(el("div", numbered ? { class: "slot", "data-n": i + 1 } : { class: "slot" })));
+  const tray = el("div", { class: "tray" });
+  let order = pieces.map((p, i) => ({ ...p, i }));
+  let tries = 0;
+  do { order = shuffle(order); tries++; } while (pieces.length > 1 && tries < 20 && order.every((p, i) => p.i === i));
+  let k = 0;
+  order.forEach(p => {
+    const b = el("button", { class: "tile", html: p.html || p.t });
+    b.onclick = () => {
+      speak(p.say || p.t);
+      if (p.t === pieces[k].t) {
+        const s = slots.children[k];
+        s.innerHTML = b.innerHTML; s.classList.add("filled");
+        b.remove(); k++;
+        if (k === pieces.length) { tone([523, 659, 784]); later(() => done && done(), 700); }
+      } else miss(b);
+    };
+    tray.append(b);
+  });
+  board.append(slots, tray);
+  if (ask) say(ask);
+}
+
+/* =========================================================
+   1. SEMÁFORO DE LAS EMOCIONES
+   ========================================================= */
+const EMOS = [
+  { n: "Enojo", f: "😠", k: "#FF4B5C", l: "r" },
+  { n: "Tristeza", f: "😢", k: "#3A7BFF", l: "r" },
+  { n: "Preocupación", f: "😟", k: "#FF8A2B", l: "y" },
+  { n: "Miedo", f: "😨", k: "#9A5BF0", l: "y" },
+  { n: "Alegría", f: "😄", k: "#FFC233", l: "y", dark: true },
+  { n: "Tranquilidad", f: "😌", k: "#22C07A", l: "g" }
+];
+const SITU = [
+  { e: "🧸💔", t: "Se rompió mi juguete favorito." },
+  { e: "🎁", t: "Me dieron un regalo sorpresa." },
+  { e: "⛈️", t: "Afuera hay una tormenta con truenos." },
+  { e: "🙅", t: "Mi amigo no quiere jugar conmigo." },
+  { e: "🍭🚫", t: "No me dejaron comer dulces." },
+  { e: "🛁🎶", t: "Estoy en un baño calientito con música suave." },
+  { e: "🎤", t: "Mañana tengo que hablar frente a todo el salón." },
+  { e: "🐕", t: "Un perro grande me ladra muy fuerte." },
+  { e: "🎂", t: "Hoy es mi cumpleaños." },
+  { e: "🌳📖", t: "Estoy leyendo un cuento debajo de un árbol." },
+  { e: "🏃‍♂️💨", t: "Alguien me empujó en la fila." },
+  { e: "👵👋", t: "Mi abuela se fue de viaje por mucho tiempo." }
+];
+function initEmociones(board) {
+  let si = -1;
+  board.innerHTML = `
+    <div class="emo">
+      <div class="emo-left">
+        <div class="situ">
+          <button class="situ-card" aria-label="Escuchar la situación"><span class="situ-e"></span><span class="situ-t"></span></button>
+          <button class="round nx" aria-label="Otra situación">➜</button>
+        </div>
+        <div class="emo-grid"></div>
+      </div>
+      <div class="semaforo" role="img" aria-label="Semáforo">
+        <span class="lamp r"></span><span class="lamp y"></span><span class="lamp g"></span>
+      </div>
+      <div class="action" aria-live="polite"></div>
+    </div>`;
+  const grid = board.querySelector(".emo-grid"), action = board.querySelector(".action");
+  const lamps = { r: board.querySelector(".lamp.r"), y: board.querySelector(".lamp.y"), g: board.querySelector(".lamp.g") };
+  const setLight = l => {
+    Object.entries(lamps).forEach(([k, x]) => { x.classList.toggle("on", k === l); x.textContent = ""; });
+    if (l) lamps[l].textContent = { r: "✋", y: "🤔", g: "👍" }[l];
+    tone(l === "r" ? [392] : l === "y" ? [523] : l === "g" ? [659] : [], "sine", .1, .1);
+  };
+  const situCard = board.querySelector(".situ-card");
+  function nextSitu(talk) {
+    clearTimers();
+    si = (si + 1 + Math.floor(Math.random() * (SITU.length - 1))) % SITU.length;
+    const s = SITU[si];
+    board.querySelector(".situ-e").textContent = s.e;
+    board.querySelector(".situ-t").textContent = s.t;
+    grid.querySelectorAll(".emo-btn").forEach(b => b.classList.remove("sel"));
+    setLight(null); action.innerHTML = "";
+    if (talk) say(s.t + " ¿Cómo te sentirías?");
+  }
+  situCard.onclick = () => say(SITU[si].t + " ¿Cómo te sentirías?");
+  board.querySelector(".nx").onclick = () => nextSitu(true);
+
+  EMOS.forEach(em => {
+    const b = el("button", { class: "emo-btn" + (em.dark ? " light-text" : ""), html: `<span class="face">${em.f}</span>${em.n}` });
+    b.style.setProperty("--k", em.k);
+    b.onclick = () => {
+      clearTimers();
+      grid.querySelectorAll(".emo-btn").forEach(x => x.classList.toggle("sel", x === b));
+      setLight(em.l);
+      showAction(em);
+    };
+    grid.append(b);
+  });
+
+  function showAction(em) {
+    const name = em.n.toLowerCase();
+    if (em.l === "r") {
+      action.innerHTML = `<div class="act red">
+        <div class="act-title">✋ ¡Alto! Paro y respiro</div>
+        <div class="breath-box"><div class="breath"></div><div class="breath-t">Listo</div></div>
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="act-res"></div></div>`;
+      say(`Siento ${name}. Semáforo rojo. ¡Alto! Paro y respiro.`);
+      const circ = action.querySelector(".breath"), txt = action.querySelector(".breath-t"), dots = action.querySelectorAll(".dots i"), res = action.querySelector(".act-res");
+      let n = 0;
+      const cycle = () => {
+        txt.textContent = "Inhalo 🌬️"; circ.classList.add("in"); speak("Inhalo");
+        later(() => {
+          txt.textContent = "Exhalo 💨"; circ.classList.remove("in"); speak("Exhalo");
+          later(() => {
+            dots[n].classList.add("on"); n++;
+            if (n < 3) cycle();
+            else {
+              txt.textContent = "😌";
+              res.innerHTML = "";
+              const again = el("button", { class: "tool main", html: "🔁 Otra vez" });
+              again.onclick = () => showAction(em);
+              res.append(el("div", { html: "¡Ya estoy más tranquilo!" }), again);
+              win("¡Muy bien! Ya estoy más tranquilo.");
+            }
+          }, 4200);
+        }, 4200);
+      };
+      later(cycle, 2600);
+    } else if (em.l === "y") {
+      action.innerHTML = `<div class="act yellow">
+        <div class="act-title">🤔 Pienso: ¿hay peligro de verdad?</div>
+        <div class="opts"><button class="opt" data-a="si"><span class="e">⚠️</span>Sí</button><button class="opt" data-a="no"><span class="e">🙂</span>No</button></div>
+        <div class="act-res"></div></div>`;
+      say(`Siento ${name}. Semáforo amarillo. Pienso: ¿hay peligro de verdad?`);
+      const res = action.querySelector(".act-res");
+      action.querySelector('[data-a="si"]').onclick = () => { res.textContent = "🙋 Busco a un adulto que me ayude."; say("Busco a un adulto que me ayude."); };
+      action.querySelector('[data-a="no"]').onclick = () => { setLight("g"); res.textContent = "😌 Estoy a salvo. Sigo con calma."; win("Estoy a salvo. Semáforo verde. Sigo con calma."); };
+    } else {
+      action.innerHTML = `<div class="act green">
+        <div class="act-title">✅ Todo está bien</div>
+        <p class="big-e">😌🌿</p>
+        <div class="act-res">Sigo con mi día.</div></div>`;
+      win(`Siento ${name}. Semáforo verde. Todo está bien, sigo con mi día.`);
+    }
+  }
+  nextSitu(false);
+  say("¿Cómo te sientes hoy?");
+}
+
+/* =========================================================
+   2. LENGUAJE
+   ========================================================= */
+const WORDS = [
+  { e: "🍎", w: "manzana" }, { e: "🐶", w: "perro" }, { e: "🏠", w: "casa" }, { e: "⚽", w: "pelota" },
+  { e: "🚗", w: "carro" }, { e: "☀️", w: "sol" }, { e: "🐱", w: "gato" }, { e: "🥛", w: "leche" },
+  { e: "👟", w: "zapato" }, { e: "🌳", w: "árbol" }, { e: "🍌", w: "banano" }, { e: "📚", w: "libro" },
+  { e: "🐟", w: "pez" }, { e: "🌸", w: "flor" }, { e: "✏️", w: "lápiz" }, { e: "🛏️", w: "cama" },
+  { e: "🚌", w: "bus" }, { e: "🐮", w: "vaca" }, { e: "🍞", w: "pan" }, { e: "🌙", w: "luna" }
+];
+function initQueEs(board) {
+  let last;
+  const round = () => {
+    const it = pickNew(WORDS, last); last = it;
+    const opts = shuffle([it, ...sample(WORDS, 2, [it])]);
+    choice(board, {
+      top: `<div class="huge" aria-hidden="true">${it.e}</div>`,
+      ask: "¿Qué es esto?",
+      opts: opts.map(o => ({ v: o.w, html: `<span>${o.w}</span>`, say: o.w })),
+      ok: it.w, next: round
+    });
+  };
+  round();
+}
+const LET = {
+  M: { n: "eme", w: [["🐒", "mono"], ["🍯", "miel"], ["🖐️", "mano"]] },
+  P: { n: "pe", w: [["🐧", "pingüino"], ["🍕", "pizza"], ["🦆", "pato"]] },
+  S: { n: "ese", w: [["☀️", "sol"], ["🍉", "sandía"], ["🐍", "serpiente"]] },
+  L: { n: "ele", w: [["🦁", "león"], ["🌙", "luna"], ["🍋", "limón"]] },
+  T: { n: "te", w: [["🍅", "tomate"], ["🐢", "tortuga"], ["🚂", "tren"]] },
+  B: { n: "be", w: [["🐳", "ballena"], ["⛵", "barco"], ["🍌", "banano"]] }
+};
+function initSonido(board) {
+  let last;
+  const round = () => {
+    const L = pickNew(Object.keys(LET), last); last = L;
+    const right = pick(LET[L].w);
+    const others = sample(Object.keys(LET), 2, [L]).map(k => pick(LET[k].w));
+    const opts = shuffle([right, ...others]);
+    choice(board, {
+      top: `<div class="letter">${L}<small>${L.toLowerCase()}</small></div>`,
+      ask: `¿Cuál empieza con la ${LET[L].n}?`,
+      opts: opts.map(o => ({ v: o[1], html: `<span class="e">${o[0]}</span><span>${o[1]}</span>`, say: o[1] })),
+      ok: right[1], next: round
+    });
+  };
+  round();
+}
+const SIL = [
+  ["🐱", ["ga", "to"]], ["🏠", ["ca", "sa"]], ["🌙", ["lu", "na"]], ["🐒", ["mo", "no"]], ["☁️", ["nu", "be"]],
+  ["🦆", ["pa", "to"]], ["🐸", ["ra", "na"]], ["🐄", ["va", "ca"]], ["🌹", ["ro", "sa"]], ["🍋", ["li", "món"]],
+  ["🐢", ["tor", "tu", "ga"]], ["👟", ["za", "pa", "to"]], ["🍅", ["to", "ma", "te"]], ["🍉", ["san", "dí", "a"]], ["🦋", ["ma", "ri", "po", "sa"]]
+];
+function initSilabas(board) {
+  let last;
+  const round = () => {
+    const it = pickNew(SIL, last); last = it;
+    const word = it[1].join("");
+    buildOrder(board, {
+      top: `<div class="huge" aria-hidden="true">${it[0]}</div>`,
+      ask: "¿Cómo se dice? Arma la palabra.",
+      pieces: it[1].map(t => ({ t })),
+      done: () => { win(`¡${word}! ${pick(PRAISE)}`); later(round, 2300); }
+    });
+  };
+  round();
+}
+const FRA = [
+  [["👦", "El niño"], ["🍽️", "come"], ["🍎", "una manzana"]],
+  [["👧", "La niña"], ["🥤", "bebe"], ["💧", "agua"]],
+  [["🐶", "El perro"], ["🏃", "corre"], ["🌳", "en el parque"]],
+  [["🙋", "Yo"], ["😴", "duermo"], ["🛏️", "en la cama"]],
+  [["👩", "Mamá"], ["🍳", "cocina"], ["🍚", "arroz"]],
+  [["👴", "El abuelo"], ["📖", "lee"], ["📰", "el periódico"]],
+  [["🐦", "El pájaro"], ["🎶", "canta"], ["🌳", "en el árbol"]],
+  [["🧒", "Nosotros"], ["🎨", "pintamos"], ["🌈", "un arcoíris"]]
+];
+function initFrases(board) {
+  let last;
+  const round = () => {
+    const f = pickNew(FRA, last); last = f;
+    const text = f.map(p => p[1]).join(" ");
+    buildOrder(board, {
+      top: `<div class="picto">${f.map(p => `<span aria-hidden="true">${p[0]}</span>`).join("")}</div>`,
+      ask: "Arma la frase.",
+      pieces: f.map(p => ({ t: p[1], html: `<span class="e">${p[0]}</span><span>${p[1]}</span>` })),
+      done: () => { win(`${text}. ${pick(PRAISE)}`); later(round, 2800); }
+    });
+  };
+  round();
+}
+
+/* =========================================================
+   3. LECTURA
+   ========================================================= */
+const STORIES = [
+  { id: "rufo", e: "🐶", t: "Tomás y su perro",
+    s: ["Tomás tiene un perro 🐶.", "El perro se llama Rufo.", "Rufo es de color café.", "Tomás y Rufo juegan con una pelota ⚽ en el parque 🌳.", "Después, Rufo tiene sed y bebe agua 💧."],
+    q: [
+      { t: "¿Cómo se llama el perro?", o: [["🐶", "Rufo"], ["👦", "Tomás"], ["🐱", "Pelusa"]] },
+      { t: "¿De qué color es Rufo?", o: [["🟤", "Café"], ["⚪", "Blanco"], ["🔵", "Azul"]] },
+      { t: "¿Con qué juegan?", o: [["⚽", "Pelota"], ["🪆", "Muñeca"], ["🚗", "Carro"]] },
+      { t: "¿Qué bebe Rufo?", o: [["💧", "Agua"], ["🥛", "Leche"], ["🧃", "Jugo"]] }
+    ] },
+  { id: "ana", e: "🎂", t: "La fiesta de Ana",
+    s: ["Hoy es el cumpleaños de Ana 🎂.", "Ana cumple ocho años.", "Su mamá hace un pastel de fresa 🍓.", "Llegan sus amigos con regalos 🎁.", "Todos cantan y Ana sopla las velas 🕯️."],
+    q: [
+      { t: "¿Qué celebra Ana?", o: [["🎂", "Su cumpleaños"], ["🎄", "La Navidad"], ["🏫", "Un día de clase"]] },
+      { t: "¿De qué es el pastel?", o: [["🍓", "De fresa"], ["🍫", "De chocolate"], ["🍋", "De limón"]] },
+      { t: "¿Qué traen los amigos?", o: [["🎁", "Regalos"], ["📚", "Libros"], ["🌸", "Flores"]] },
+      { t: "¿Qué sopla Ana?", o: [["🕯️", "Las velas"], ["🎈", "Los globos"], ["🍃", "Las hojas"]] }
+    ] },
+  { id: "lluvia", e: "☂️", t: "Un día de lluvia",
+    s: ["Está lloviendo mucho 🌧️.", "Sofía saca su paraguas rojo ☂️.", "Se pone las botas 🥾.", "En el camino ve un charco grande y salta.", "¡Splash! Sofía se ríe 😄."],
+    q: [
+      { t: "¿Cómo está el día?", o: [["🌧️", "Lluvioso"], ["☀️", "Soleado"], ["❄️", "Con nieve"]] },
+      { t: "¿De qué color es el paraguas?", o: [["🔴", "Rojo"], ["🟢", "Verde"], ["🟡", "Amarillo"]] },
+      { t: "¿Qué se pone Sofía en los pies?", o: [["🥾", "Botas"], ["🩴", "Chanclas"], ["🧦", "Medias"]] },
+      { t: "¿Cómo se siente Sofía al final?", o: [["😄", "Feliz"], ["😢", "Triste"], ["😠", "Enojada"]] }
+    ] },
+  { id: "huerta", e: "🥕", t: "La huerta de Pedro",
+    s: ["Pedro tiene una huerta 🌱 en su casa.", "Cada mañana riega las plantas con agua 💧.", "Un día ve una zanahoria grande 🥕.", "Pedro la saca de la tierra.", "En la noche, la familia come sopa de zanahoria 🍲."],
+    q: [
+      { t: "¿Qué tiene Pedro en su casa?", o: [["🌱", "Una huerta"], ["🏊", "Una piscina"], ["🐴", "Un caballo"]] },
+      { t: "¿Cuándo riega las plantas?", o: [["🌅", "En la mañana"], ["🌙", "En la noche"], ["🌧️", "Cuando llueve"]] },
+      { t: "¿Qué encuentra Pedro?", o: [["🥕", "Una zanahoria"], ["🍎", "Una manzana"], ["🥔", "Una papa"]] },
+      { t: "¿Qué come la familia?", o: [["🍲", "Sopa"], ["🍕", "Pizza"], ["🍦", "Helado"]] }
+    ] }
+];
+function initStory(board, story) {
+  board.innerHTML = `
+    <article class="story">
+      <div class="story-head"><span class="e" aria-hidden="true">${story.e}</span><h2>${story.t}</h2></div>
+      <div class="story-tools">
+        <button class="tool main" data-a="read">🔊 Escuchar</button>
+        <button class="tool" data-a="stop" aria-label="Detener">⏹</button>
+        <button class="tool" data-a="minus" aria-label="Letra más pequeña">A−</button>
+        <button class="tool" data-a="plus" aria-label="Letra más grande">A+</button>
+      </div>
+      <div class="story-text">${story.s.map((s, i) => `<span class="sent" data-i="${i}">${s}</span>`).join(" ")}</div>
+      <div class="qa"><button class="play-btn" data-a="q">❓ Preguntas</button></div>
+    </article>`;
+  const sents = [...board.querySelectorAll(".sent")];
+  const qa = board.querySelector(".qa");
+  const hl = i => sents.forEach((s, j) => s.classList.toggle("now", j === i));
+  sents.forEach((s, i) => s.onclick = () => { hl(i); speak(story.s[i], { onend: () => hl(-1) }); });
+  board.querySelector('[data-a="read"]').onclick = () => {
+    stopSpeech(); const my = readGen;
+    const step = i => {
+      if (my !== readGen) return;
+      if (i >= story.s.length) { hl(-1); return; }
+      hl(i);
+      speak(story.s[i], { queue: true, onend: () => step(i + 1) });
+    };
+    say(story.t, { silent: true });
+    speak(story.t, { queue: true, onend: () => step(0) });
+  };
+  board.querySelector('[data-a="stop"]').onclick = () => { stopSpeech(); clearTimers(); hl(-1); };
+  const fsSet = d => { fontSize = Math.min(2.6, Math.max(1.1, +(fontSize + d).toFixed(2))); document.documentElement.style.setProperty("--fs", fontSize + "rem"); };
+  board.querySelector('[data-a="minus"]').onclick = () => fsSet(-0.2);
+  board.querySelector('[data-a="plus"]').onclick = () => fsSet(0.2);
+
+  function ask(qi) {
+    if (qi >= story.q.length) {
+      qa.innerHTML = `<div class="huge">🏆</div>`;
+      const again = el("button", { class: "tool main", html: "🔁 Otra vez" });
+      again.onclick = () => ask(0);
+      qa.append(again);
+      win("¡Terminaste el cuento! ¡Lo hiciste muy bien!");
+      return;
+    }
+    const q = story.q[qi], ok = q.o[0][1];
+    qa.innerHTML = `<div class="q-head"><span class="q-num">${qi + 1} / ${story.q.length}</span><span class="q-t">${q.t}</span></div>`;
+    const row = el("div", { class: "opts" });
+    shuffle(q.o).forEach(o => {
+      const b = el("button", { class: "opt", html: `<span class="e">${o[0]}</span><span>${o[1]}</span>` });
+      b.onclick = () => {
+        speak(o[1]);
+        if (o[1] === ok) { b.classList.add("right"); row.querySelectorAll("button").forEach(x => x.disabled = true); win(null, { queue: true }); later(() => ask(qi + 1), 2000); }
+        else miss(b);
+      };
+      row.append(b);
+    });
+    qa.append(row);
+    say(q.t);
+  }
+  board.querySelector('[data-a="q"]').onclick = () => { stopSpeech(); hl(-1); ask(0); };
+  say(`Vamos a leer: ${story.t}.`);
+}
+
+/* =========================================================
+   4. SECUENCIAS
+   ========================================================= */
+const PSETS = [["🔴", "🔵", "🟡", "🟢"], ["🍎", "🍌", "🍇", "🍓"], ["🐶", "🐱", "🐰", "🐸"], ["⭐", "🌙", "☀️", "☁️"], ["🟥", "🟦", "🟩", "🟨"], ["🚗", "🚲", "✈️", "🚂"]];
+const PTYPES = ["AB", "AB", "AAB", "ABB", "ABC"];
+function initPatrones(board) {
+  const round = () => {
+    const set = pick(PSETS), t = pick(PTYPES);
+    const letters = [...new Set(t.split(""))];
+    const map = {}; shuffle(set).slice(0, letters.length).forEach((x, i) => map[letters[i]] = x);
+    const unit = t.split("").map(c => map[c]);
+    const shown = unit.length * 2 + rnd(0, unit.length - 1);
+    const seq = Array.from({ length: shown }, (_, i) => unit[i % unit.length]);
+    const ans = unit[shown % unit.length];
+    const opts = shuffle([ans, ...sample(set, 2, [ans])]);
+    choice(board, {
+      top: `<div class="seq">${seq.map(x => `<span>${x}</span>`).join("")}<div class="q">❓</div></div>`,
+      ask: "¿Qué sigue?",
+      opts: opts.map(o => ({ v: o, html: `<span class="e">${o}</span>` })),
+      ok: ans, next: round
+    });
+  };
+  round();
+}
+const STEPS = [
+  ["Lavarse las manos", [["🚰", "Abro la llave"], ["🧼", "Pongo jabón"], ["👐", "Froto las manos"], ["🧻", "Me seco"]]],
+  ["Crece una planta", [["🌰", "Semilla"], ["🌱", "Brote"], ["🌿", "Planta"], ["🌻", "Flor"]]],
+  ["Mi mañana", [["⏰", "Me despierto"], ["🦷", "Me cepillo"], ["👕", "Me visto"], ["🎒", "Voy al colegio"]]],
+  ["Hacer un pastel", [["🥣", "Mezclo"], ["🔥", "Horneo"], ["🎂", "Decoro"], ["😋", "¡A comer!"]]],
+  ["Así crecemos", [["👶", "Bebé"], ["🧒", "Niño"], ["🧑", "Joven"], ["👴", "Abuelo"]]],
+  ["Un día", [["🌅", "Mañana"], ["☀️", "Mediodía"], ["🌇", "Tarde"], ["🌙", "Noche"]]]
+];
+function initPasos(board) {
+  let last;
+  const round = () => {
+    const st = pickNew(STEPS, last); last = st;
+    buildOrder(board, {
+      top: `<div class="q-t">${st[0]}</div>`,
+      ask: `${st[0]}. ¿Qué va primero?`,
+      numbered: true,
+      pieces: st[1].map(p => ({ t: p[1], html: `<span class="e">${p[0]}</span><span style="font-size:1.1rem">${p[1]}</span>` })),
+      done: () => { win(); later(round, 2400); }
+    });
+  };
+  round();
+}
+const CAUSE = [
+  { a: "🥚", ask: "El huevo se abre… ¿qué sale?", ok: "🐣", o: ["🐣", "🐟", "🌸"] },
+  { a: "🌱💧", ask: "Riego la semilla muchos días… ¿qué pasa?", ok: "🌻", o: ["🌻", "🧱", "🍦"] },
+  { a: "🧊☀️", ask: "El hielo está al sol… ¿qué pasa?", ok: "💧", o: ["💧", "⛄", "🍕"] },
+  { a: "🎈📌", ask: "Pincho el globo… ¿qué pasa?", ok: "💥", o: ["💥", "🌈", "🍰"] },
+  { a: "🌧️☀️", ask: "Llueve y luego sale el sol… ¿qué aparece?", ok: "🌈", o: ["🌈", "⛄", "🌙"] },
+  { a: "🥱🌙", ask: "Tengo sueño y es de noche… ¿qué hago?", ok: "🛏️", o: ["🛏️", "⚽", "🏊"] },
+  { a: "🤤🍽️", ask: "Tengo mucha hambre… ¿qué hago?", ok: "🍎", o: ["🍎", "🛁", "🎨"] },
+  { a: "🥶❄️", ask: "Hace mucho frío… ¿qué me pongo?", ok: "🧥", o: ["🧥", "🩳", "🕶️"] },
+  { a: "🤧", ask: "Voy a estornudar… ¿qué uso?", ok: "🧻", o: ["🧻", "🍌", "🔨"] }
+];
+function initDespues(board) {
+  let last;
+  const round = () => {
+    const c = pickNew(CAUSE, last); last = c;
+    choice(board, {
+      top: `<div class="cause"><span class="e">${c.a}</span><span class="arr">➜</span><div class="seq"><div class="q">❓</div></div></div>`,
+      ask: c.ask,
+      opts: shuffle(c.o).map(o => ({ v: o, html: `<span class="e">${o}</span>` })),
+      ok: c.ok, next: round
+    });
+  };
+  round();
+}
+
+/* =========================================================
+   5. MEMORIA
+   ========================================================= */
+const MEMP = ["🐶", "🐱", "🐸", "🐵", "🦁", "🐷", "🐰", "🐻", "🐔", "🐢", "🦋", "🐟"];
+let memPairs = 4;
+function initParejas(board) {
+  board.innerHTML = "";
+  const lvl = el("div", { class: "lvl" });
+  [[3, "🐣"], [4, "🐥"], [6, "🦉"]].forEach(([n, ic]) => {
+    const b = el("button", { class: "sub", "aria-pressed": String(n === memPairs), html: `<span class="ic">${ic}</span>${n * 2}` });
+    b.setAttribute("aria-label", `${n * 2} cartas`);
+    b.onclick = () => { memPairs = n; initParejas(board); };
+    lvl.append(b);
+  });
+  const grid = el("div", { class: "mem" });
+  if (memPairs === 3) grid.style.gridTemplateColumns = "repeat(3,minmax(0,1fr))";
+  const deck = shuffle(sample(MEMP, memPairs).flatMap(x => [x, x]));
+  let open = [], lock = false, found = 0;
+  deck.forEach(x => {
+    const c = el("button", { class: "card", "aria-label": "Carta", html: `<div class="in"><div class="bk">?</div><div class="fc">${x}</div></div>` });
+    c.onclick = () => {
+      if (lock || c.classList.contains("open")) return;
+      c.classList.add("open"); tone([587], "sine", .1, .08); open.push([c, x]);
+      if (open.length === 2) {
+        lock = true;
+        const [[a, xa], [b, xb]] = open;
+        if (xa === xb) {
+          later(() => {
+            a.classList.add("done"); b.classList.add("done"); open = []; lock = false; found++;
+            tone([784, 988]);
+            if (found === memPairs) {
+              win("¡Encontraste todas las parejas!");
+              const again = el("button", { class: "play-btn again", html: "🔁 Otra vez" });
+              again.onclick = () => initParejas(board);
+              board.append(again);
+            } else say(pick(["¡Pareja!", "¡Son iguales!", "¡Muy bien!"]));
+          }, 450);
+        } else {
+          later(() => { a.classList.remove("open"); b.classList.remove("open"); open = []; lock = false; }, 1100);
+        }
+      }
+    };
+    grid.append(c);
+  });
+  board.append(lvl, grid);
+  say("Busca las parejas iguales.");
+}
+const POOL = ["🍎", "🚗", "🐶", "⚽", "☀️", "🎈", "🐟", "🍌", "🧸", "🌺", "🚲", "🎩", "🍦", "🐢", "📚", "🔔", "🥕", "🎸", "🐞", "🧁"];
+function initFalta(board) {
+  const start = () => {
+    clearTimers();
+    const n = 4, items = sample(POOL, n), idx = rnd(0, n - 1);
+    board.innerHTML = "";
+    const grid = el("div", { class: "items", html: items.map(x => `<span>${x}</span>`).join("") });
+    const bar = el("div", { class: "timer", html: "<i></i>" });
+    board.append(bar, grid);
+    say("¡Mira bien y recuerda!");
+    const fill = bar.firstChild;
+    requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.transitionDuration = "6s"; fill.style.transform = "scaleX(0)"; }));
+    later(() => {
+      const shownTop = items.map((x, i) => i === idx ? `<span class="hole">❓</span>` : `<span>${x}</span>`).join("");
+      const ans = items[idx];
+      choice(board, {
+        top: `<div class="items">${shownTop}</div>`,
+        ask: "¿Qué falta?",
+        opts: shuffle([ans, ...sample(POOL, 2, items)]).map(o => ({ v: o, html: `<span class="e">${o}</span>` })),
+        ok: ans, next: showStart
+      });
+    }, 6200);
+  };
+  const showStart = () => {
+    board.innerHTML = "";
+    const b = el("button", { class: "play-btn", html: "👀 Mirar" });
+    b.onclick = start;
+    board.append(el("div", { class: "items", html: "<span>❓</span><span>❓</span><span>❓</span><span>❓</span>" }), b);
+    say("¿Qué falta? ¡Vamos a mirar!");
+  };
+  showStart();
+}
+const PADS = [{ c: "#FF4B5C", e: "🍓", f: 330 }, { c: "#FFC233", e: "🍋", f: 392 }, { c: "#22C07A", e: "🍏", f: 494 }, { c: "#3A7BFF", e: "🫐", f: 587 }];
+function initRepite(board) {
+  let len = 2, seq = [], pos = 0, busy = true;
+  board.innerHTML = "";
+  const dots = el("div", { class: "level-dots" });
+  const grid = el("div", { class: "simon" });
+  const play = el("button", { class: "play-btn", html: "▶ Jugar" });
+  const pads = PADS.map((p, i) => {
+    const b = el("button", { class: "pad", html: p.e, "aria-label": "Botón " + (i + 1) });
+    b.style.background = p.c;
+    b.onclick = () => press(i);
+    grid.append(b); return b;
+  });
+  board.append(dots, grid, play);
+  const drawDots = () => { dots.innerHTML = Array.from({ length: len }, () => "<i></i>").join(""); };
+  drawDots();
+  const flash = i => { pads[i].classList.add("lit"); tone([PADS[i].f], "sine", .1, .15); later(() => pads[i].classList.remove("lit"), 480); };
+  const show = () => {
+    busy = true; pos = 0; say("¡Mira bien!");
+    let i = 0;
+    const step = () => { if (i < seq.length) { flash(seq[i++]); later(step, 850); } else { busy = false; say("¡Ahora tú!"); } };
+    later(step, 1300);
+  };
+  const fresh = () => { seq = Array.from({ length: len }, () => rnd(0, 3)); show(); };
+  play.onclick = () => { play.hidden = true; fresh(); };
+  function press(i) {
+    if (busy) return;
+    flash(i);
+    if (i === seq[pos]) {
+      pos++;
+      if (pos === seq.length) { busy = true; later(() => { win(); len = Math.min(len + 1, 9); drawDots(); later(fresh, 1800); }, 500); }
+    } else { busy = true; miss(pads[i]); later(show, 1600); }
+  }
+  say("¡Mira y repite!");
+}
+
+
+/* =========================================================
+   MATEMÁTICAS
+   ========================================================= */
+const MATHE = ["🍎", "⭐", "🐤", "🎈", "🐟", "🌸", "🍪", "⚽", "🐞", "🍓"];
+const repE = (e, n) => Array.from({ length: n }, () => `<span>${e}</span>`).join("");
+const mathOpts = (ans, max) => shuffle([ans, ...sample([ans - 2, ans - 1, ans + 1, ans + 2].filter(x => x >= 0 && x <= max), 2)]);
+function initSumas(board) {
+  let last;
+  const round = () => {
+    let a, b; do { a = rnd(1, 5); b = rnd(1, 5); } while (a + b > 10 || `${a}+${b}` === last);
+    last = `${a}+${b}`;
+    const e = pick(MATHE), ans = a + b;
+    choice(board, {
+      top: `<div class="mathq"><div class="grp">${repE(e, a)}</div><span class="op">+</span><div class="grp">${repE(e, b)}</div><span class="op">=</span><div class="seq"><div class="q">❓</div></div></div><div class="eq">${a} + ${b} = ?</div>`,
+      ask: `¿Cuánto es ${NUMW[a]} más ${NUMW[b]}?`,
+      opts: mathOpts(ans, 10).map(o => ({ v: o, html: `<span class="num">${o}</span>`, say: NUMW[o] })),
+      ok: ans, next: round
+    });
+  };
+  round();
+}
+function initRestas(board) {
+  let last;
+  const round = () => {
+    let a, b; do { a = rnd(2, 8); b = rnd(1, a - 1); } while (`${a}-${b}` === last);
+    last = `${a}-${b}`;
+    const e = pick(MATHE), ans = a - b;
+    const items = Array.from({ length: a }, (_, i) => i >= a - b ? `<span class="gone"><span>${e}</span></span>` : `<span>${e}</span>`).join("");
+    choice(board, {
+      top: `<div class="mathq"><div class="grp" style="max-width:300px">${items}</div></div><div class="eq">${a} − ${b} = ?</div>`,
+      ask: `Tengo ${NUMW[a]}, quito ${NUMW[b]}. ¿Cuántos quedan?`,
+      opts: mathOpts(ans, 9).map(o => ({ v: o, html: `<span class="num">${o}</span>`, say: NUMW[o] })),
+      ok: ans, next: round
+    });
+  };
+  round();
+}
+function initComparar(board) {
+  const round = () => {
+    let a, b; do { a = rnd(1, 8); b = rnd(1, 8); } while (Math.abs(a - b) < 1);
+    const e = pick(MATHE), more = Math.random() < 0.6;
+    const ok = more ? (a > b ? "a" : "b") : (a < b ? "a" : "b");
+    choice(board, {
+      top: `<div class="huge" aria-hidden="true">${more ? "⬆️" : "⬇️"}</div>`,
+      ask: more ? "¿Dónde hay más?" : "¿Dónde hay menos?",
+      btnClass: "opt cmp",
+      opts: [{ v: "a", html: `<div class="grp">${repE(e, a)}</div>`, say: NUMW[a] }, { v: "b", html: `<div class="grp">${repE(e, b)}</div>`, say: NUMW[b] }],
+      ok, next: round
+    });
+  };
+  round();
+}
+
+/* =========================================================
+   INGLÉS
+   ========================================================= */
+const EN = [
+  { id: "saludos", n: "Saludos", ic: "👋", w: [["👋", "Hello", "Hola"], ["🌅", "Good morning", "Buenos días"], ["🌇", "Good afternoon", "Buenas tardes"], ["🌙", "Good night", "Buenas noches"], ["🚪", "Goodbye", "Adiós"], ["🙏", "Thank you", "Gracias"], ["🤲", "Please", "Por favor"], ["🙂", "How are you?", "¿Cómo estás?"]] },
+  { id: "cuerpo", n: "Cuerpo", ic: "🧍", w: [["👁️", "Eye", "Ojo"], ["👂", "Ear", "Oreja"], ["👃", "Nose", "Nariz"], ["👄", "Mouth", "Boca"], ["🦷", "Teeth", "Dientes"], ["✋", "Hand", "Mano"], ["💪", "Arm", "Brazo"], ["🦵", "Leg", "Pierna"], ["🦶", "Foot", "Pie"], ["💇", "Hair", "Cabello"]] },
+  { id: "colores", n: "Colores", ic: "🎨", w: [["#FF3B4E", "Red", "Rojo"], ["#2F6BFF", "Blue", "Azul"], ["#FFD02E", "Yellow", "Amarillo"], ["#1FB86E", "Green", "Verde"], ["#FF8A1F", "Orange", "Naranja"], ["#8E4CE6", "Purple", "Morado"], ["#FF6FB5", "Pink", "Rosado"], ["#8B5A2B", "Brown", "Café"], ["#1D2030", "Black", "Negro"], ["#FFFFFF", "White", "Blanco"]] },
+  { id: "frutas", n: "Frutas", ic: "🍓", w: [["🍎", "Apple", "Manzana"], ["🍌", "Banana", "Banano"], ["🍇", "Grapes", "Uvas"], ["🍓", "Strawberry", "Fresa"], ["🍉", "Watermelon", "Sandía"], ["🍊", "Orange", "Naranja"], ["🍍", "Pineapple", "Piña"], ["🍐", "Pear", "Pera"], ["🍋", "Lemon", "Limón"], ["🍒", "Cherries", "Cerezas"]] },
+  { id: "comida", n: "Comida", ic: "🍽️", w: [["🍞", "Bread", "Pan"], ["🥛", "Milk", "Leche"], ["🍚", "Rice", "Arroz"], ["🥚", "Egg", "Huevo"], ["🧀", "Cheese", "Queso"], ["🍗", "Chicken", "Pollo"], ["🍲", "Soup", "Sopa"], ["🍕", "Pizza", "Pizza"], ["💧", "Water", "Agua"], ["🧃", "Juice", "Jugo"], ["🍰", "Cake", "Pastel"], ["🍦", "Ice cream", "Helado"]] },
+  { id: "ciudad", n: "Ciudad", ic: "🏙️", w: [["🏠", "House", "Casa"], ["🏫", "School", "Colegio"], ["🏥", "Hospital", "Hospital"], ["🏞️", "Park", "Parque"], ["🏪", "Store", "Tienda"], ["🏦", "Bank", "Banco"], ["🛣️", "Street", "Calle"], ["🚦", "Traffic light", "Semáforo"], ["🚗", "Car", "Carro"], ["🚌", "Bus", "Bus"], ["🚲", "Bike", "Bicicleta"], ["👮", "Police officer", "Policía"]] },
+  { id: "animales", n: "Animales", ic: "🐶", w: [["🐶", "Dog", "Perro"], ["🐱", "Cat", "Gato"], ["🐦", "Bird", "Pájaro"], ["🐟", "Fish", "Pez"], ["🐮", "Cow", "Vaca"], ["🐴", "Horse", "Caballo"], ["🐷", "Pig", "Cerdo"], ["🦆", "Duck", "Pato"], ["🐰", "Rabbit", "Conejo"], ["🦁", "Lion", "León"]] },
+  { id: "numeros", n: "Números", ic: "🔢", w: [["1", "One", "Uno"], ["2", "Two", "Dos"], ["3", "Three", "Tres"], ["4", "Four", "Cuatro"], ["5", "Five", "Cinco"], ["6", "Six", "Seis"], ["7", "Seven", "Siete"], ["8", "Eight", "Ocho"], ["9", "Nine", "Nueve"], ["10", "Ten", "Diez"]] },
+  { id: "familia", n: "Familia", ic: "👨‍👩‍👧", w: [["👩", "Mom", "Mamá"], ["👨", "Dad", "Papá"], ["👶", "Baby", "Bebé"], ["👵", "Grandma", "Abuela"], ["👴", "Grandpa", "Abuelo"], ["👦", "Brother", "Hermano"], ["👧", "Sister", "Hermana"], ["👨‍👩‍👧", "Family", "Familia"]] },
+  { id: "ropa", n: "Ropa", ic: "👕", w: [["👕", "Shirt", "Camisa"], ["👖", "Pants", "Pantalón"], ["👟", "Shoes", "Zapatos"], ["🧦", "Socks", "Medias"], ["🧢", "Cap", "Gorra"], ["👗", "Dress", "Vestido"], ["🧥", "Jacket", "Chaqueta"], ["🧤", "Gloves", "Guantes"]] }
+];
+const enPic = p => p.startsWith("#") ? `<span class="swb" style="background:${p}"></span>` : /^\d+$/.test(p) ? `<span class="e numb">${p}</span>` : `<span class="e">${p}</span>`;
+let enMode = "learn";
+function initEnglish(board, cat) {
+  board.innerHTML = "";
+  const tog = el("div", { class: "lvl" });
+  [["learn", "📚", "Aprender"], ["play", "🎯", "Jugar"]].forEach(([m, ic, n]) => {
+    const b = el("button", { class: "sub", "aria-pressed": String(enMode === m), html: `<span class="ic">${ic}</span>${n}` });
+    b.onclick = () => { enMode = m; clearTimers(); stopSpeech(); initEnglish(board, cat); };
+    tog.append(b);
+  });
+  const area = el("div", { class: "board", style: "min-height:0;width:100%" });
+  board.append(tog, area);
+  if (enMode === "learn") {
+    const g = el("div", { class: "en-grid" });
+    cat.w.forEach(w => {
+      const c = el("button", { class: "en-card", html: `${enPic(w[0])}<b>${w[1]}</b><small>${w[2]}</small>` });
+      c.onclick = () => {
+        g.querySelectorAll(".en-card").forEach(x => x.classList.toggle("now", x === c));
+        say(`<b class="en">${w[1]}</b> · ${w[2]}`, { speakText: w[1], lang: "en" });
+      };
+      g.append(c);
+    });
+    area.append(g);
+    say(`${cat.n} en inglés. ¡Toca y escucha!`);
+  } else {
+    let last;
+    const round = () => {
+      const t = pickNew(cat.w, last); last = t;
+      const opts = shuffle([t, ...sample(cat.w, 3, [t])]);
+      choice(area, {
+        opts: opts.map(o => ({ v: o[1], html: enPic(o[0]), label: o[2], say: o[1], lang: "en" })),
+        ok: t[1], next: round
+      });
+      say(`🔎 <b class="en">${t[1]}</b>`, { speakText: t[1], lang: "en" });
+    };
+    round();
+  }
+}
+
+/* =========================================================
+   6. MÁS JUEGOS
+   ========================================================= */
+const DIFF = [["🍎", "🍅"], ["😀", "😃"], ["🐶", "🐱"], ["⭐", "🌟"], ["🌕", "🌝"], ["🚗", "🚙"], ["🐟", "🐠"], ["🍪", "🍩"], ["🌷", "🌹"], ["🐻", "🐼"], ["🔵", "🟣"], ["🎈", "🎀"]];
+function initDiferente(board) {
+  let r = 0;
+  const round = () => {
+    const [a, b] = shuffle(pick(DIFF));
+    const n = r < 3 ? 9 : 12, k = rnd(0, n - 1);
+    board.innerHTML = "";
+    const g = el("div", { class: "grid-find" + (n === 12 ? " g4" : "") });
+    for (let i = 0; i < n; i++) {
+      const btn = el("button", { html: i === k ? b : a });
+      btn.onclick = () => {
+        if (i === k) { btn.classList.add("right"); g.querySelectorAll("button").forEach(x => x.disabled = true); r++; win(); later(round, 1800); }
+        else miss(btn);
+      };
+      g.append(btn);
+    }
+    board.append(g);
+    say("¿Cuál es diferente?");
+  };
+  round();
+}
+const NUMW = ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez"];
+const COUNTE = ["🍎", "⭐", "🐤", "🎈", "🐟", "🌸", "🍪", "⚽", "🐞", "🚗"];
+function initContar(board) {
+  let last;
+  const round = () => {
+    let n; do { n = rnd(1, 10); } while (n === last); last = n;
+    const e = pick(COUNTE);
+    const pool = [n - 2, n - 1, n + 1, n + 2].filter(x => x >= 1 && x <= 10);
+    const opts = shuffle([n, ...sample(pool, 2)]);
+    choice(board, {
+      top: `<div class="count">${Array.from({ length: n }, () => `<span>${e}</span>`).join("")}</div>`,
+      ask: "¿Cuántos hay?",
+      opts: opts.map(o => ({ v: o, html: `<span class="num">${o}</span>`, say: NUMW[o] })),
+      ok: n, next: round
+    });
+  };
+  round();
+}
+const CLS = [
+  { a: { n: "Frutas", ic: "🧺", k: "#FF8A2B", it: ["🍎", "🍌", "🍇", "🍓", "🍉", "🍐", "🍍"] }, b: { n: "Animales", ic: "🐾", k: "#22C07A", it: ["🐶", "🐱", "🐮", "🐷", "🐔", "🐴", "🐑"] } },
+  { a: { n: "Ropa", ic: "👚", k: "#FF5FA8", it: ["👕", "👖", "🧦", "🧢", "👗", "🧥", "🧤"] }, b: { n: "Juguetes", ic: "🎁", k: "#3A7BFF", it: ["⚽", "🪀", "🪁", "🎲", "🧩", "🧸", "🛴"] } },
+  { a: { n: "Se come", ic: "🍽️", k: "#FFC233", it: ["🍞", "🧀", "🥕", "🍕", "🍚", "🥚", "🍌"] }, b: { n: "No se come", ic: "🚫", k: "#9A5BF0", it: ["🪑", "✏️", "👟", "🔑", "📱", "🧱", "🪥"] } }
+];
+function initClasificar(board) {
+  let si = rnd(0, CLS.length - 1);
+  const round = () => {
+    const set = CLS[si % CLS.length]; si++;
+    const queue = shuffle([...sample(set.a.it, 3).map(x => [x, "a"]), ...sample(set.b.it, 3).map(x => [x, "b"])]);
+    board.innerHTML = "";
+    const item = el("div", { class: "sort-item" });
+    const bk = el("div", { class: "baskets" });
+    const got = {};
+    ["a", "b"].forEach(key => {
+      const c = set[key];
+      const b = el("button", { class: "basket", html: `<span class="e">${c.ic}</span>${c.n}<span class="got"></span>` });
+      b.style.setProperty("--k", c.k);
+      got[key] = b.querySelector(".got");
+      b.onclick = () => {
+        if (!queue.length) return;
+        const [x, k] = queue[0];
+        if (k === key) {
+          queue.shift(); got[key].append(x); tone([659, 880]);
+          if (queue.length) { showItem(); say(pick(["¡Sí!", "¡Bien!", "¡Correcto!"])); }
+          else { item.textContent = "🎉"; win("¡Todo en su lugar!"); later(round, 2400); }
+        } else miss(b);
+      };
+      bk.append(b);
+    });
+    const showItem = () => { item.textContent = queue[0][0]; item.style.animation = "none"; void item.offsetWidth; item.style.animation = ""; };
+    board.append(item, bk);
+    showItem();
+    say(`${set.a.n} o ${set.b.n.toLowerCase()}. ¿Dónde va?`);
+  };
+  round();
+}
+const COL = [["rojo", "#FF3B4E"], ["azul", "#2F6BFF"], ["amarillo", "#FFD02E"], ["verde", "#1FB86E"], ["morado", "#8E4CE6"], ["naranja", "#FF8A1F"], ["rosado", "#FF6FB5"], ["café", "#8B5A2B"], ["negro", "#1D2030"], ["blanco", "#FFFFFF"]];
+function initColores(board) {
+  let last;
+  const round = () => {
+    const four = sample(COL, 4);
+    const t = pickNew(four, last); last = t;
+    choice(board, {
+      top: `<div class="huge" aria-hidden="true">🎨</div>`,
+      ask: `Toca el color ${t[0]}.`,
+      rowClass: "swatches", btnClass: "sw",
+      opts: four.map(c => ({ v: c[0], html: `<span class="sr">${c[0]}</span>`, label: c[0], say: c[0] })),
+      ok: t[0], next: round
+    });
+    board.querySelectorAll(".sw").forEach((b, i) => b.style.background = four[i][1]);
+  };
+  round();
+}
+
+/* =========================================================
+   Secciones
+   ========================================================= */
+const SECS = [
+  { id: "emociones", n: "Emociones", ic: "🚦", c: "red", subs: [{ id: "semaforo", n: "Semáforo", ic: "🚦", init: initEmociones }] },
+  { id: "lenguaje", n: "Lenguaje", ic: "🗣️", c: "orange", subs: [
+    { id: "que", n: "¿Qué es?", ic: "🔎", init: initQueEs },
+    { id: "sonido", n: "Letras", ic: "🔤", init: initSonido },
+    { id: "silabas", n: "Sílabas", ic: "🧱", init: initSilabas },
+    { id: "frases", n: "Frases", ic: "💬", init: initFrases }] },
+  { id: "lectura", n: "Lectura", ic: "📖", c: "blue", subs: STORIES.map(s => ({ id: s.id, n: s.t, ic: s.e, init: b => initStory(b, s) })) },
+  { id: "matematicas", n: "Matemáticas", ic: "➕", c: "teal", subs: [
+    { id: "sumas", n: "Sumas", ic: "➕", init: initSumas },
+    { id: "restas", n: "Restas", ic: "➖", init: initRestas },
+    { id: "comparar", n: "Más o menos", ic: "⚖️", init: initComparar }] },
+  { id: "ingles", n: "Inglés", ic: "🔤", c: "yellow", subs: EN.map(c => ({ id: c.id, n: c.n, ic: c.ic, init: b => initEnglish(b, c) })) },
+  { id: "secuencias", n: "Secuencias", ic: "🧩", c: "green", subs: [
+    { id: "patrones", n: "¿Qué sigue?", ic: "🔁", init: initPatrones },
+    { id: "pasos", n: "Paso a paso", ic: "🪜", init: initPasos },
+    { id: "despues", n: "¿Qué pasa?", ic: "💡", init: initDespues }] },
+  { id: "memoria", n: "Memoria", ic: "🧠", c: "purple", subs: [
+    { id: "parejas", n: "Parejas", ic: "🃏", init: initParejas },
+    { id: "falta", n: "¿Qué falta?", ic: "❓", init: initFalta },
+    { id: "repite", n: "Repite", ic: "🎵", init: initRepite }] },
+  { id: "mas", n: "Más juegos", ic: "✨", c: "pink", subs: [
+    { id: "diferente", n: "Diferente", ic: "🔍", init: initDiferente },
+    { id: "contar", n: "Contar", ic: "🔢", init: initContar },
+    { id: "clasificar", n: "Clasificar", ic: "🧺", init: initClasificar },
+    { id: "colores", n: "Colores", ic: "🎨", init: initColores }] }
+];
+const CT = { yellow: "#1D2547" };
+let fontSize = 1.6;
+const cur = { sec: "emociones", sub: {} };
+const tabsEl = $("#tabs"), subsEl = $("#subs"), board = $("#board"), panel = $("#panel"), guide = $("#guide");
+
+SECS.forEach(s => {
+  const b = el("button", { class: "tab", role: "tab", "aria-selected": "false", "data-id": s.id, html: `<span class="ic" aria-hidden="true">${s.ic}</span>${s.n}` });
+  b.style.setProperty("--k", `var(--${s.c})`);
+  b.style.setProperty("--kt", CT[s.c] || "#fff");
+  b.onclick = () => openSec(s.id);
+  tabsEl.append(b);
+});
+
+function openSec(id) {
+  const s = SECS.find(x => x.id === id) || SECS[0];
+  cur.sec = s.id;
+  tabsEl.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", String(t.dataset.id === s.id)));
+  [panel, guide].forEach(n => { n.style.setProperty("--c", `var(--${s.c})`); n.style.setProperty("--ct", CT[s.c] || "#fff"); });
+  subsEl.innerHTML = "";
+  subsEl.hidden = s.subs.length < 2;
+  s.subs.forEach(sb => {
+    const b = el("button", { class: "sub", "aria-pressed": "false", "data-id": sb.id, html: `<span class="ic" aria-hidden="true">${sb.ic}</span>${sb.n}` });
+    b.onclick = () => openSub(s, sb.id);
+    subsEl.append(b);
+  });
+  openSub(s, cur.sub[s.id] || s.subs[0].id);
+  try { history.replaceState(null, "", "#" + s.id); } catch (e) {}
+}
+function openSub(s, subId) {
+  clearTimers(); stopSpeech();
+  cur.sub[s.id] = subId;
+  subsEl.querySelectorAll(".sub").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.id === subId)));
+  const sb = s.subs.find(x => x.id === subId) || s.subs[0];
+  board.innerHTML = "";
+  sb.init(board);
+}
+
+$("#soundBtn").onclick = e => {
+  soundOn = !soundOn;
+  e.currentTarget.textContent = soundOn ? "🔊" : "🔇";
+  e.currentTarget.setAttribute("aria-label", soundOn ? "Sonido encendido" : "Sonido apagado");
+  if (!soundOn) stopSpeech();
+};
+$("#resetBtn").onclick = e => {
+  const btn = e.currentTarget;
+  btn.classList.remove("spin"); void btn.offsetWidth; btn.classList.add("spin");
+  clearTimers(); stopSpeech();
+  stars = 0; starN.textContent = "0";
+  cur.sub = {}; memPairs = 4; enMode = "learn";
+  fontSize = 1.6; document.documentElement.style.setProperty("--fs", "1.6rem");
+  openSec(cur.sec);
+  say("¡Empezamos de nuevo!");
+};
+
+let start = "emociones";
+try { const h = (location.hash || "").slice(1); if (SECS.some(s => s.id === h)) start = h; } catch (e) {}
+openSec(start);
+say("¡Hola! Soy Tico. ¿Cómo te sientes hoy?", { silent: true });
+})();
+</script>
+</body>
+</html>
