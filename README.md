@@ -1,6 +1,6 @@
 # Aula de Saberes Especiales 🌈
 
-Aula interactiva creada por **Jessika García Mesa** como insumo académico para la **Corporación Saberes Especiales** (Itagüí, Antioquia, Colombia). Su propósito es apoyar el desarrollo de las sesiones de clase y de encuentro con los estudiantes de la Corporación.
+Aula interactiva creada por **Jessika Juliana García Mesa** como insumo académico para la **Corporación Saberes Especiales** (Itagüí, Antioquia, Colombia). Su propósito es apoyar el desarrollo de las sesiones de clase y de encuentro con los estudiantes de la Corporación.
 
 ## Contenido
 
@@ -10,7 +10,7 @@ Emociones · Calma · Valores · Todos diferentes · Cuidado · Normas y derecho
 
 ## © Derechos de autor
 
-**© 2026 Jessika García Mesa. Todos los derechos reservados.**
+**© 2026 Jessika Juliana García Mesa. Todos los derechos reservados.**
 
 Esta obra está protegida como obra literaria y como soporte lógico (software), lo que incluye el diseño, el código, los textos, los ejercicios, la estructura, la selección y la organización de los contenidos. La protegen la legislación colombiana y los tratados internacionales sobre derecho de autor.
 
@@ -71,7 +71,7 @@ Esta obra incluye algunos recursos de terceros que conservan sus propias licenci
 
 ### 6. Contacto para autorizaciones y licencias
 
-Jessika García Mesa · [tu correo de contacto]
+Jessika Juliana García Mesa · jgarciapsicologa@gmail.com
 
 ---
 
