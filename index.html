@@ -394,6 +394,27 @@ img.flag{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;
 .pinfo small{color:var(--soft)}
 .opt .planet{max-width:150px}
 
+
+
+/* Tarjetas verticales: dibujos arriba y texto abajo, siempre dentro del recuadro */
+.rules{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+@media (max-width:520px){.rules{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.rule{flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:6px;padding:14px 10px 12px;min-height:128px}
+.rule .e{font-size:2.3rem;line-height:1.15;max-width:100%;overflow-wrap:anywhere;letter-spacing:-.02em}
+.rule > span:last-child{min-width:0;max-width:100%;overflow-wrap:break-word;hyphens:auto;text-wrap:balance}
+@media (max-width:520px){.rule{font-size:1.02rem;min-height:118px}.rule .e{font-size:2rem}}
+.detail-e{max-width:100%;overflow-wrap:anywhere;text-align:center}
+.rule .e{white-space:nowrap}
+.rule .e.e3{font-size:2rem}
+.rule .e.e4{font-size:1.65rem}
+@media (max-width:520px){.rule .e.e3{font-size:1.75rem}.rule .e.e4{font-size:1.4rem}}
+
+/* Pie de página */
+.foot{color:var(--soft);font-size:.95rem;line-height:1.5;padding:4px 6px}
+.foot p{margin:4px 0;max-width:75ch}
+.foot summary{cursor:pointer;font-weight:700;color:var(--ink);min-height:36px;display:flex;align-items:center}
+.foot ul{margin:4px 0;padding-left:1.2em}
+
 /* Confeti */
 #fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
 .bit{position:absolute;top:50%;width:12px;height:18px;border-radius:3px;animation:burst 1.2s cubic-bezier(.15,.7,.3,1) forwards}
@@ -448,6 +469,23 @@ img.flag{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;
     <div class="subs" id="subs" role="group"></div>
     <div class="board" id="board"></div>
   </main>
+  <footer class="foot">
+    <p>© 2026 Jessika García Mesa · <b>Aula de Saberes Especiales</b>, creada para la Corporación Saberes Especiales (Itagüí, Antioquia). Todos los derechos reservados sobre el diseño y los contenidos originales.</p>
+    <p>Uso libre y gratuito con fines educativos y sin ánimo de lucro, citando la autoría, según la licencia <b>CC BY-NC-SA 4.0</b>. Prohibida su venta o uso comercial.</p>
+    <details>
+      <summary>Créditos y licencias de terceros</summary>
+      <ul>
+        <li>Logo: © Corporación Saberes Especiales. Usado con autorización; no se incluye en la licencia libre.</li>
+        <li>Sonidos de instrumentos: FluidR3 GM SoundFont (Frank Wen), licencia CC BY 3.0, versión de midi-js-soundfonts (Benjamin Gleitzman).</li>
+        <li>Banderas: country-flag-icons, licencia MIT.</li>
+        <li>Tipografías: Baloo 2 y Atkinson Hyperlegible, licencia SIL Open Font License.</li>
+        <li>Cuentos clásicos: obras de dominio público, en versiones adaptadas.</li>
+        <li>Número de lunas de los planetas: datos conocidos a noviembre de 2025.</li>
+        <li>Los emojis se muestran con la tipografía de cada dispositivo.</li>
+      </ul>
+    </details>
+  </footer>
+
 </div>
 <div id="fx" aria-hidden="true"></div>
 
@@ -516,14 +554,22 @@ function speak(text, { queue = false, onend, lang = "es", fallback } = {}) {
   const t = clean(text);
   if (!synth || !soundOn || !interacted || !t) { if (onend) later(onend, Math.max(1400, t.length * 75)); return; }
   try {
-    const u = new SpeechSynthesisUtterance(t);
-    u.lang = v ? v.lang : (lang === "es" ? "es-MX" : lang);
-    if (v) u.voice = v;
-    u.rate = lang === "es" ? 0.88 : 0.8; u.pitch = 1.15;
-    u.onstart = () => owl.classList.add("talking");
+    /* Se habla frase por frase: los navegadores cortan las frases muy largas */
+    const parts = [];
+    t.split(/(?<=[.!?…:;])\s+/).forEach(p => {
+      while (p.length > 160) { let cut = p.lastIndexOf(",", 160); if (cut < 40) cut = p.lastIndexOf(" ", 160); if (cut < 40) cut = 160; parts.push(p.slice(0, cut + 1)); p = p.slice(cut + 1).trim(); }
+      if (p) parts.push(p);
+    });
     let fired = false;
-    u.onend = u.onerror = () => { owl.classList.remove("talking"); if (!fired) { fired = true; onend && onend(); } };
-    synth.speak(u);
+    parts.forEach((part, i) => {
+      const u = new SpeechSynthesisUtterance(part);
+      u.lang = v ? v.lang : (lang === "es" ? "es-MX" : lang);
+      if (v) u.voice = v;
+      u.rate = lang === "es" ? 0.88 : 0.8; u.pitch = 1.15;
+      u.onstart = () => owl.classList.add("talking");
+      if (i === parts.length - 1) u.onend = u.onerror = () => { owl.classList.remove("talking"); if (!fired) { fired = true; onend && onend(); } };
+      synth.speak(u);
+    });
   } catch (e) { if (onend) later(onend, 1500); }
 }
 let lastSay = { text: "", lang: "es" };
@@ -572,10 +618,20 @@ function confetti() {
     layer.append(s); setTimeout(() => s.remove(), 1300);
   }
 }
-function win(msg, opts = {}) {
+/* Avanza solo cuando Tico termina de hablar (con un tiempo de respaldo) */
+function afterTalk(next, chars, extra = 700) {
+  let g = -1, done = false;
+  const go = () => { if (done) return; done = true; if (g !== readGen) return; later(next, extra); };
+  return { onend: go, arm: () => { g = readGen; later(go, (soundOn && interacted && synth ? chars * 110 + 3000 : 1200)); } };
+}
+function win(msg, opts = {}, next) {
   stars++; updStars(); tone([660, 880, 1320]); confetti();
   owl.classList.remove("happy"); void owl.getBoundingClientRect(); owl.classList.add("happy");
-  say(msg || praise(), opts);
+  const text = msg || praise();
+  if (!next) { say(text, opts); return; }
+  const t = afterTalk(next, clean(text).length + (opts.extraChars || 0));
+  say(text, { ...opts, onend: t.onend });
+  t.arm();
 }
 function miss(b, msg) {
   if (b) { b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); }
@@ -596,8 +652,7 @@ function choice(board, { top, ask, askOpts = {}, opts, ok, next, rowClass = "opt
       if (o.v === ok) {
         b.classList.add("right");
         row.querySelectorAll("button").forEach(x => x.disabled = true);
-        win(okMsg, { queue: !!o.say });
-        later(next, delay);
+        win(okMsg, { queue: !!o.say, extraChars: o.say ? clean(o.say).length : 0 }, next);
       } else miss(b, o.missMsg);
     };
     row.append(b);
@@ -981,7 +1036,7 @@ function initSilabas(board) {
     buildOrder(board, {
       top: `<div class="huge" aria-hidden="true">${it[0]}</div>`, ask: "¿Cómo se dice? Arma la palabra.",
       pieces: it[1].map(t => ({ t })),
-      done: () => { win(`¡${word}! ${praise()}`); later(round, 2300); }
+      done: () => win(`¡${word}! ${praise()}`, {}, round)
     });
   };
   round();
@@ -1006,7 +1061,7 @@ function initFrases(board) {
       top: `<div class="picto">${f.filter(p => p[0]).map(p => `<span aria-hidden="true">${p[0]}</span>`).join("")}</div>`,
       ask: "Arma la frase.",
       pieces: f.map(p => ({ t: p[1], html: `${p[0] ? `<span class="e">${p[0]}</span>` : ""}<span>${p[1]}</span>` })),
-      done: () => { win(`${text}. ${praise()}`); later(round, 2800); }
+      done: () => win(`${text}. ${praise()}`, {}, round)
     });
   };
   round();
@@ -1125,7 +1180,7 @@ function openStory(board, story) {
       const b = el("button", { class: "opt", html: `<span class="e">${o[0]}</span><span class="small">${o[1]}</span>` });
       b.onclick = () => {
         speak(o[1]);
-        if (o[1] === ok) { b.classList.add("right"); row.querySelectorAll("button").forEach(x => x.disabled = true); win(null, { queue: true }); later(() => ask(qi + 1), 2000); }
+        if (o[1] === ok) { b.classList.add("right"); row.querySelectorAll("button").forEach(x => x.disabled = true); win(null, { queue: true, extraChars: o[1].length }, () => ask(qi + 1)); }
         else miss(b);
       };
       row.append(b);
@@ -1924,7 +1979,7 @@ function initPasos(board) {
     buildOrder(board, {
       top: `<div class="q-t">${st[0]}</div>`, ask: `${st[0]}. ¿Qué va primero?`, numbered: true,
       pieces: st[1].map(p => ({ t: p[1], html: `<span class="e">${p[0]}</span><span style="font-size:1.1rem">${p[1]}</span>` })),
-      done: () => { win(); later(round, 2400); }
+      done: () => win(null, {}, round)
     });
   };
   round();
@@ -2058,7 +2113,7 @@ function initRepite(board) {
     flash(i);
     if (i === seq[pos]) {
       pos++;
-      if (pos === seq.length) { busy = true; later(() => { win(); len = Math.min(len + 1, 9); drawDots(); later(fresh, 1800); }, 500); }
+      if (pos === seq.length) { busy = true; later(() => { len = Math.min(len + 1, 9); drawDots(); win(null, {}, fresh); }, 500); }
     } else { busy = true; miss(pads[i]); later(show, 1600); }
   }
   say("¡Mira y repite!");
@@ -2075,15 +2130,17 @@ function infoCards(board, items, { intro, done, top } = {}) {
   let seen = 0;
   items.forEach(it => {
     const [e, title, text, ex] = it;
-    const b = el("button", { class: "rule", html: `<span class="e">${e}</span><span>${title}</span>` });
+    let n = 1; try { n = [...new Intl.Segmenter("es", { granularity: "grapheme" }).segment(e)].length; } catch (err) { n = Math.ceil([...e].length / 2); }
+    const b = el("button", { class: "rule", html: `<span class="e${n >= 4 ? " e4" : n === 3 ? " e3" : ""}">${e}</span><span>${title}</span>` });
     b.onclick = () => {
       grid.querySelectorAll(".rule").forEach(x => x.classList.toggle("now", x === b));
       detail.hidden = false;
       detail.innerHTML = `<div class="detail-e" aria-hidden="true">${e}</div><div class="detail-b"><h3>${title}</h3>${text ? `<p>${text}</p>` : ""}${ex ? `<p class="ex">✨ ${ex}</p>` : ""}</div>`;
       const firstSeen = !b.classList.contains("seen");
       if (firstSeen) { b.classList.add("seen"); seen++; }
-      if (firstSeen && seen === items.length && done) { win(done); return; }
-      say([title, text, ex].filter(Boolean).join(". "));
+      const info = [title, text, ex].filter(Boolean).join(". ");
+      if (firstSeen && seen === items.length && done) { win(info + ". " + done); }
+      else say(info);
       if (window.innerWidth < 700) detail.scrollIntoView({ behavior: "smooth", block: "nearest" });
     };
     grid.append(b);
@@ -2646,7 +2703,7 @@ function initDiferente(board) {
     for (let i = 0; i < n; i++) {
       const btn = el("button", { html: i === k ? b : a });
       btn.onclick = () => {
-        if (i === k) { btn.classList.add("right"); g.querySelectorAll("button").forEach(x => x.disabled = true); r++; win(); later(round, 1800); }
+        if (i === k) { btn.classList.add("right"); g.querySelectorAll("button").forEach(x => x.disabled = true); r++; win(null, {}, round); }
         else miss(btn);
       };
       g.append(btn);
@@ -2683,7 +2740,7 @@ function initClasificar(board) {
         if (k === key) {
           queue.shift(); got[key].append(x); tone([659, 880]);
           if (queue.length) { showItem(); say(pick(["¡Sí!", "¡Bien!", "¡Correcto!"])); }
-          else { item.textContent = "🎉"; win("¡Todo en su lugar!"); later(round, 2400); }
+          else { item.textContent = "🎉"; win("¡Todo en su lugar!", {}, round); }
         } else miss(b);
       };
       bk.append(b);
